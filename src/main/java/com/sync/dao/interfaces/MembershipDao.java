@@ -25,4 +25,14 @@ public interface MembershipDao {
 	 * @return
 	 */
 	Boolean modifyMembershipByOrder(EfastOrder efastOrder,int level);
+	
+	
+	
+	/**
+	 * 年底时候，减掉去年的消费额，改变recent_consumption
+	 * @param membership
+	 * @param decreaseMoney
+	 * @return
+	 */
+	Boolean modifyRecentConsumption(String openid,int decreaseMoney);
 }

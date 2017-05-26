@@ -19,8 +19,8 @@ public class Membership {
 	private String industry;
 	private String income;
 	private String habit;
-	private String bonus;
-	private String balance;
+	private int bonus;
+	private int balance;
 	private int level;
 	private String user_card_status;
 	private int has_active;
@@ -127,16 +127,16 @@ public class Membership {
 	public void setHabit(String habit) {
 		this.habit = habit;
 	}
-	public String getBonus() {
+	public int getBonus() {
 		return bonus;
 	}
-	public void setBonus(String bonus) {
+	public void setBonus(int bonus) {
 		this.bonus = bonus;
 	}
-	public String getBalance() {
+	public int getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(int balance) {
 		this.balance = balance;
 	}
 	public int getLevel() {

@@ -7,6 +7,8 @@ public class PointsRule {
 	private int consumption;
 	//不同等级对应的积分兑换比例 1元= 1*rate 积分
 	private float rate;
+	
+	
 	public int getLevel() {
 		return level;
 	}

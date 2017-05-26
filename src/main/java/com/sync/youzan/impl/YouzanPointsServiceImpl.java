@@ -1,20 +1,12 @@
 package com.sync.youzan.impl;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import com.sync.util.YouzanHttpUtil;
 import com.sync.util.log.LogFactory;
 import com.sync.util.md5.MD5;
 import com.sync.youzan.interfaces.YouzanPointsService;
@@ -32,27 +24,40 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 //	}
 	
 	
-	
+	@Override
 	public boolean importPointsByMobile(int points,String mobile, String reason) {
 		try {
-			String youzanPointIncreaceHttpUrl = getConditionParamsStr(points,mobile,reason);
-			System.out.println(youzanPointIncreaceHttpUrl);
-			CloseableHttpClient httpclient = HttpClients.createDefault();
-			HttpGet httpGet = new HttpGet(youzanPointIncreaceHttpUrl);
-			CloseableHttpResponse response1 = httpclient.execute(httpGet);
-			HttpEntity entity1 = response1.getEntity();
-			InputStream inputStream = entity1.getContent();
-			InputStreamReader isr = new InputStreamReader(inputStream, "UTF8");
-			BufferedReader br = new BufferedReader(isr);
-			String line;
+			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(points,mobile,reason,"youzan.crm.customer.points.increase");
 			boolean result = false;
-			while ((line = br.readLine()) != null) {
-				JSONObject jsonobj =  JSONObject.fromObject(line);
+			String resultStr = YouzanHttpUtil.httpGet(youzanPointIncreaceHttpUrl);
+			JSONObject jsonobj =  JSONObject.fromObject(resultStr);
+			if(null != jsonobj.get("response")){
 				JSONObject isSuccess =  JSONObject.fromObject(jsonobj.get("response").toString());
-				result =  "true".equals(isSuccess.get("is_success").toString());
+				if(null != isSuccess.get("is_success"))
+					result =  "true".equals(isSuccess.get("is_success").toString());
 			}
-			EntityUtils.consume(entity1);
-			response1.close();
+			return result;
+		} catch (Exception e) {
+			error.error(e.toString());
+			error.error(e.getMessage());
+			return false;
+		}
+	}
+	
+	
+	
+	@Override
+	public boolean decreasePointsByMobile(int decreasePoints,String mobile,String reason){
+		try {
+			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(decreasePoints,mobile,reason,"youzan.crm.customer.points.decrease");
+			boolean result = false;
+			String resultStr = YouzanHttpUtil.httpGet(youzanPointIncreaceHttpUrl);
+			JSONObject jsonobj =  JSONObject.fromObject(resultStr);
+			if(null != jsonobj.get("response")){
+				JSONObject isSuccess =  JSONObject.fromObject(jsonobj.get("response").toString());
+				if(null != isSuccess.get("is_success"))
+					result =  "true".equals(isSuccess.get("is_success").toString());
+			}
 			return result;
 		} catch (Exception e) {
 			error.error(e.toString());
@@ -65,9 +70,7 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	
 	
 	
-	
-	
-	private static String getConditionParamsStr(int points, String mobile,String reason) throws Exception{
+	private static String getIncreasePointsConditionParamsStr(int points, String mobile,String reason,String method) throws Exception{
 //		String point_increase_url = PropertyPlaceholder.getProperty("youzan_increase_point_url").toString();
 //		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
 		String point_increase_url = "https://open.youzan.com/api/entry/youzan.crm.customer.points/3.0.0/increase?";
@@ -76,29 +79,28 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		//产生时间戳
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String timestamp = sdf.format(new Date());
-		
 		StringBuffer paramBuf = new StringBuffer();
 		paramBuf.append(point_increase_url)
 		.append("app_id=")
 		.append(appid)
-		.append("&fans_type=1&format=json&method=youzan.crm.customer.points.increase")
+		.append("&fans_type=1&format=json&method=")
+		.append(method)
 		.append("&mobile=").append(mobile)
 		.append("&points=").append(points)
 		.append("&sign_method=md5")
 		.append("&reason=").append(reason)
-		
-		.append("&sign=").append(getSign(points, mobile,reason,timestamp))
-		
+		.append("&sign=").append(getSign(points, mobile,reason,timestamp,method))
 		.append("&timestamp=")
 		.append(URLEncoder.encode(timestamp, "UTF-8"))
-		
 		//版本参数
 		.append("&v=3.0");
-		
 		
 		return paramBuf.toString();
 		
 	}
+	
+	
+	
 	
 	
 	/**
@@ -108,7 +110,7 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	 * @param timestamp
 	 * @return
 	 */
-	private static String getSign(int points, String mobile,String reason,String timestamp)  throws Exception{
+	private static String getSign(int points, String mobile,String reason,String timestamp,String method)  throws Exception{
 		
 //		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
 //		String secret = PropertyPlaceholder.getProperty("youzan_secret").toString();
@@ -122,8 +124,8 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		.append(appid)
 		.append("fans_type1")
 		.append("formatjson")
-		 
-		.append("methodyouzan.crm.customer.points.increasemobile")
+		.append("method")
+		.append(method)
 		.append(mobile)
 		.append("points")
 		.append(points)

@@ -8,4 +8,6 @@ import com.sync.model.EfastOrder;
  */
 public interface EfastOrderDao {
 	boolean addEfastOrder(EfastOrder efastOrder);
+	
+	int getTotalConsumptionByYear(int year);
 }

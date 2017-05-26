@@ -14,4 +14,11 @@ public interface YouzanPointsService {
 	 * @return
 	 */
 	boolean importPointsByMobile(int points,String mobile, String reason);
+	
+	/**
+	 * 通过手机号码给用户减积分
+	 * @param mobile
+	 * @return
+	 */
+	boolean decreasePointsByMobile(int decreasePoints,String mobile,String reason);
 }

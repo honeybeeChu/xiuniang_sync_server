@@ -1,9 +1,10 @@
 package com.sync.controller;
 //import com.youzan.platform.util.security.MD5;
 
-import net.sf.json.JSONObject;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.NoSuchAlgorithmException;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,9 +14,7 @@ import com.sync.model.YouzanMsgPushEntity;
 import com.sync.util.md5.MD5;
 import com.sync.util.spring.PropertyPlaceholder;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.security.NoSuchAlgorithmException;
+import net.sf.json.JSONObject;
 
 public class YouzanPushController {
 	private static final int mode = 1; // 服务商

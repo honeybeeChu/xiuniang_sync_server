@@ -1,10 +1,13 @@
 package com.sync.model;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import net.sf.json.JSONObject;
 
 public class EfastOrder {
 
-	public static final String TABLE_NAME = "efast_orders";
+	public static final String TABLE_NAME = "efastorders";
 	//efast 订单号 
 	private String sell_record_code;
 	//订单状态 0-未确认；1-已确认；3-已作废；5-已完成
@@ -52,7 +55,7 @@ public class EfastOrder {
 	//支付方式
 	private String pay_code; 
 	//支付时间
-	private String pay_time;
+	private Date pay_time;
 
 	//这个订单属于哪个会员
 	private String openid;
@@ -93,7 +96,11 @@ public class EfastOrder {
 		efastOrder.setOrder_money(this.jsonObject.get("order_money")==null?"":this.jsonObject.get("order_money").toString());
 		efastOrder.setDiscount_fee(this.jsonObject.get("discount_fee").toString());
 		efastOrder.setPay_code(this.jsonObject.get("pay_code").toString());
-		efastOrder.setPay_time(this.jsonObject.get("pay_time").toString());
+		
+		String payTime = this.jsonObject.get("pay_time").toString();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		efastOrder.setPay_time(new Date(format.parse(payTime).getTime()));
+		
 		efastOrder.setOpenid(this.jsonObject.get("openid").toString());
 		
 		return efastOrder;
@@ -295,17 +302,13 @@ public class EfastOrder {
 		this.pay_code = pay_code;
 	}
 
-	public String getPay_time() {
+	public Date getPay_time() {
 		return pay_time;
 	}
 
-	public void setPay_time(String pay_time) {
+	public void setPay_time(Date pay_time) {
 		this.pay_time = pay_time;
 	}
-	
-	
-	
-	
 	
 	
 	

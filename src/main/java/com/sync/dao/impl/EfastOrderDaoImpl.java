@@ -2,6 +2,8 @@ package com.sync.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
@@ -59,7 +61,7 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 			pstmt.setString(21, efastOrder.getOrder_money());
 			pstmt.setString(22, efastOrder.getDiscount_fee());
 			pstmt.setString(23, efastOrder.getPay_code());
-			pstmt.setString(24, efastOrder.getPay_time());
+			pstmt.setDate(24, efastOrder.getPay_time());
 			pstmt.setString(25, efastOrder.getOpenid());
 		
 			int count = pstmt.executeUpdate();
@@ -79,6 +81,37 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 		return ret;
 	}
 
+	
+	
+	/**
+	 * 通过订单中的手机号码，获取会员信息
+	 * @param mobile
+	 * @return
+	 */
+	@Override
+	public int getTotalConsumptionByYear(int year) {
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String querysql = "";
+		try {
+			querysql = getTotalConsumptionByYearStr(year);
+			sql.debug("queryMembershipByMobileStr:" + querysql);
+			conn = createConn();
+			st = conn.createStatement();
+			rs = st.executeQuery(querysql);
+			if (rs.next()) {
+				return rs.getInt("sum_money");
+			}
+		} catch (Exception e) {
+			sql.error("exec query exception , sql:" + querysql.toString());
+		} finally {
+			close(conn, st, rs);
+		}
+		return 0;
+	}
+	
+	
 	/**
 	 * 构造insert sql
 	 * 
@@ -91,6 +124,18 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 				.append("(sell_record_code,order_status,shipping_status,pay_status,sale_channel_code,shop_code,buyer_name,receiver_name,receiver_country,receiver_province,receiver_city,receiver_district,receiver_street,receiver_address,receiver_addr,receiver_zip_code,receiver_mobile,receiver_phone,receiver_email,payable_money,order_money,discount_fee,pay_code,pay_time,openid) values")
 				.append("(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		return sql.toString();
+	}
+	
+	
+	/**
+	 * @param openid
+	 * @return
+	 */
+	private String getTotalConsumptionByYearStr(int year){
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("select sum(pay_money) as sum_money from efastorders where year(pay_time)=")
+		.append(year);
+		return queryStr.toString();
 	}
 
 	/**

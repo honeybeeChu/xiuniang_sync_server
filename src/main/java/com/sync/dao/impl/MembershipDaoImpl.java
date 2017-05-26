@@ -66,8 +66,6 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 	}
 	
 	
-
-	
 	/*  通过订单的信息，修改会员的信息
 	 * 1.增加消费总额；2，判断是否需要升级会员等级 3.增加今年的消费总额
 	 * @see com.sync.dao.interfaces.MembershipDao#modifyMembershipByOrder(com.sync.model.EfastOrder)
@@ -116,9 +114,7 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 	 */
 	@Override
 	public List<Membership> queryAllMembership() {
-		
 		List<Membership> membershipList = new ArrayList<Membership>();
-		
 		Connection conn = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -141,6 +137,7 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 				membership.setTotal_consumption(rs.getInt("total_consumption"));
 				membership.setRecent_consumption(rs.getInt("recent_consumption"));
 				membership.setLevel(rs.getInt("level"));
+				membership.setUpdate_points_date(rs.getDate("update_points_date"));
 				membershipList.add(membership);
 			}
 		} catch (Exception e) {
@@ -150,6 +147,53 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 		}
 		return membershipList;
 	}
+	
+	
+	
+	
+	
+	/* (non-Javadoc)
+	 * @see com.sync.dao.interfaces.MembershipDao#modifyRecentConsumption(java.lang.String, int)
+	 */
+	@Override
+	public Boolean modifyRecentConsumption(String openid,int recent_money) {
+		//通过手机号，查找需要更新的会员信息
+		boolean ret = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String updateSql = "";
+		try {
+			updateSql = "update memberships set recent_consumption = "+recent_money 
+					+" where openid='"+openid+"'";
+			sql.info("modifyRecentConsumption:" + updateSql);
+			conn = createConn();
+			setAutoCommit(conn, false);
+			pstmt = conn.prepareStatement(updateSql);
+			int count = pstmt.executeUpdate();
+			if (count > 0) {
+				commit(conn);
+				ret = true;
+			} else {
+				rollback(conn);
+			}
+		}catch(Exception e){
+			sql.error("exec query exception , sql:" + updateSql);
+		} finally {
+			close(conn, pstmt, null);
+		}
+		return ret;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/**
@@ -163,6 +207,11 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 		.append("'");
 		return queryStr.toString();
 	}
+	
+
+	
+	
+	
 	
 	/**
 	 * @param openid
