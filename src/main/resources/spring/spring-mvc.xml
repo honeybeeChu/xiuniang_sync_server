@@ -48,8 +48,6 @@
 	<bean name="youzanPointsService" class="com.sync.youzan.impl.YouzanPointsServiceImpl">
 	</bean>
 	
-	
-
 	<bean name="syncEfastOrderServer" class="com.sync.service.impl.SyncEfastOrderServerImpl">
 		<property name="efastOrderDao">
 			<ref bean="efastOrderDao" />
@@ -129,7 +127,7 @@
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="yearDetailFactoryBean" />
 		<property name="cronExpression">
-			<value>0 0 22 30 12 ?</value>
+			<value>0 0 22 31 12 ?</value>
 		</property>
 	</bean>
 

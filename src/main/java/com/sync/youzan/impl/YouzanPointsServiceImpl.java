@@ -1,6 +1,5 @@
 package com.sync.youzan.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +9,7 @@ import org.apache.log4j.Logger;
 import com.sync.util.YouzanHttpUtil;
 import com.sync.util.log.LogFactory;
 import com.sync.util.md5.MD5;
+import com.sync.util.spring.PropertyPlaceholder;
 import com.sync.youzan.interfaces.YouzanPointsService;
 
 import net.sf.json.JSONObject;
@@ -18,19 +18,13 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	
 	private static Logger error = LogFactory.getLogger("error");
 	
-	
-//	public static void main(String args[]){
-////		importPointsByMobileT(2,"13951106047","apitest");//13951106047  13951715732
-//		
-//		System.out.println(importPointsByMobile(100,"15150500169","sell_record_code： 0000001 null(null) consumed at null spend 100yuan"));
-//		
-//	}
-	
-//	@Override
+	@Override
 	public boolean importPointsByMobile(int points,String mobile, String reason) {
 		try {
-			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(points,mobile,reason,"youzan.crm.customer.points.increase");
+			String point_increase_url = PropertyPlaceholder.getProperty("youzan_increase_point_url").toString();
+			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(point_increase_url,points,mobile,reason,"youzan.crm.customer.points.increase");
 			boolean result = false;
+			System.out.println(youzanPointIncreaceHttpUrl);
 			String resultStr = YouzanHttpUtil.httpGet(youzanPointIncreaceHttpUrl);
 			
 			JSONObject jsonobj =  JSONObject.fromObject(resultStr);
@@ -48,11 +42,11 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	}
 	
 	
-	
 	@Override
 	public boolean decreasePointsByMobile(int decreasePoints,String mobile,String reason){
 		try {
-			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(decreasePoints,mobile,reason,"youzan.crm.customer.points.decrease");
+			String point_increase_url = PropertyPlaceholder.getProperty("youzan_decrease_point_url").toString();
+			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(point_increase_url,decreasePoints,mobile,reason,"youzan.crm.customer.points.decrease");
 			boolean result = false;
 			String resultStr = YouzanHttpUtil.httpGet(youzanPointIncreaceHttpUrl);
 			JSONObject jsonobj =  JSONObject.fromObject(resultStr);
@@ -70,18 +64,15 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	}
 	
 	
-	
-	
-	
-	private static String getIncreasePointsConditionParamsStr(int points, String mobile,String reason,String method) throws Exception{
-//		String point_increase_url = PropertyPlaceholder.getProperty("youzan_increase_point_url").toString();
-//		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
-		String point_increase_url = "https://open.youzan.com/api/entry/youzan.crm.customer.points/3.0.0/increase?";
-		String appid = "31fd6f63e6a4a9d527";
+	private String getIncreasePointsConditionParamsStr(String point_increase_url,int points, String mobile,String reason,String method) throws Exception{
+		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
+//		String point_increase_url = "https://open.youzan.com/api/entry/youzan.crm.customer.points/3.0.0/increase?";
+//		String appid = "31fd6f63e6a4a9d527";
 		
 		//产生时间戳
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String timestamp = sdf.format(new Date());
+		
 		StringBuffer paramBuf = new StringBuffer();
 		paramBuf.append(point_increase_url)
 		.append("app_id=")
@@ -98,7 +89,6 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		//版本参数
 		.append("&v=3.0");
 		
-		System.out.println(paramBuf.toString());
 		return paramBuf.toString();
 		
 	}
@@ -114,13 +104,13 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	 * @param timestamp
 	 * @return
 	 */
-	private static String getSign(int points, String mobile,String reason,String timestamp,String method)  throws Exception{
+	private String getSign(int points, String mobile,String reason,String timestamp,String method)  throws Exception{
 		
-//		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
-//		String secret = PropertyPlaceholder.getProperty("youzan_secret").toString();
+		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
+		String secret = PropertyPlaceholder.getProperty("youzan_secret").toString();
 		
-		String appid = "31fd6f63e6a4a9d527";
-		String secret = "3c1259fff6ac558929c01a2800613013";
+//		String appid = "31fd6f63e6a4a9d527";
+//		String secret = "3c1259fff6ac558929c01a2800613013";
 		
 		StringBuffer sign = new StringBuffer();
 		sign.append(secret)
@@ -145,7 +135,8 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		.append("v3.0")
 		.append(secret);
 		
-		System.out.println(sign.toString());
+		System.out.println("--- "+ sign.toString());
+		System.out.println(MD5.sign(sign.toString()));
 		return MD5.sign(sign.toString());
 	}
 

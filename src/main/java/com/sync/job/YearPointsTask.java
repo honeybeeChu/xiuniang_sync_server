@@ -19,6 +19,7 @@ public class YearPointsTask {
 	private EfastOrderDao efastOrderDao;
 	private YouzanPointsService youzanPointsService;
 	
+	
 	/**
 	 * 1.每年的最后一天计算每个会员的积分是否需要清零
 	 * 2.将membership表中每个会员的最近消费总额recent_consumption 减掉去年的数据，因为要变成前年的了
@@ -29,11 +30,11 @@ public class YearPointsTask {
 		
 		for(Membership membership:alllist){
 			//获得用户去年的总消费额
-			int lastyear_money = efastOrderDao.getTotalConsumptionByYear(Calendar.getInstance().get(Calendar.YEAR - 1));
-			int thisyear_money = efastOrderDao.getTotalConsumptionByYear(Calendar.getInstance().get(Calendar.YEAR));
+			int lastyear_money = efastOrderDao.getTotalConsumptionByYear(Calendar.getInstance().get(Calendar.YEAR - 1),membership.getPhone());
+			int thisyear_money = efastOrderDao.getTotalConsumptionByYear(Calendar.getInstance().get(Calendar.YEAR),membership.getPhone());
 			
 			//如果去年有消费，最近两年的消费里面，去掉去年的消费额
-			if(lastyear_money >0){
+			if(lastyear_money > 0){
 				int recent_money = membership.getRecent_consumption() - lastyear_money;
 				membershipDao.modifyRecentConsumption(membership.getOpenid(), recent_money);
 			}
@@ -46,14 +47,6 @@ public class YearPointsTask {
 				youzanPointsService.decreasePointsByMobile(membership.getBonus(), membership.getPhone(), reason);
 			}
 		}
-	}
-	
-	
-	public static void main(String args[]){
-		
-		 Calendar a=Calendar.getInstance();
-		 System.out.println(a.get(Calendar.YEAR) - 1);//得到年
-		
 	}
 	
 	public MembershipDao getMembershipDao() {
@@ -71,18 +64,14 @@ public class YearPointsTask {
 	public void setEfastOrderDao(EfastOrderDao efastOrderDao) {
 		this.efastOrderDao = efastOrderDao;
 	}
-
-
-
+	
+	
 	public YouzanPointsService getYouzanPointsService() {
 		return youzanPointsService;
 	}
 
-
-
 	public void setYouzanPointsService(YouzanPointsService youzanPointsService) {
 		this.youzanPointsService = youzanPointsService;
 	}
-	
 
 }

@@ -1,6 +1,5 @@
 package com.sync.service.impl;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

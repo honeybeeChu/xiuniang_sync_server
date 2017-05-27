@@ -136,6 +136,8 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 				membership.setSex(rs.getString("sex"));
 				membership.setBirthday(rs.getString("birthday"));
 				membership.setIdcard(rs.getString("idcard"));
+				membership.setPhone((rs.getString("phone")));
+				membership.setBonus(rs.getInt("bonus"));
 				membership.setTotal_consumption(rs.getInt("total_consumption"));
 				membership.setRecent_consumption(rs.getInt("recent_consumption"));
 				membership.setLevel(rs.getInt("level"));

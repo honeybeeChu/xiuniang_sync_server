@@ -12,7 +12,7 @@
 	<appender name="Spring" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Append" value="true" />
 		<!-- <param name="File" value="E:\\data\\logs\\spring.log" /> -->
-		<param name="File" value="/lcims/softwares/syncSpecialuser/log/spring.log" />
+		<param name="File" value="/home/linkage/work/synclog/log/spring.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d - %c -%-4r [%t] %-5p %x - %m%n" />
 		</layout>
@@ -22,21 +22,21 @@
 	</appender>
 	<appender name="Main" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Append" value="true" />
-		<param name="File" value="/lcims/softwares/syncSpecialuser/log/main.log" />
+		<param name="File" value="/home/linkage/work/synclog/log/main.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{ISO8601}][%p][%c] - %m%n" />
 		</layout>
 	</appender>
 	<appender name="Sql" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Append" value="true" />
-		<param name="File" value="/lcims/softwares/syncSpecialuser/log/sql.log" />
+		<param name="File" value="/home/linkage/work/synclog/log/sql.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{ISO8601}][%p][%c] - %m%n" />
 		</layout>
 	</appender>
 	<appender name="Error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Append" value="true" />
-		<param name="File" value="/lcims/softwares/syncSpecialuser/log/error.log" />
+		<param name="File" value="/home/linkage/work/synclog/log/error.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{ISO8601}][%p][%c] - %m%n" />
 		</layout>

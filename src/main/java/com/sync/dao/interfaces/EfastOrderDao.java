@@ -11,5 +11,5 @@ public interface EfastOrderDao {
 	
 	boolean isExistBySellRecordCode(String sell_record_code);
 	
-	int getTotalConsumptionByYear(int year);
+	int getTotalConsumptionByYear(int year,String receiver_mobile);
 }

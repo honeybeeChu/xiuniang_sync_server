@@ -113,13 +113,13 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 	 * @return
 	 */
 	@Override
-	public int getTotalConsumptionByYear(int year) {
+	public int getTotalConsumptionByYear(int year,String receiver_mobile) {
 		Connection conn = null;
 		Statement st = null;
 		ResultSet rs = null;
 		String querysql = "";
 		try {
-			querysql = getTotalConsumptionByYearStr(year);
+			querysql = getTotalConsumptionByYearStr(year,receiver_mobile);
 			sql.debug("queryMembershipByMobileStr:" + querysql);
 			conn = createConn();
 			st = conn.createStatement();
@@ -128,6 +128,7 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 				return rs.getInt("sum_money");
 			}
 		} catch (Exception e) {
+			System.out.println(e.toString());
 			sql.error("exec query exception , sql:" + querysql.toString());
 		} finally {
 			close(conn, st, rs);
@@ -150,12 +151,17 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 	}
 
 	/**
-	 * @param openid
+	 * @param year
+	 * @param receiver_mobile
 	 * @return
 	 */
-	private String getTotalConsumptionByYearStr(int year) {
+	private String getTotalConsumptionByYearStr(int year,String receiver_mobile) {
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("select sum(pay_money) as sum_money from efast_orders where year(pay_time)=").append(year);
+		queryStr.append("select sum(payable_money) as sum_money from efast_orders where year(pay_time)=")
+		.append(year)
+		.append(" and receiver_mobile='")
+		.append(receiver_mobile)
+		.append("'");
 		return queryStr.toString();
 	}
 
