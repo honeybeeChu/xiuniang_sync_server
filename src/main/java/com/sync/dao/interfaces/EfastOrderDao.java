@@ -9,5 +9,7 @@ import com.sync.model.EfastOrder;
 public interface EfastOrderDao {
 	boolean addEfastOrder(EfastOrder efastOrder);
 	
+	boolean isExistBySellRecordCode(String sell_record_code);
+	
 	int getTotalConsumptionByYear(int year);
 }

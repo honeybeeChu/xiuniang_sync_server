@@ -40,6 +40,7 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 		String querysql = "";
 		try {
 			querysql = queryMembershipByMobileStr(mobile);
+			System.out.println(querysql);
 			sql.debug("queryMembershipByMobileStr:" + querysql);
 			conn = createConn();
 			st = conn.createStatement();
@@ -52,12 +53,14 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 				membership.setSex(rs.getString("sex"));
 				membership.setBirthday(rs.getString("birthday"));
 				membership.setIdcard(rs.getString("idcard"));
+				membership.setPhone(rs.getString("phone"));
 				membership.setTotal_consumption(rs.getInt("total_consumption"));
 				membership.setRecent_consumption(rs.getInt("recent_consumption"));
 				membership.setLevel(rs.getInt("level"));
 				return membership;
 			}
 		} catch (Exception e) {
+			System.out.println(e.toString());
 			sql.error("exec query exception , sql:" + querysql.toString());
 		} finally {
 			close(conn, st, rs);
@@ -80,14 +83,13 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 		String updateSql = "";
 		try {
 			//更新总消费额 = 原有总消费额+本次消费额
-			int totalSpend = Integer.parseInt(efastOrder.getPayable_money()) 
+			int totalSpend = efastOrder.getPayable_money() 
 					+ membership.getTotal_consumption();
 			
 			//更最近两年消费额 = 原有最近消费额+本次消费额
-			int recent_consumption = Integer.parseInt(efastOrder.getPayable_money()) 
+			int recent_consumption = efastOrder.getPayable_money()
 					+ membership.getRecent_consumption();
 			updateSql = updateMembershipByOrderStr(membership.getOpenid(),level,totalSpend,recent_consumption);
-			sql.info("updateMembershipByOrderStr:" + updateSql);
 			conn = createConn();
 			setAutoCommit(conn, false);
 			pstmt = conn.prepareStatement(updateSql);
@@ -219,27 +221,28 @@ public class MembershipDaoImpl  extends AbstractDaoImpl implements MembershipDao
 	 */
 	private String updateMembershipByOrderStr(String openid,int level,int total_consumption,int recent_consumption){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		StringBuffer updateStr = new StringBuffer();
 		if(0  != level){
 			updateStr.append("update memberships set total_consumption = ")
 			.append(total_consumption)
-			.append(" level = ")
+			.append(", level = ")
 			.append(level)
-			.append(" recent_consumption = ")
+			.append(", recent_consumption = ")
 			.append(recent_consumption)
-			.append(" update_points_date = ")
+			.append(", update_points_date = '")
 			.append(sdf.format(new Date()))
-			.append(" where openid='")
+			.append("' where openid='")
 			.append(openid)
 			.append("'");
 		}else{
 			updateStr.append("update memberships set total_consumption = ")
 			.append(total_consumption)
-			.append(" recent_consumption = ")
+			.append(", recent_consumption = ")
 			.append(recent_consumption)
-			.append(" update_points_date = ")
+			.append(", update_points_date = '")
 			.append(sdf.format(new Date()))
-			.append(" where openid='")
+			.append("' where openid='")
 			.append(openid)
 			.append("'");
 		}

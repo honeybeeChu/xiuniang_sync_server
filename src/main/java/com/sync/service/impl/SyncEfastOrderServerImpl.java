@@ -37,26 +37,38 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 		try{
 			// 获取订单数据
 			List<EfastOrder> efastOrderList = new ArrayList<EfastOrder>();
-			efastOrderService.getEfastOrdersFromLastTimeByPage(1, efastOrderList);
+//			efastOrderService.getEfastOrdersFromLastTimeByPage(1,new Date(), efastOrderList);
+			
+			
+			EfastOrder testorder = new EfastOrder();
+			testorder.setSell_record_code("0000001");
+			testorder.setReceiver_mobile("15150500169");
+			testorder.setPayable_money(100);
+			efastOrderList.add(testorder);
+			
+			
+			
 			// 循环处理订单数据
 			for (EfastOrder efastOrder : efastOrderList) {
-				//保存订单数据，入库
-				efastOrderDao.addEfastOrder(efastOrder);
-				
-				// 通过手机号获取会员信息
-				Membership membership = membershipDao.queryMembershipByMobile(efastOrder.getReceiver_mobile());
-				if(null != membership){
-					// 更新会员的消费额和最近消费额，等级，最新消费时间
-					if(updateMembershipInfoByEfastOrder(efastOrder, membership)){
-						//给有赞平台注入积分
-						if(importPointsToYouzan(efastOrder, membership)){
-							main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
+				//如果此订单在数据库中不存在，那么保存订单数据，入库
+				if(!efastOrderDao.isExistBySellRecordCode(efastOrder.getSell_record_code())){
+					efastOrderDao.addEfastOrder(efastOrder);
+					// 通过手机号获取会员信息
+					Membership membership = membershipDao.queryMembershipByMobile(efastOrder.getReceiver_mobile());
+					if(null != membership){
+						// 更新会员的消费额和最近消费额，等级，最新消费时间
+						if(updateMembershipInfoByEfastOrder(efastOrder, membership)){
+							//给有赞平台注入积分
+							if(importPointsToYouzan(efastOrder, membership)){
+								main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
+							}
+						}else{
+							error.error("更新会员信息失败");
 						}
-					}else{
-						error.error("更新会员信息失败");
 					}
 				}
 			}
+			
 		}catch(Exception e){
 			error.error(e.toString());
 			error.error("订单数据同步失败");
@@ -77,8 +89,8 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 			// 当前用户等级下的消费等级数额和积分比例
 			int consumption = pointsRuleDao.queryConsumptionByLevel(level+1);
 			
-			int recent_consumption = membership.getRecent_consumption() 
-					+ Integer.parseInt(efastOrder.getPayable_money());
+			int recent_consumption = membership.getRecent_consumption()
+					+ efastOrder.getPayable_money();
 			//达到下一个等级需要的消费总额,level提高一个等级
 			if(recent_consumption >= consumption){
 				to_level = level+1;
@@ -100,16 +112,14 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 		int level = membership.getLevel();
 		// 当前用户等级下的消费等级数额和积分比例
 		float rate = pointsRuleDao.queryRateByLevel(level);
-		int addPoints = (int) (Integer.parseInt(efastOrder.getPayable_money()) * rate);
+		int addPoints = (int) (efastOrder.getPayable_money() * rate);
 		StringBuffer reasonBuf = new StringBuffer();
 		reasonBuf.append("sell_record_code： ").append(efastOrder.getSell_record_code()).append(" ")
 				.append(efastOrder.getReceiver_name()).append("(").append(efastOrder.getBuyer_name())
 				.append(") consumed at ").append(efastOrder.getSale_channel_code()).append(" spend ")
-				.append(efastOrder.getPayable_money()).append("yuan ");
-		String reason = URLEncoder.encode(reasonBuf.toString(), "UTF-8");
+				.append(efastOrder.getPayable_money()).append("yuan");
 		
-		
-		boolean importPointsSuccess = youzanPointsService.importPointsByMobile(addPoints, membership.getPhone(), reason);
+		boolean importPointsSuccess = youzanPointsService.importPointsByMobile(addPoints, membership.getPhone(), reasonBuf.toString());
 		if(importPointsSuccess)
 			main.info(membership.getOpenid() + " 有赞注入积分为 "+ addPoints);
 		else
@@ -119,9 +129,6 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 	}
 	
 	
-	
-	
-
 	public EfastOrderDao getEfastOrderDao() {
 		return efastOrderDao;
 	}

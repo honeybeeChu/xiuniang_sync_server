@@ -17,7 +17,7 @@ import com.sync.util.log.LogFactory;
  * @author chuliang
  *
  */
-public class PointsRuleDaoImpl  extends AbstractDaoImpl implements PointsRuleDao {
+public class PointsRuleDaoImpl extends AbstractDaoImpl implements PointsRuleDao {
 	
 	private static Logger sql = LogFactory.getLogger("sql");
 	
@@ -122,7 +122,7 @@ public class PointsRuleDaoImpl  extends AbstractDaoImpl implements PointsRuleDao
 	 * @return
 	 */
 	private String queryRateByLevelStr(int Level){
-		return "select rate from pointsRules where level = " + Level;
+		return "select rate from points_rules where level = " + Level;
 	}
 	
 	
@@ -131,7 +131,7 @@ public class PointsRuleDaoImpl  extends AbstractDaoImpl implements PointsRuleDao
 	 * @return
 	 */
 	private String queryConsumptionByLevelStr(int Level){
-		return "select consumption from pointsRules where level = " + Level;
+		return "select consumption from points_rules where level = " + Level;
 	}
 	
 }

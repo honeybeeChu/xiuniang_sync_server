@@ -69,7 +69,6 @@ public class YouzanPushController {
 			 * .......... 接下来是一些业务处理 判断当前消息的类型 比如交易
 			 *
 			 */
-
 			if ("TRADE".equals(entity.getType())) {
 				// TODO: 参考文档对应的交易对象 进行JSON解码 业务处理等
 

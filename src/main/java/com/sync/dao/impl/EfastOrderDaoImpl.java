@@ -20,13 +20,37 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 	private static Logger log = LogFactory.getLogger("main");
 	private static Logger sql = LogFactory.getLogger("sql");
 
+	@Override
+	public boolean isExistBySellRecordCode(String sell_record_code) {
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String querysql = "";
+		try {
+			querysql = "select count(*) as code_count from efast_orders where sell_record_code = '" + sell_record_code
+					+ "'";
+			conn = createConn();
+			st = conn.createStatement();
+			rs = st.executeQuery(querysql);
+			if (rs.next()) {
+				return rs.getInt("code_count") > 0;
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			sql.error("exec query exception , sql:" + querysql.toString());
+		} finally {
+			close(conn, st, rs);
+		}
+		return true;
+	}
+
 	/**
 	 * 
 	 * @param user
 	 * @return 返回增加addEfastOrder的sql字符串
 	 * @throws Exception
 	 */
-	public boolean addEfastOrder(EfastOrder efastOrder){
+	public boolean addEfastOrder(EfastOrder efastOrder) {
 		boolean ret = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -37,7 +61,7 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 			conn = createConn();
 			setAutoCommit(conn, false);
 			pstmt = conn.prepareStatement(addSql);
-			
+
 			pstmt.setString(1, efastOrder.getSell_record_code());
 			pstmt.setString(2, efastOrder.getOrder_status());
 			pstmt.setInt(3, efastOrder.getShipping_status());
@@ -57,13 +81,13 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 			pstmt.setString(17, efastOrder.getReceiver_mobile());
 			pstmt.setString(18, efastOrder.getReceiver_phone());
 			pstmt.setString(19, efastOrder.getReceiver_email());
-			pstmt.setString(20, efastOrder.getPayable_money());
-			pstmt.setString(21, efastOrder.getOrder_money());
-			pstmt.setString(22, efastOrder.getDiscount_fee());
+			pstmt.setInt(20, efastOrder.getPayable_money());
+			pstmt.setInt(21, efastOrder.getOrder_money());
+			pstmt.setInt(22, efastOrder.getDiscount_fee());
 			pstmt.setString(23, efastOrder.getPay_code());
 			pstmt.setDate(24, efastOrder.getPay_time());
 			pstmt.setString(25, efastOrder.getOpenid());
-		
+
 			int count = pstmt.executeUpdate();
 			if (count > 0) {
 				commit(conn);
@@ -72,6 +96,7 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 				rollback(conn);
 			}
 		} catch (Exception e) {
+			System.out.println(e.toString());
 			log.error("exec add exception , sql:" + addSql.toString());
 			rollback(conn);
 			sql.error(e.toString());
@@ -81,10 +106,9 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 		return ret;
 	}
 
-	
-	
 	/**
 	 * 通过订单中的手机号码，获取会员信息
+	 * 
 	 * @param mobile
 	 * @return
 	 */
@@ -110,8 +134,7 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 		}
 		return 0;
 	}
-	
-	
+
 	/**
 	 * 构造insert sql
 	 * 
@@ -125,16 +148,14 @@ public class EfastOrderDaoImpl extends AbstractDaoImpl implements EfastOrderDao 
 				.append("(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		return sql.toString();
 	}
-	
-	
+
 	/**
 	 * @param openid
 	 * @return
 	 */
-	private String getTotalConsumptionByYearStr(int year){
+	private String getTotalConsumptionByYearStr(int year) {
 		StringBuffer queryStr = new StringBuffer();
-		queryStr.append("select sum(pay_money) as sum_money from efastorders where year(pay_time)=")
-		.append(year);
+		queryStr.append("select sum(pay_money) as sum_money from efast_orders where year(pay_time)=").append(year);
 		return queryStr.toString();
 	}
 

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!--配置数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>jdbc:mysql://localhost:3306/xiuniang?useUnicode=true&amp;characterEncoding=UTF-8</value>
+		</property>
+		<property name="user">
+			<value>linkage</value>
+		</property>
+		<property name="password">
+			<value>!QAZ2wsx</value>
+		</property>
+		<property name="acquireIncrement">
+			<value>3</value>
+		</property>
+		<property name="acquireRetryAttempts">
+			<value>30</value>
+		</property>
+		<property name="acquireRetryDelay">
+			<value>1000</value>
+		</property>
+		<property name="idleConnectionTestPeriod">
+			<value>30</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>5</value>
+		</property>
+		<property name="maxIdleTime">
+			<value>60</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>30</value>
+		</property>
+	</bean>
+
+	<!-- efastOrderDao -->
+	<bean name="efastOrderDao" class="com.sync.dao.impl.EfastOrderDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean name="membershipDao" class="com.sync.dao.impl.MembershipDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	
+	<bean name="pointsRuleDao" class="com.sync.dao.impl.PointsRuleDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<bean name="pointsRecordDao" class="com.sync.dao.impl.PointsRecordDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	
+
+</beans>
+

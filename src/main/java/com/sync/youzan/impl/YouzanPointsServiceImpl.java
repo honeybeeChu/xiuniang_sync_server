@@ -1,5 +1,6 @@
 package com.sync.youzan.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,16 +21,18 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	
 //	public static void main(String args[]){
 ////		importPointsByMobileT(2,"13951106047","apitest");//13951106047  13951715732
-//		System.out.println(importPointsByMobileT(1,"15150500169","apitest"));
+//		
+//		System.out.println(importPointsByMobile(100,"15150500169","sell_record_code： 0000001 null(null) consumed at null spend 100yuan"));
+//		
 //	}
 	
-	
-	@Override
+//	@Override
 	public boolean importPointsByMobile(int points,String mobile, String reason) {
 		try {
 			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(points,mobile,reason,"youzan.crm.customer.points.increase");
 			boolean result = false;
 			String resultStr = YouzanHttpUtil.httpGet(youzanPointIncreaceHttpUrl);
+			
 			JSONObject jsonobj =  JSONObject.fromObject(resultStr);
 			if(null != jsonobj.get("response")){
 				JSONObject isSuccess =  JSONObject.fromObject(jsonobj.get("response").toString());
@@ -88,13 +91,14 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		.append("&mobile=").append(mobile)
 		.append("&points=").append(points)
 		.append("&sign_method=md5")
-		.append("&reason=").append(reason)
+		.append("&reason=").append(URLEncoder.encode(reason, "UTF8"))
 		.append("&sign=").append(getSign(points, mobile,reason,timestamp,method))
 		.append("&timestamp=")
 		.append(URLEncoder.encode(timestamp, "UTF-8"))
 		//版本参数
 		.append("&v=3.0");
 		
+		System.out.println(paramBuf.toString());
 		return paramBuf.toString();
 		
 	}
@@ -126,6 +130,7 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		.append("formatjson")
 		.append("method")
 		.append(method)
+		.append("mobile")
 		.append(mobile)
 		.append("points")
 		.append(points)

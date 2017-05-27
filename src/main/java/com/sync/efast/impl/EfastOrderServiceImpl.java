@@ -22,6 +22,7 @@ import com.sync.util.Constant;
 import com.sync.util.DateUtils;
 import com.sync.util.log.LogFactory;
 import com.sync.util.md5.MD5;
+import com.sync.util.spring.PropertyPlaceholder;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -42,15 +43,15 @@ public class EfastOrderServiceImpl implements EfastOrderService {
 	
 	
 	
-	
-	
 	/**
 	 * @param pageIndex
 	 */
-	public void getEfastOrdersFromLastTimeByPage(int pageIndex,List<EfastOrder> efastOrderList) {
+	public void getEfastOrdersFromLastTimeByPage(int pageIndex,Date currentDate,List<EfastOrder> efastOrderList) {
 		try {
+			
+			System.out.println("pageIndex :" + pageIndex);
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date currentDate = new Date();
 			String efastHttpUrl = getConditionParamsStr(pageIndex, sdf.format(currentDate));
 			
 			CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -73,11 +74,11 @@ public class EfastOrderServiceImpl implements EfastOrderService {
 					}
 					//是最后一页了
 					if(pageIndex == Integer.parseInt(filterObj.get("page_count").toString())){
-						System.out.println("the last fsafds");
+						Constant.lastSyncTime = currentDate;
 					}
 					//非最后一页
 					else{
-//						syncEfastOrdersT(++pageIndex);
+						getEfastOrdersFromLastTimeByPage(++pageIndex,currentDate,efastOrderList);
 					}
 				}
 			}
@@ -101,12 +102,12 @@ public class EfastOrderServiceImpl implements EfastOrderService {
 	 */
 	private static String getConditionParamsStr(int pageIndex, String timestamp)  throws Exception{
 		StringBuffer paramBuf = new StringBuffer();
-		String efast_url = "http://openapi.baotayun.com/openapi/webefast/web/?app_act=openapi/router";
+//		String efast_url = "http://openapi.baotayun.com/openapi/webefast/web/?app_act=openapi/router";
 
-//		String efast_url = PropertyPlaceholder.getProperty("efast_url").toString();
+		String efast_url = PropertyPlaceholder.getProperty("efast_url").toString();
 		paramBuf.append(efast_url).append("&format=json&key=")
-				.append("f2889c8118cada8a52965d087da5d088")
-				// .append(PropertyPlaceholder.getProperty("efast_key").toString())
+//				.append("f2889c8118cada8a52965d087da5d088")
+				 .append(PropertyPlaceholder.getProperty("efast_key").toString())
 				// 订单参数接口
 				.append("&method=oms.order.search.get")
 				//page参数，开始页设置
@@ -142,13 +143,15 @@ public class EfastOrderServiceImpl implements EfastOrderService {
 	 */
 	private static String getSign(int pageIndex, String timestamp) throws Exception {
 		StringBuffer signBuf = new StringBuffer();
-		// signBuf.append(PropertyPlaceholder.getProperty("efast_secret").toString())
-		signBuf.append("1feb581b4302688911584998fd8e66d9").append("end_lastchanged").append(timestamp)
+		 signBuf.append(PropertyPlaceholder.getProperty("efast_secret").toString())
+//		signBuf.append("1feb581b4302688911584998fd8e66d9")
+		 		.append("end_lastchanged").append(timestamp)
 				.append("formatjsonkeyf2889c8118cada8a52965d087da5d088methodoms.order.search.get")
 				.append("order_status1").append("page").append(pageIndex)
 				.append("shipping_status4sign_methodmd5start_lastchanged").append(Constant.getlastSyncTimeAsStr())
-				.append("timestamp").append(timestamp).append("v2.0").append("1feb581b4302688911584998fd8e66d9");
-		// .append(PropertyPlaceholder.getProperty("efast_secret").toString());
+				.append("timestamp").append(timestamp).append("v2.0")
+//				.append("1feb581b4302688911584998fd8e66d9");
+		 .append(PropertyPlaceholder.getProperty("efast_secret").toString());
 
 		return MD5.sign(signBuf.toString()).toUpperCase();
 

@@ -7,7 +7,7 @@ import net.sf.json.JSONObject;
 
 public class EfastOrder {
 
-	public static final String TABLE_NAME = "efastorders";
+	public static final String TABLE_NAME = "efast_orders";
 	//efast 订单号 
 	private String sell_record_code;
 	//订单状态 0-未确认；1-已确认；3-已作废；5-已完成
@@ -47,11 +47,11 @@ public class EfastOrder {
 	//收货邮箱
 	private String receiver_email ; 
 	//订单应付款=商品均摊金额之和+运费
-	private String payable_money; 
+	private int payable_money; 
 	//订单总额sum（单价*数量）
-	private String order_money; 
+	private int order_money; 
 	//优惠金额 订单总额-订单应付款
-	private String discount_fee; 
+	private int discount_fee; 
 	//支付方式
 	private String pay_code; 
 	//支付时间
@@ -69,7 +69,6 @@ public class EfastOrder {
 	public EfastOrder(JSONObject jsonObject){
 		this.jsonObject = jsonObject;
 	}
-	
 	
 	public EfastOrder createEfastOrder() throws Exception{
 		EfastOrder efastOrder = new EfastOrder();
@@ -92,16 +91,18 @@ public class EfastOrder {
 		efastOrder.setReceiver_mobile(this.jsonObject.get("receiver_mobile").toString());
 		efastOrder.setReceiver_phone(this.jsonObject.get("receiver_phone").toString());
 		efastOrder.setReceiver_email(this.jsonObject.get("receiver_email").toString());
-		efastOrder.setPayable_money(this.jsonObject.get("payable_money").toString());
-		efastOrder.setOrder_money(this.jsonObject.get("order_money")==null?"":this.jsonObject.get("order_money").toString());
-		efastOrder.setDiscount_fee(this.jsonObject.get("discount_fee").toString());
+		efastOrder.setPayable_money((int)Float.parseFloat(this.jsonObject.get("payable_money").toString()));
+		
+		efastOrder.setOrder_money((int)Float.parseFloat(this.jsonObject.get("order_money")==null?"0":this.jsonObject.get("order_money").toString()));
+		
+		efastOrder.setDiscount_fee((int)Float.parseFloat(this.jsonObject.get("discount_fee").toString()));
 		efastOrder.setPay_code(this.jsonObject.get("pay_code").toString());
 		
 		String payTime = this.jsonObject.get("pay_time").toString();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		efastOrder.setPay_time(new Date(format.parse(payTime).getTime()));
 		
-		efastOrder.setOpenid(this.jsonObject.get("openid").toString());
+//		efastOrder.setOpenid(this.jsonObject.get("openid").toString());
 		
 		return efastOrder;
 	}
@@ -262,27 +263,27 @@ public class EfastOrder {
 		this.receiver_email = receiver_email;
 	}
 
-	public String getPayable_money() {
+	public int getPayable_money() {
 		return payable_money;
 	}
 
-	public void setPayable_money(String payable_money) {
+	public void setPayable_money(int payable_money) {
 		this.payable_money = payable_money;
 	}
 
-	public String getOrder_money() {
+	public int getOrder_money() {
 		return order_money;
 	}
 
-	public void setOrder_money(String order_money) {
+	public void setOrder_money(int order_money) {
 		this.order_money = order_money;
 	}
 
-	public String getDiscount_fee() {
+	public int getDiscount_fee() {
 		return discount_fee;
 	}
 
-	public void setDiscount_fee(String discount_fee) {
+	public void setDiscount_fee(int discount_fee) {
 		this.discount_fee = discount_fee;
 	}
 

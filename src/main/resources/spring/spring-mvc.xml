@@ -42,64 +42,31 @@
 
 	<!-- 对静态资源文件的访问 方案一 （二选一） -->
 	<mvc:default-servlet-handler />
+	<bean name="efastOrderService" class="com.sync.efast.impl.EfastOrderServiceImpl">
+	</bean>
+	
+	<bean name="youzanPointsService" class="com.sync.youzan.impl.YouzanPointsServiceImpl">
+	</bean>
+	
+	
 
-	<!--配置数据源 -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass">
-			<value>com.mysql.jdbc.Driver</value>
+	<bean name="syncEfastOrderServer" class="com.sync.service.impl.SyncEfastOrderServerImpl">
+		<property name="efastOrderDao">
+			<ref bean="efastOrderDao" />
 		</property>
-		<property name="jdbcUrl">
-			<value>jdbc:mysql://localhost:3307/xiuniang?useUnicode=true&amp;characterEncoding=UTF-8
-			</value>
+		<property name="membershipDao">
+			<ref bean="membershipDao" />
 		</property>
-		<property name="user">
-			<value>linkage</value>
+		<property name="pointsRuleDao">
+			<ref bean="pointsRuleDao" />
 		</property>
-		<property name="password">
-			<value>!QAZ2wsx</value>
+		<property name="efastOrderService">
+			<ref bean="efastOrderService" />
 		</property>
-		<property name="acquireIncrement">
-			<value>3</value>
-		</property>
-		<property name="acquireRetryAttempts">
-			<value>30</value>
-		</property>
-		<property name="acquireRetryDelay">
-			<value>1000</value>
-		</property>
-		<property name="checkoutTimeout">
-			<value>5000</value>
-		</property>
-		<property name="idleConnectionTestPeriod">
-			<value>30</value>
-		</property>
-		<property name="initialPoolSize">
-			<value>5</value>
-		</property>
-		<property name="maxIdleTime">
-			<value>60</value>
-		</property>
-		<property name="maxPoolSize">
-			<value>30</value>
+		<property name="youzanPointsService">
+			<ref bean="youzanPointsService" />
 		</property>
 	</bean>
-
-
-
-
-
-
-	<bean name="efastOrderDaoImpl" class="com.sync.dao.impl.EfastOrderDaoImpl">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
-	</bean>
-
-	<bean name="syncEfastOrderServer" class="com.sync.efast.impl.EfastOrderServiceImpl">
-	</bean>
-
-
 
 	<bean name="syncOrderTask" class="com.sync.job.SyncOrderTask">
 		<property name="syncEfastOrderServer">
@@ -118,8 +85,8 @@
 	<bean id="simpleTrigger"
 		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="simpleJobDetail" />
-		<property name="startDelay" value="10000" />
-		<property name="repeatInterval" value="30000" />
+		<property name="startDelay" value="5000" />
+		<property name="repeatInterval" value="1000000" />
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -139,11 +106,15 @@
 
 
 
-
-
 	<bean name="yearPointsTask" class="com.sync.job.YearPointsTask">
-		<property name="syncEfastOrderServer">
-			<ref bean="syncEfastOrderServer" />
+		<property name="membershipDao">
+			<ref bean="membershipDao" />
+		</property>
+		<property name="efastOrderDao">
+			<ref bean="efastOrderDao" />
+		</property>
+		<property name="youzanPointsService">
+			<ref bean="youzanPointsService" />
 		</property>
 	</bean>
 
@@ -161,7 +132,10 @@
 			<value>0 0 22 30 12 ?</value>
 		</property>
 	</bean>
-	
+
 	<!-- 定时任务的配置 End -->
+	
+	
+	<import resource="dao-ContextConfig.xml" />
 
 </beans>
