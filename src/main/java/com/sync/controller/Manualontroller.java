@@ -1,12 +1,16 @@
-package com.sync.service.impl;
+package com.sync.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.sync.efast.interfaces.EfastOrderService;
 import com.sync.mybatis.mapper.Efast_orderMapper;
@@ -15,16 +19,12 @@ import com.sync.mybatis.mapper.Points_ruleMapper;
 import com.sync.mybatis.model.Efast_order;
 import com.sync.mybatis.model.Membership;
 import com.sync.mybatis.model.Points_rule;
-import com.sync.service.interfaces.SyncEfastOrderServer;
 import com.sync.util.log.LogFactory;
 import com.sync.youzan.interfaces.YouzanPointsService;
 
-/**
- * @author chuliang
- *
- */
-@Service
-public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
+@Controller
+@RequestMapping("/sync")
+public class Manualontroller {
 
 	private static Logger error = LogFactory.getLogger("error");
 	private static Logger main = LogFactory.getLogger("main");
@@ -40,59 +40,46 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 	@Autowired
 	private YouzanPointsService youzanPointsService;
 	
-//	@Autowired
-//	private EfastOrderDao efastOrderDao;
-//	@Autowired
-//	private MembershipDao membershipDao;
-//	@Autowired
-//	private PointsRuleDao pointsRuleDao;
-//	@Autowired
-//	private EfastOrderService efastOrderService;
-//	@Autowired
-//	private YouzanPointsService youzanPointsService;
+	
 
-	// 同步订单数据
-	public void syncEfastOrders() {
-		try{
-			// 获取订单数据
-			List<Efast_order> efastOrderList = new ArrayList<Efast_order>();
-			efastOrderService.getEfastOrdersFromLastTimeByPage(1,new Date(), efastOrderList);
-			
-//			EfastOrder testorder = new EfastOrder();
-//			testorder.setSell_record_code("0000001");
-//			testorder.setReceiver_mobile("15150500169");
-//			testorder.setPayable_money(100);
-//			efastOrderList.add(testorder);
-			
-			
-			// 循环处理订单数据
-			for (Efast_order efastOrder : efastOrderList) {
-				//如果此订单在数据库中不存在，那么保存订单数据，入库
-				Efast_order efast_order = efast_orderMapper.selectBySellRecordCode(efastOrder.getSellRecordCode());
-				if(null != efast_order){
-					efast_orderMapper.insertSelective(efast_order);
-					// 通过手机号获取会员信息
-					Membership membership = membershipMapper.selectByMobile(efast_order.getReceiverMobile());
-					if(null != membership){
-						// 更新会员的消费额和最近消费额，等级，最新消费时间
-						if(updateMembershipInfoByEfastOrder(efastOrder, membership)){
-							//给有赞平台注入积分
-							if(importPointsToYouzan(efastOrder, membership)){
-								main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
-							}
-						}else{
-							error.error("更新会员信息失败");
+	@RequestMapping(value = "/efastorder")
+	public String getTest(HttpServletRequest request) {
+		// 开始时间
+		String start_time = request.getParameter("start_time").toString();
+		// 结束时间
+		String end_time = request.getParameter("end_time").toString();
+
+		// 获取订单数据
+		List<Efast_order> efastOrderList = new ArrayList<Efast_order>();
+		efastOrderService.getEfastOrdersFromTimeToTime(1, start_time, end_time, efastOrderList);
+
+		// 循环处理订单数据
+		for (Efast_order efastOrder : efastOrderList) {
+			// 如果此订单在数据库中不存在，那么保存订单数据，入库
+			Efast_order efast_order = efast_orderMapper.selectBySellRecordCode(efastOrder.getSellRecordCode());
+			if (null != efast_order) {
+				efast_orderMapper.insertSelective(efast_order);
+				// 通过手机号获取会员信息
+				Membership membership = membershipMapper.selectByMobile(efast_order.getReceiverMobile());
+				if (null != membership) {
+					// 更新会员的消费额和最近消费额，等级，最新消费时间
+					if (updateMembershipInfoByEfastOrder(efastOrder, membership)) {
+						// 给有赞平台注入积分
+						if (importPointsToYouzan(efastOrder, membership)) {
+							main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
 						}
+					} else {
+						error.error("更新会员信息失败");
 					}
 				}
 			}
-		}catch(Exception e){
-			error.error(e.toString());
-			error.error("订单数据同步失败");
 		}
+
+		return "success";
 	}
-
-
+	
+	
+	
 	/**
 	 * @param efastOrder
 	 * @param membership
@@ -111,6 +98,7 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 		
 		return updatecount > 0;
 	}
+	
 	
 	/**
 	 * 根据当前的等级，返回要升级到的等级
@@ -165,7 +153,7 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean importPointsToYouzan(Efast_order efastOrder, Membership membership) throws Exception {
+	private boolean importPointsToYouzan(Efast_order efastOrder, Membership membership){
 		try{
 			// 当前用户等级下的消费等级数额和积分比例
 			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).getRate();
@@ -189,5 +177,6 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 			return false;
 		}
 	}
+	
 	
 }

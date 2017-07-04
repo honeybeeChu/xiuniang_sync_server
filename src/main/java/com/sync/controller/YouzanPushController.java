@@ -31,7 +31,6 @@ public class YouzanPushController {
 	public Object test(@RequestBody YouzanMsgPushEntity entity) {
 		 String clientId = PropertyPlaceholder.getProperty("youzan_appid").toString(); // 服务商的秘钥证书
 		 String clientSecret = PropertyPlaceholder.getProperty("youzan_secret").toString();// 服务商的秘钥证书
-
 		 
 		 main.info("get in pointpush controller....");
 		 main.info("isTest " + entity.isTest());

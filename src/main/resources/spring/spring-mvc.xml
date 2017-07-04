@@ -8,8 +8,8 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
-	<!-- 自动扫描的包名 -->
-	<context:component-scan base-package="com.sync" />
+	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->  
+    <context:component-scan base-package="com.sync" />
 
 	<!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven>
@@ -19,7 +19,25 @@
 				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-
+	
+	<bean id="mappingJacksonHttpMessageConverter"  
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/html;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean>
+    
+    <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <ref bean="mappingJacksonHttpMessageConverter" /> <!-- JSON转换器 -->  
+            </list>  
+        </property>  
+    </bean>
+    
 	<bean id="propertyConfigurer" class="com.sync.util.spring.PropertyPlaceholder">
 		<property name="location">
 			<value>classpath:config.properties</value>
@@ -39,10 +57,9 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-
 	<!-- 对静态资源文件的访问 方案一 （二选一） -->
 	<mvc:default-servlet-handler />
-	<bean name="efastOrderService" class="com.sync.efast.impl.EfastOrderServiceImpl">
+	<!-- <bean name="efastOrderService" class="com.sync.efast.impl.EfastOrderServiceImpl">
 	</bean>
 	
 	<bean name="youzanPointsService" class="com.sync.youzan.impl.YouzanPointsServiceImpl">
@@ -64,13 +81,13 @@
 		<property name="youzanPointsService">
 			<ref bean="youzanPointsService" />
 		</property>
-	</bean>
+	</bean> -->
 
-	<bean name="syncOrderTask" class="com.sync.job.SyncOrderTask">
+	<!-- <bean name="syncOrderTask" class="com.sync.job.SyncOrderTask">
 		<property name="syncEfastOrderServer">
 			<ref bean="syncEfastOrderServer" />
 		</property>
-	</bean>
+	</bean> -->
 
 
 	<!-- 定时任务的配置 Start -->
@@ -102,9 +119,7 @@
 	</bean>
 
 
-
-
-	<bean name="yearPointsTask" class="com.sync.job.YearPointsTask">
+	<!-- <bean name="yearPointsTask" class="com.sync.job.YearPointsTask">
 		<property name="membershipDao">
 			<ref bean="membershipDao" />
 		</property>
@@ -114,7 +129,7 @@
 		<property name="youzanPointsService">
 			<ref bean="youzanPointsService" />
 		</property>
-	</bean>
+	</bean> -->
 
 	<bean id="yearDetailFactoryBean"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -133,7 +148,6 @@
 
 	<!-- 定时任务的配置 End -->
 	
-	
-	<import resource="dao-ContextConfig.xml" />
+	<!-- <import resource="dao-ContextConfig.xml" /> -->
 
 </beans>

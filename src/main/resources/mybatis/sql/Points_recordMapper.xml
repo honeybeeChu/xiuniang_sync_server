@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sync.mybatis.mapper.Points_recordMapper" >
+  <resultMap id="BaseResultMap" type="com.sync.mybatis.model.Points_record" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fans_id" property="fansId" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="kdt_name" property="kdtName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="client_hash" property="clientHash" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, fans_id, openid, kdt_name, mobile, amount, total, description, created_time, 
+    client_hash
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from "points_records"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from "points_records"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sync.mybatis.model.Points_record" >
+    insert into "points_records" (id, fans_id, openid, 
+      kdt_name, mobile, amount, 
+      total, description, created_time, 
+      client_hash)
+    values (#{id,jdbcType=INTEGER}, #{fansId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, 
+      #{kdtName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, 
+      #{total,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{clientHash,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sync.mybatis.model.Points_record" >
+    insert into "points_records"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fansId != null" >
+        fans_id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="kdtName != null" >
+        kdt_name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="clientHash != null" >
+        client_hash,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fansId != null" >
+        #{fansId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="kdtName != null" >
+        #{kdtName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientHash != null" >
+        #{clientHash,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Points_record" >
+    update "points_records"
+    <set >
+      <if test="fansId != null" >
+        fans_id = #{fansId,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="kdtName != null" >
+        kdt_name = #{kdtName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientHash != null" >
+        client_hash = #{clientHash,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Points_record" >
+    update "points_records"
+    set fans_id = #{fansId,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      kdt_name = #{kdtName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=INTEGER},
+      total = #{total,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      client_hash = #{clientHash,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

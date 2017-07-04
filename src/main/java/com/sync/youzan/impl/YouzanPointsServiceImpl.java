@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import com.sync.util.YouzanHttpUtil;
 import com.sync.util.log.LogFactory;
@@ -13,7 +14,7 @@ import com.sync.util.spring.PropertyPlaceholder;
 import com.sync.youzan.interfaces.YouzanPointsService;
 
 import net.sf.json.JSONObject;
-
+@Service
 public class YouzanPointsServiceImpl implements YouzanPointsService{
 	
 	private static Logger error = LogFactory.getLogger("error");

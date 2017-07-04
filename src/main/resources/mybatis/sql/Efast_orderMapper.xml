@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sync.mybatis.mapper.Efast_orderMapper" >
+  <resultMap id="BaseResultMap" type="com.sync.mybatis.model.Efast_order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sell_record_code" property="sellRecordCode" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="shipping_status" property="shippingStatus" jdbcType="INTEGER" />
+    <result column="pay_status" property="payStatus" jdbcType="VARCHAR" />
+    <result column="sale_channel_code" property="saleChannelCode" jdbcType="VARCHAR" />
+    <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="buyer_name" property="buyerName" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_country" property="receiverCountry" jdbcType="VARCHAR" />
+    <result column="receiver_province" property="receiverProvince" jdbcType="VARCHAR" />
+    <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR" />
+    <result column="receiver_district" property="receiverDistrict" jdbcType="VARCHAR" />
+    <result column="receiver_street" property="receiverStreet" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="receiver_addr" property="receiverAddr" jdbcType="VARCHAR" />
+    <result column="receiver_zip_code" property="receiverZipCode" jdbcType="VARCHAR" />
+    <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="receiver_email" property="receiverEmail" jdbcType="VARCHAR" />
+    <result column="payable_money" property="payableMoney" jdbcType="INTEGER" />
+    <result column="order_money" property="orderMoney" jdbcType="INTEGER" />
+    <result column="discount_fee" property="discountFee" jdbcType="INTEGER" />
+    <result column="pay_code" property="payCode" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sell_record_code, order_status, shipping_status, pay_status, sale_channel_code, 
+    shop_code, buyer_name, receiver_name, receiver_country, receiver_province, receiver_city, 
+    receiver_district, receiver_street, receiver_address, receiver_addr, receiver_zip_code, 
+    receiver_mobile, receiver_phone, receiver_email, payable_money, order_money, discount_fee, 
+    pay_code, pay_time, openid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from "efast_orders"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+	<select id="selectBySellRecordCode" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from "efast_orders"
+		where sell_record_code = #{0}
+	</select>
+	
+	<select id="getTotalConsumptionByYear" resultMap="java.lang.Integer">
+		select
+		sum(payable_money)
+		from "efast_orders"
+		where year(pay_time) = #{0}
+		and receiver_mobile = #{1}
+	</select>
+	
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from "efast_orders"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sync.mybatis.model.Efast_order" >
+    insert into "efast_orders" (id, sell_record_code, order_status, 
+      shipping_status, pay_status, sale_channel_code, 
+      shop_code, buyer_name, receiver_name, 
+      receiver_country, receiver_province, receiver_city, 
+      receiver_district, receiver_street, receiver_address, 
+      receiver_addr, receiver_zip_code, receiver_mobile, 
+      receiver_phone, receiver_email, payable_money, 
+      order_money, discount_fee, pay_code, 
+      pay_time, openid)
+    values (#{id,jdbcType=INTEGER}, #{sellRecordCode,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, 
+      #{shippingStatus,jdbcType=INTEGER}, #{payStatus,jdbcType=VARCHAR}, #{saleChannelCode,jdbcType=VARCHAR}, 
+      #{shopCode,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
+      #{receiverCountry,jdbcType=VARCHAR}, #{receiverProvince,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, 
+      #{receiverDistrict,jdbcType=VARCHAR}, #{receiverStreet,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
+      #{receiverAddr,jdbcType=VARCHAR}, #{receiverZipCode,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, 
+      #{receiverPhone,jdbcType=VARCHAR}, #{receiverEmail,jdbcType=VARCHAR}, #{payableMoney,jdbcType=INTEGER}, 
+      #{orderMoney,jdbcType=INTEGER}, #{discountFee,jdbcType=INTEGER}, #{payCode,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{openid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sync.mybatis.model.Efast_order" >
+    insert into "efast_orders"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sellRecordCode != null" >
+        sell_record_code,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="shippingStatus != null" >
+        shipping_status,
+      </if>
+      <if test="payStatus != null" >
+        pay_status,
+      </if>
+      <if test="saleChannelCode != null" >
+        sale_channel_code,
+      </if>
+      <if test="shopCode != null" >
+        shop_code,
+      </if>
+      <if test="buyerName != null" >
+        buyer_name,
+      </if>
+      <if test="receiverName != null" >
+        receiver_name,
+      </if>
+      <if test="receiverCountry != null" >
+        receiver_country,
+      </if>
+      <if test="receiverProvince != null" >
+        receiver_province,
+      </if>
+      <if test="receiverCity != null" >
+        receiver_city,
+      </if>
+      <if test="receiverDistrict != null" >
+        receiver_district,
+      </if>
+      <if test="receiverStreet != null" >
+        receiver_street,
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address,
+      </if>
+      <if test="receiverAddr != null" >
+        receiver_addr,
+      </if>
+      <if test="receiverZipCode != null" >
+        receiver_zip_code,
+      </if>
+      <if test="receiverMobile != null" >
+        receiver_mobile,
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone,
+      </if>
+      <if test="receiverEmail != null" >
+        receiver_email,
+      </if>
+      <if test="payableMoney != null" >
+        payable_money,
+      </if>
+      <if test="orderMoney != null" >
+        order_money,
+      </if>
+      <if test="discountFee != null" >
+        discount_fee,
+      </if>
+      <if test="payCode != null" >
+        pay_code,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sellRecordCode != null" >
+        #{sellRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingStatus != null" >
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="saleChannelCode != null" >
+        #{saleChannelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null" >
+        #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null" >
+        #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCountry != null" >
+        #{receiverCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverProvince != null" >
+        #{receiverProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCity != null" >
+        #{receiverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverDistrict != null" >
+        #{receiverDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStreet != null" >
+        #{receiverStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddr != null" >
+        #{receiverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverZipCode != null" >
+        #{receiverZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null" >
+        #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverEmail != null" >
+        #{receiverEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="payableMoney != null" >
+        #{payableMoney,jdbcType=INTEGER},
+      </if>
+      <if test="orderMoney != null" >
+        #{orderMoney,jdbcType=INTEGER},
+      </if>
+      <if test="discountFee != null" >
+        #{discountFee,jdbcType=INTEGER},
+      </if>
+      <if test="payCode != null" >
+        #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Efast_order" >
+    update "efast_orders"
+    <set >
+      <if test="sellRecordCode != null" >
+        sell_record_code = #{sellRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingStatus != null" >
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="saleChannelCode != null" >
+        sale_channel_code = #{saleChannelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null" >
+        shop_code = #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null" >
+        buyer_name = #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCountry != null" >
+        receiver_country = #{receiverCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverProvince != null" >
+        receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCity != null" >
+        receiver_city = #{receiverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverDistrict != null" >
+        receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStreet != null" >
+        receiver_street = #{receiverStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverAddr != null" >
+        receiver_addr = #{receiverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverZipCode != null" >
+        receiver_zip_code = #{receiverZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null" >
+        receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverEmail != null" >
+        receiver_email = #{receiverEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="payableMoney != null" >
+        payable_money = #{payableMoney,jdbcType=INTEGER},
+      </if>
+      <if test="orderMoney != null" >
+        order_money = #{orderMoney,jdbcType=INTEGER},
+      </if>
+      <if test="discountFee != null" >
+        discount_fee = #{discountFee,jdbcType=INTEGER},
+      </if>
+      <if test="payCode != null" >
+        pay_code = #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Efast_order" >
+    update "efast_orders"
+    set sell_record_code = #{sellRecordCode,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      pay_status = #{payStatus,jdbcType=VARCHAR},
+      sale_channel_code = #{saleChannelCode,jdbcType=VARCHAR},
+      shop_code = #{shopCode,jdbcType=VARCHAR},
+      buyer_name = #{buyerName,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_country = #{receiverCountry,jdbcType=VARCHAR},
+      receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+      receiver_city = #{receiverCity,jdbcType=VARCHAR},
+      receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+      receiver_street = #{receiverStreet,jdbcType=VARCHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      receiver_addr = #{receiverAddr,jdbcType=VARCHAR},
+      receiver_zip_code = #{receiverZipCode,jdbcType=VARCHAR},
+      receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      receiver_email = #{receiverEmail,jdbcType=VARCHAR},
+      payable_money = #{payableMoney,jdbcType=INTEGER},
+      order_money = #{orderMoney,jdbcType=INTEGER},
+      discount_fee = #{discountFee,jdbcType=INTEGER},
+      pay_code = #{payCode,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      openid = #{openid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

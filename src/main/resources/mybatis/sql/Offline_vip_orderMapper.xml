@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sync.mybatis.mapper.Offline_vip_orderMapper" >
+  <resultMap id="BaseResultMap" type="com.sync.mybatis.model.Offline_vip_order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="vip_card" property="vipCard" jdbcType="VARCHAR" />
+    <result column="trade_date" property="tradeDate" jdbcType="TIMESTAMP" />
+    <result column="gkmc" property="gkmc" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="get_money" property="getMoney" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="vshop" property="vshop" jdbcType="VARCHAR" />
+    <result column="vempcode" property="vempcode" jdbcType="VARCHAR" />
+    <result column="vspcode" property="vspcode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, vip_card, trade_date, gkmc, sex, get_money, telephone, vshop, vempcode, vspcode
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from "offline_vip_orders"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from "offline_vip_orders"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sync.mybatis.model.Offline_vip_order" >
+    insert into "offline_vip_orders" (id, vip_card, trade_date, 
+      gkmc, sex, get_money, 
+      telephone, vshop, vempcode, 
+      vspcode)
+    values (#{id,jdbcType=INTEGER}, #{vipCard,jdbcType=VARCHAR}, #{tradeDate,jdbcType=TIMESTAMP}, 
+      #{gkmc,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{getMoney,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{vshop,jdbcType=VARCHAR}, #{vempcode,jdbcType=VARCHAR}, 
+      #{vspcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sync.mybatis.model.Offline_vip_order" >
+    insert into "offline_vip_orders"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="vipCard != null" >
+        vip_card,
+      </if>
+      <if test="tradeDate != null" >
+        trade_date,
+      </if>
+      <if test="gkmc != null" >
+        gkmc,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="getMoney != null" >
+        get_money,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="vshop != null" >
+        vshop,
+      </if>
+      <if test="vempcode != null" >
+        vempcode,
+      </if>
+      <if test="vspcode != null" >
+        vspcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vipCard != null" >
+        #{vipCard,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null" >
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gkmc != null" >
+        #{gkmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="getMoney != null" >
+        #{getMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="vshop != null" >
+        #{vshop,jdbcType=VARCHAR},
+      </if>
+      <if test="vempcode != null" >
+        #{vempcode,jdbcType=VARCHAR},
+      </if>
+      <if test="vspcode != null" >
+        #{vspcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Offline_vip_order" >
+    update "offline_vip_orders"
+    <set >
+      <if test="vipCard != null" >
+        vip_card = #{vipCard,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null" >
+        trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gkmc != null" >
+        gkmc = #{gkmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="getMoney != null" >
+        get_money = #{getMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="vshop != null" >
+        vshop = #{vshop,jdbcType=VARCHAR},
+      </if>
+      <if test="vempcode != null" >
+        vempcode = #{vempcode,jdbcType=VARCHAR},
+      </if>
+      <if test="vspcode != null" >
+        vspcode = #{vspcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Offline_vip_order" >
+    update "offline_vip_orders"
+    set vip_card = #{vipCard,jdbcType=VARCHAR},
+      trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+      gkmc = #{gkmc,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      get_money = #{getMoney,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      vshop = #{vshop,jdbcType=VARCHAR},
+      vempcode = #{vempcode,jdbcType=VARCHAR},
+      vspcode = #{vspcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

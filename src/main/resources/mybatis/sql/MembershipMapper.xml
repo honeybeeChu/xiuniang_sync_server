@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sync.mybatis.mapper.MembershipMapper" >
+  <resultMap id="BaseResultMap" type="com.sync.mybatis.model.Membership" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="dianyuan_id" property="dianyuanId" jdbcType="INTEGER" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="INTEGER" />
+    <result column="education_backgro" property="educationBackgro" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="income" property="income" jdbcType="VARCHAR" />
+    <result column="habit" property="habit" jdbcType="VARCHAR" />
+    <result column="bonus" property="bonus" jdbcType="INTEGER" />
+    <result column="balance" property="balance" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="user_card_status" property="userCardStatus" jdbcType="VARCHAR" />
+    <result column="has_active" property="hasActive" jdbcType="BIT" />
+    <result column="total_consumption" property="totalConsumption" jdbcType="INTEGER" />
+    <result column="recent_consumption" property="recentConsumption" jdbcType="INTEGER" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+    <result column="update_points_date" property="updatePointsDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openid, dianyuan_id, card_id, code, name, sex, phone, birthday, idcard, email, 
+    location, postcode, education_backgro, industry, income, habit, bonus, balance, level, 
+    user_card_status, has_active, total_consumption, recent_consumption, total_num, update_points_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from "memberships"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByMobile" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from "memberships"
+		where phone = #{0}
+  </select>
+  <select id="selectAllMemberships" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from "memberships"
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from "memberships"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sync.mybatis.model.Membership" >
+    insert into "memberships" (id, openid, dianyuan_id, 
+      card_id, code, name, 
+      sex, phone, birthday, 
+      idcard, email, location, 
+      postcode, education_backgro, industry, 
+      income, habit, bonus, 
+      balance, level, user_card_status, 
+      has_active, total_consumption, recent_consumption, 
+      total_num, update_points_date)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{dianyuanId,jdbcType=INTEGER}, 
+      #{cardId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=INTEGER}, #{educationBackgro,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{income,jdbcType=VARCHAR}, #{habit,jdbcType=VARCHAR}, #{bonus,jdbcType=INTEGER}, 
+      #{balance,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{userCardStatus,jdbcType=VARCHAR}, 
+      #{hasActive,jdbcType=BIT}, #{totalConsumption,jdbcType=INTEGER}, #{recentConsumption,jdbcType=INTEGER}, 
+      #{totalNum,jdbcType=INTEGER}, #{updatePointsDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sync.mybatis.model.Membership" >
+    insert into "memberships"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="dianyuanId != null" >
+        dianyuan_id,
+      </if>
+      <if test="cardId != null" >
+        card_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="postcode != null" >
+        postcode,
+      </if>
+      <if test="educationBackgro != null" >
+        education_backgro,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="income != null" >
+        income,
+      </if>
+      <if test="habit != null" >
+        habit,
+      </if>
+      <if test="bonus != null" >
+        bonus,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="userCardStatus != null" >
+        user_card_status,
+      </if>
+      <if test="hasActive != null" >
+        has_active,
+      </if>
+      <if test="totalConsumption != null" >
+        total_consumption,
+      </if>
+      <if test="recentConsumption != null" >
+        recent_consumption,
+      </if>
+      <if test="totalNum != null" >
+        total_num,
+      </if>
+      <if test="updatePointsDate != null" >
+        update_points_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="dianyuanId != null" >
+        #{dianyuanId,jdbcType=INTEGER},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=INTEGER},
+      </if>
+      <if test="educationBackgro != null" >
+        #{educationBackgro,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="habit != null" >
+        #{habit,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus != null" >
+        #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="userCardStatus != null" >
+        #{userCardStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hasActive != null" >
+        #{hasActive,jdbcType=BIT},
+      </if>
+      <if test="totalConsumption != null" >
+        #{totalConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="recentConsumption != null" >
+        #{recentConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="updatePointsDate != null" >
+        #{updatePointsDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Membership" >
+    update "memberships"
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="dianyuanId != null" >
+        dianyuan_id = #{dianyuanId,jdbcType=INTEGER},
+      </if>
+      <if test="cardId != null" >
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        postcode = #{postcode,jdbcType=INTEGER},
+      </if>
+      <if test="educationBackgro != null" >
+        education_backgro = #{educationBackgro,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        income = #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="habit != null" >
+        habit = #{habit,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus != null" >
+        bonus = #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="userCardStatus != null" >
+        user_card_status = #{userCardStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hasActive != null" >
+        has_active = #{hasActive,jdbcType=BIT},
+      </if>
+      <if test="totalConsumption != null" >
+        total_consumption = #{totalConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="recentConsumption != null" >
+        recent_consumption = #{recentConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="updatePointsDate != null" >
+        update_points_date = #{updatePointsDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Membership" >
+    update "memberships"
+    set openid = #{openid,jdbcType=VARCHAR},
+      dianyuan_id = #{dianyuanId,jdbcType=INTEGER},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=INTEGER},
+      education_backgro = #{educationBackgro,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      income = #{income,jdbcType=VARCHAR},
+      habit = #{habit,jdbcType=VARCHAR},
+      bonus = #{bonus,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      user_card_status = #{userCardStatus,jdbcType=VARCHAR},
+      has_active = #{hasActive,jdbcType=BIT},
+      total_consumption = #{totalConsumption,jdbcType=INTEGER},
+      recent_consumption = #{recentConsumption,jdbcType=INTEGER},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      update_points_date = #{updatePointsDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
