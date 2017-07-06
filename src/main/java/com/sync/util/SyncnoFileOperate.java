@@ -23,9 +23,9 @@ public class SyncnoFileOperate {
 	
 	private static Logger error = LogFactory.getLogger("error");
 
-	// private static String filePath =
-	// SyncnoFileOperate.class.getClassLoader().getResource("lastSyncTime.txt").getFile();
-	private static String filePath = "D:/workspace/xiuniang_sync_server/src/main/resources/lastSyncTime.txt";
+	 private static String filePath =
+	 SyncnoFileOperate.class.getClassLoader().getResource("lastSyncTime.txt").getFile();
+//	private static String filePath = "D:/workspace/xiuniang_sync_server/src/main/resources/lastSyncTime.txt";
 
 	/**
 	 * 功能：Java读取txt文件的内容 步骤：1：先获得文件句柄 2：获得文件句柄当做是输入一个字节码流，需要对这个输入流进行读取
@@ -76,7 +76,6 @@ public class SyncnoFileOperate {
 //		setLastSyncOrderTime();
 //		System.out.println(getLastSyncOrderTime());
 		System.out.println(PropertyPlaceholder.getProperty("efast_url").toString());
-		
 
 	}
 

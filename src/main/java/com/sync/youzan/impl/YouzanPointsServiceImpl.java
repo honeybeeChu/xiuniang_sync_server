@@ -19,10 +19,21 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	
 	private static Logger error = LogFactory.getLogger("error");
 	
+//	public static void main(String args[]){
+//		System.out.println(importPointsByMobile1(100,"15150500169", "this is a test"));
+//	}
+	
+//	@Override
+//	public boolean importPointsByMobile(int points,String mobile, String reason) {
+//		return true;
+//	}
+	
 	@Override
 	public boolean importPointsByMobile(int points,String mobile, String reason) {
 		try {
-			String point_increase_url = PropertyPlaceholder.getProperty("youzan_increase_point_url").toString();
+//			String point_increase_url = PropertyPlaceholder.getProperty("youzan_increase_point_url").toString();
+			String point_increase_url = "https://open.youzan.com/api/entry/youzan.crm.customer.points/3.0.0/increase?";
+			
 			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(point_increase_url,points,mobile,reason,"youzan.crm.customer.points.increase");
 			boolean result = false;
 			System.out.println(youzanPointIncreaceHttpUrl);
@@ -65,10 +76,9 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	}
 	
 	
-	private String getIncreasePointsConditionParamsStr(String point_increase_url,int points, String mobile,String reason,String method) throws Exception{
-		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
-//		String point_increase_url = "https://open.youzan.com/api/entry/youzan.crm.customer.points/3.0.0/increase?";
-//		String appid = "31fd6f63e6a4a9d527";
+	private static String getIncreasePointsConditionParamsStr(String point_increase_url,int points, String mobile,String reason,String method) throws Exception{
+//		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
+		String appid = "31fd6f63e6a4a9d527";
 		
 		//产生时间戳
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -105,13 +115,13 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 	 * @param timestamp
 	 * @return
 	 */
-	private String getSign(int points, String mobile,String reason,String timestamp,String method)  throws Exception{
+	private static String getSign(int points, String mobile,String reason,String timestamp,String method)  throws Exception{
 		
-		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
-		String secret = PropertyPlaceholder.getProperty("youzan_secret").toString();
+//		String appid = PropertyPlaceholder.getProperty("youzan_appid").toString();
+//		String secret = PropertyPlaceholder.getProperty("youzan_secret").toString();
 		
-//		String appid = "31fd6f63e6a4a9d527";
-//		String secret = "3c1259fff6ac558929c01a2800613013";
+		String appid = "31fd6f63e6a4a9d527";
+		String secret = "3c1259fff6ac558929c01a2800613013";
 		
 		StringBuffer sign = new StringBuffer();
 		sign.append(secret)

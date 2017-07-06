@@ -1,7 +1,11 @@
 package com.sync.mybatis.model;
 
 import java.util.Date;
-
+/**
+ * 会员积分变更记录
+ * @author chuliang
+ *
+ */
 public class Points_record {
     private Integer id;
 
@@ -12,13 +16,13 @@ public class Points_record {
     private String kdtName;
 
     private String mobile;
-
+    //积分变动值
     private Integer amount;
-
+    //积分变动后总值
     private Integer total;
-
+    //积分变动描述
     private String description;
-
+    //积分变动时间
     private Date createdTime;
 
     private String clientHash;

@@ -21,7 +21,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `offline_vip_orders`;
 CREATE TABLE `offline_vip_orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vip_card` varchar(255) DEFAULT NULL,
+  `vip_card` varchar(255) NOT NULL,
+  `vMBillID` varchar(255) NOT NULL,
   `trade_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `gkmc` varchar(255) DEFAULT NULL,
   `sex` int(2) DEFAULT NULL COMMENT '0:女 1:男',

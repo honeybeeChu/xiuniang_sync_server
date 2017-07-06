@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sync.service.interfaces.SyncEfastOrderServer;
+import com.sync.service.interfaces.SyncOfflineVipOrderService;
 import com.sync.util.log.LogFactory;
 
 @Service
@@ -13,10 +14,13 @@ public class SyncOrderTask {
 	
 	@Autowired
 	private SyncEfastOrderServer syncEfastOrderServer;
+	@Autowired
+	private SyncOfflineVipOrderService syncOfflineVipOrderService;
 
 	public void syncSpecialUserMethod() {
 		try {
 			syncEfastOrderServer.syncEfastOrders();
+			syncOfflineVipOrderService.syncOfflineVipOrders();
 		} catch (Exception e) {
 			error.error(e.getMessage());
 		}

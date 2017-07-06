@@ -10,6 +10,8 @@ public interface Offline_vip_orderMapper {
     int insertSelective(Offline_vip_order record);
 
     Offline_vip_order selectByPrimaryKey(Integer id);
+    
+    Offline_vip_order selectByVmbillId(String vmbillID);
 
     int updateByPrimaryKeySelective(Offline_vip_order record);
 

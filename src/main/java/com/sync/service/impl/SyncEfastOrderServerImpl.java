@@ -58,18 +58,17 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 			List<Efast_order> efastOrderList = new ArrayList<Efast_order>();
 			efastOrderService.getEfastOrdersFromLastTimeByPage(1,new Date(), efastOrderList);
 			
-//			EfastOrder testorder = new EfastOrder();
-//			testorder.setSell_record_code("0000001");
-//			testorder.setReceiver_mobile("15150500169");
-//			testorder.setPayable_money(100);
+//			Efast_order testorder = new Efast_order();
+//			testorder.setSellRecordCode("0000001");
+//			testorder.setReceiverMobile("15150500169");
+//			testorder.setPayableMoney(100);
 //			efastOrderList.add(testorder);
-			
 			
 			// 循环处理订单数据
 			for (Efast_order efastOrder : efastOrderList) {
 				//如果此订单在数据库中不存在，那么保存订单数据，入库
 				Efast_order efast_order = efast_orderMapper.selectBySellRecordCode(efastOrder.getSellRecordCode());
-				if(null != efast_order){
+				if(null == efast_order){
 					efast_orderMapper.insertSelective(efast_order);
 					// 通过手机号获取会员信息
 					Membership membership = membershipMapper.selectByMobile(efast_order.getReceiverMobile());
@@ -136,21 +135,27 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 			}
 			//1： :trand_num 交易笔数满足即可
 			else if(1 == condition){
-				if(totalNum >= rule.getTrandNum()){
+				if(totalNum >= rule.getTradeNum()){
 					return rule.getLevel();
 				}
 			}
 			//2：金额和笔数有一个满足即可
 			else if(2 == condition){
 				if(totalConsumption >= rule.getConsumption() 
-						|| totalNum >= rule.getTrandNum()){
+						|| totalNum >= rule.getTradeNum()){
 					return rule.getLevel();
 				}
 			}
-			//3：金额和笔数同事满足即可
+			//3：金额和笔数同时满足即可
 			else if(3 == condition){
 				if(totalConsumption >= rule.getConsumption() 
-						&& totalNum >= rule.getTrandNum()){
+						&& totalNum >= rule.getTradeNum()){
+					return rule.getLevel();
+				}
+			}
+			//4：单笔消费满足即可
+			else if(4 == condition){
+				if(efastOrder.getPayableMoney() >= rule.getConsumption()){
 					return rule.getLevel();
 				}
 			}

@@ -1,7 +1,6 @@
 package com.sync.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.sync.efast.interfaces.EfastOrderService;
 import com.sync.mybatis.mapper.Efast_orderMapper;
@@ -124,21 +122,27 @@ public class Manualontroller {
 			}
 			//1： :trand_num 交易笔数满足即可
 			else if(1 == condition){
-				if(totalNum >= rule.getTrandNum()){
+				if(totalNum >= rule.getTradeNum()){
 					return rule.getLevel();
 				}
 			}
 			//2：金额和笔数有一个满足即可
 			else if(2 == condition){
 				if(totalConsumption >= rule.getConsumption() 
-						|| totalNum >= rule.getTrandNum()){
+						|| totalNum >= rule.getTradeNum()){
 					return rule.getLevel();
 				}
 			}
 			//3：金额和笔数同事满足即可
 			else if(3 == condition){
 				if(totalConsumption >= rule.getConsumption() 
-						&& totalNum >= rule.getTrandNum()){
+						&& totalNum >= rule.getTradeNum()){
+					return rule.getLevel();
+				}
+			}
+			//4：单笔消费满足即可
+			else if(4 == condition){
+				if(efastOrder.getPayableMoney() >= rule.getConsumption()){
 					return rule.getLevel();
 				}
 			}

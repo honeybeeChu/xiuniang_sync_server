@@ -1,7 +1,5 @@
 package com.sync.mybatis.mapper;
 
-import java.util.List;
-
 import com.sync.mybatis.model.Efast_order;
 
 public interface Efast_orderMapper {
