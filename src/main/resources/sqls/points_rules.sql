@@ -25,7 +25,7 @@ CREATE TABLE `points_rules` (
   `consumption` int(11) NOT NULL COMMENT '消费的累计金额',
   `name` varchar(255) DEFAULT NULL,
   `trade_num` int(11) NOT NULL COMMENT '消费的笔数',
-  `condition` int(2) DEFAULT NULL COMMENT 
+  `conditions` int(2) DEFAULT NULL COMMENT 
   '升级到此level的条件，0：consumption消费金额满足即可，1： :trand_num交易笔数满足即可，2：金额和笔数有一个满足即可，3：金额和笔数同事满足即可,4：单笔消费金额',
   `rate` float DEFAULT NULL COMMENT '此等级下的会员，消费金额和积分的增加比例，如，1.2  表示1元给1.2个积分',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,

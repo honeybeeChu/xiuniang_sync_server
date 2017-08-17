@@ -39,32 +39,32 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from "efast_orders"
+    from efast_orders
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-	<select id="selectBySellRecordCode" resultMap="BaseResultMap">
+	<select id="selectAcountBySellRecordCode" resultType="java.lang.Integer">
 		select
-		<include refid="Base_Column_List" />
-		from "efast_orders"
+		count(1)
+		from efast_orders
 		where sell_record_code = #{0}
 	</select>
 	
-	<select id="getTotalConsumptionByYear" resultMap="java.lang.Integer">
+	<select id="getTotalConsumptionByYear" resultType="java.lang.Integer">
 		select
 		sum(payable_money)
-		from "efast_orders"
+		from efast_orders
 		where year(pay_time) = #{0}
 		and receiver_mobile = #{1}
 	</select>
 	
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from "efast_orders"
+    delete from efast_orders
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sync.mybatis.model.Efast_order" >
-    insert into "efast_orders" (id, sell_record_code, order_status, 
+    insert into efast_orders (id, sell_record_code, order_status, 
       shipping_status, pay_status, sale_channel_code, 
       shop_code, buyer_name, receiver_name, 
       receiver_country, receiver_province, receiver_city, 
@@ -84,7 +84,7 @@
       #{payTime,jdbcType=TIMESTAMP}, #{openid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sync.mybatis.model.Efast_order" >
-    insert into "efast_orders"
+    insert into efast_orders
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -247,7 +247,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Efast_order" >
-    update "efast_orders"
+    update efast_orders
     <set >
       <if test="sellRecordCode != null" >
         sell_record_code = #{sellRecordCode,jdbcType=VARCHAR},
@@ -328,7 +328,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Efast_order" >
-    update "efast_orders"
+    update efast_orders
     set sell_record_code = #{sellRecordCode,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=VARCHAR},
       shipping_status = #{shippingStatus,jdbcType=INTEGER},

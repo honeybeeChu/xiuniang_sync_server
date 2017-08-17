@@ -3,7 +3,7 @@
 <mapper namespace="com.sync.mybatis.mapper.Points_recordMapper" >
   <resultMap id="BaseResultMap" type="com.sync.mybatis.model.Points_record" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="fans_id" property="fansId" jdbcType="INTEGER" />
+    <result column="fans_id" property="fansId" jdbcType="VARCHAR" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
     <result column="kdt_name" property="kdtName" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
@@ -20,25 +20,25 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from "points_records"
+    from points_records
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from "points_records"
+    delete from points_records
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sync.mybatis.model.Points_record" >
-    insert into "points_records" (id, fans_id, openid, 
+    insert into points_records (id, fans_id, openid, 
       kdt_name, mobile, amount, 
       total, description, created_time, 
       client_hash)
-    values (#{id,jdbcType=INTEGER}, #{fansId,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{fansId,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
       #{kdtName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, 
       #{total,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
       #{clientHash,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sync.mybatis.model.Points_record" >
-    insert into "points_records"
+    insert into points_records
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -76,7 +76,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="fansId != null" >
-        #{fansId,jdbcType=INTEGER},
+        #{fansId,jdbcType=VARCHAR},
       </if>
       <if test="openid != null" >
         #{openid,jdbcType=VARCHAR},
@@ -105,10 +105,10 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Points_record" >
-    update "points_records"
+    update points_records
     <set >
       <if test="fansId != null" >
-        fans_id = #{fansId,jdbcType=INTEGER},
+        fans_id = #{fansId,jdbcType=VARCHAR},
       </if>
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
@@ -138,8 +138,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Points_record" >
-    update "points_records"
-    set fans_id = #{fansId,jdbcType=INTEGER},
+    update points_records
+    set fans_id = #{fansId,jdbcType=VARCHAR},
       openid = #{openid,jdbcType=VARCHAR},
       kdt_name = #{kdtName,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},

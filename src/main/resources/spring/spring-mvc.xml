@@ -1,17 +1,19 @@
 <?xml version="1.0"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->  
     <context:component-scan base-package="com.sync" />
-
-	<!-- 默认的注解映射的支持 -->
+    <!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
@@ -19,7 +21,7 @@
 				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
+    
 	<bean id="mappingJacksonHttpMessageConverter"  
         class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
         <property name="supportedMediaTypes">  
@@ -59,37 +61,7 @@
 
 	<!-- 对静态资源文件的访问 方案一 （二选一） -->
 	<mvc:default-servlet-handler />
-	<!-- <bean name="efastOrderService" class="com.sync.efast.impl.EfastOrderServiceImpl">
-	</bean>
 	
-	<bean name="youzanPointsService" class="com.sync.youzan.impl.YouzanPointsServiceImpl">
-	</bean>
-	
-	<bean name="syncEfastOrderServer" class="com.sync.service.impl.SyncEfastOrderServerImpl">
-		<property name="efastOrderDao">
-			<ref bean="efastOrderDao" />
-		</property>
-		<property name="membershipDao">
-			<ref bean="membershipDao" />
-		</property>
-		<property name="pointsRuleDao">
-			<ref bean="pointsRuleDao" />
-		</property>
-		<property name="efastOrderService">
-			<ref bean="efastOrderService" />
-		</property>
-		<property name="youzanPointsService">
-			<ref bean="youzanPointsService" />
-		</property>
-	</bean> -->
-
-	<!-- <bean name="syncOrderTask" class="com.sync.job.SyncOrderTask">
-		<property name="syncEfastOrderServer">
-			<ref bean="syncEfastOrderServer" />
-		</property>
-	</bean> -->
-
-
 	<!-- 定时任务的配置 Start -->
 	<bean id="simpleJobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -100,8 +72,8 @@
 	<bean id="simpleTrigger"
 		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="simpleJobDetail" />
-		<property name="startDelay" value="5000" />
-		<property name="repeatInterval" value="10000000" />
+		<property name="startDelay" value="2000" />
+		<property name="repeatInterval" value="600000" />
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -117,19 +89,6 @@
 			</list>
 		</property>
 	</bean>
-
-
-	<!-- <bean name="yearPointsTask" class="com.sync.job.YearPointsTask">
-		<property name="membershipDao">
-			<ref bean="membershipDao" />
-		</property>
-		<property name="efastOrderDao">
-			<ref bean="efastOrderDao" />
-		</property>
-		<property name="youzanPointsService">
-			<ref bean="youzanPointsService" />
-		</property>
-	</bean> -->
 
 	<bean id="yearDetailFactoryBean"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -148,6 +107,8 @@
 
 	<!-- 定时任务的配置 End -->
 	
+	
+	<!-- <util:properties id="propertiesConfig" location="classpath:/config.properties" /> -->
 	<!-- <import resource="dao-ContextConfig.xml" /> -->
 
 </beans>

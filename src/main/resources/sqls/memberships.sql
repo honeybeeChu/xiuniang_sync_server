@@ -42,11 +42,12 @@ CREATE TABLE `memberships` (
   `level` int(11) DEFAULT NULL,
   `user_card_status` varchar(255) DEFAULT NULL,
   `has_active` tinyint(1) DEFAULT NULL,
-  `total_consumption` int(11) DEFAULT NULL COMMENT '一共消费的总额',
-  `recent_consumption` int(11) DEFAULT NULL COMMENT '最近消费的总额（从去年的一月一日起到现在的消费额',
-  `total_num` int(11) DEFAULT NULL COMMENT '一共消费的笔数',
-  `update_points_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `total_consumption` int(11) DEFAULT NULL,
+  `recent_consumption` int(11) DEFAULT NULL,
+  `update_points_date` datetime DEFAULT NULL,
+  `total_num` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `index_memberships_on_openid` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 

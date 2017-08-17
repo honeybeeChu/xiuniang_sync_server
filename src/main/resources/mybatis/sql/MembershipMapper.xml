@@ -26,39 +26,43 @@
     <result column="has_active" property="hasActive" jdbcType="BIT" />
     <result column="total_consumption" property="totalConsumption" jdbcType="INTEGER" />
     <result column="recent_consumption" property="recentConsumption" jdbcType="INTEGER" />
-    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
     <result column="update_points_date" property="updatePointsDate" jdbcType="TIMESTAMP" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, openid, dianyuan_id, card_id, code, name, sex, phone, birthday, idcard, email, 
     location, postcode, education_backgro, industry, income, habit, bonus, balance, level, 
-    user_card_status, has_active, total_consumption, recent_consumption, total_num, update_points_date
+    user_card_status, has_active, total_consumption, recent_consumption, update_points_date, 
+    total_num, created_at
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from "memberships"
+    from memberships
     where id = #{id,jdbcType=INTEGER}
   </select>
-
+  
+  
   <select id="selectByMobile" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from "memberships"
+		from memberships
 		where phone = #{0}
   </select>
   <select id="selectAllMemberships" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from "memberships"
+    from memberships
   </select>
   
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from "memberships"
+    delete from memberships
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sync.mybatis.model.Membership" >
-    insert into "memberships" (id, openid, dianyuan_id, 
+    insert into memberships (id, openid, dianyuan_id, 
       card_id, code, name, 
       sex, phone, birthday, 
       idcard, email, location, 
@@ -66,7 +70,8 @@
       income, habit, bonus, 
       balance, level, user_card_status, 
       has_active, total_consumption, recent_consumption, 
-      total_num, update_points_date)
+      update_points_date, total_num, created_at
+      )
     values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{dianyuanId,jdbcType=INTEGER}, 
       #{cardId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
@@ -75,10 +80,11 @@
       #{income,jdbcType=VARCHAR}, #{habit,jdbcType=VARCHAR}, #{bonus,jdbcType=INTEGER}, 
       #{balance,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{userCardStatus,jdbcType=VARCHAR}, 
       #{hasActive,jdbcType=BIT}, #{totalConsumption,jdbcType=INTEGER}, #{recentConsumption,jdbcType=INTEGER}, 
-      #{totalNum,jdbcType=INTEGER}, #{updatePointsDate,jdbcType=TIMESTAMP})
+      #{updatePointsDate,jdbcType=TIMESTAMP}, #{totalNum,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sync.mybatis.model.Membership" >
-    insert into "memberships"
+    insert into memberships
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -152,11 +158,14 @@
       <if test="recentConsumption != null" >
         recent_consumption,
       </if>
+      <if test="updatePointsDate != null" >
+        update_points_date,
+      </if>
       <if test="totalNum != null" >
         total_num,
       </if>
-      <if test="updatePointsDate != null" >
-        update_points_date,
+      <if test="createdAt != null" >
+        created_at,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -232,16 +241,19 @@
       <if test="recentConsumption != null" >
         #{recentConsumption,jdbcType=INTEGER},
       </if>
+      <if test="updatePointsDate != null" >
+        #{updatePointsDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="totalNum != null" >
         #{totalNum,jdbcType=INTEGER},
       </if>
-      <if test="updatePointsDate != null" >
-        #{updatePointsDate,jdbcType=TIMESTAMP},
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sync.mybatis.model.Membership" >
-    update "memberships"
+    update memberships
     <set >
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
@@ -312,17 +324,20 @@
       <if test="recentConsumption != null" >
         recent_consumption = #{recentConsumption,jdbcType=INTEGER},
       </if>
+      <if test="updatePointsDate != null" >
+        update_points_date = #{updatePointsDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="totalNum != null" >
         total_num = #{totalNum,jdbcType=INTEGER},
       </if>
-      <if test="updatePointsDate != null" >
-        update_points_date = #{updatePointsDate,jdbcType=TIMESTAMP},
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sync.mybatis.model.Membership" >
-    update "memberships"
+    update memberships
     set openid = #{openid,jdbcType=VARCHAR},
       dianyuan_id = #{dianyuanId,jdbcType=INTEGER},
       card_id = #{cardId,jdbcType=VARCHAR},
@@ -346,8 +361,9 @@
       has_active = #{hasActive,jdbcType=BIT},
       total_consumption = #{totalConsumption,jdbcType=INTEGER},
       recent_consumption = #{recentConsumption,jdbcType=INTEGER},
+      update_points_date = #{updatePointsDate,jdbcType=TIMESTAMP},
       total_num = #{totalNum,jdbcType=INTEGER},
-      update_points_date = #{updatePointsDate,jdbcType=TIMESTAMP}
+      created_at = #{createdAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `points_records`;
 CREATE TABLE `points_records` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fans_id` int(11) DEFAULT NULL,
+  `fans_id` varchar(255) DEFAULT NULL,
   `openid` varchar(255) DEFAULT NULL,
   `kdt_name` varchar(255) DEFAULT NULL,
   `mobile` varchar(255) DEFAULT NULL,
