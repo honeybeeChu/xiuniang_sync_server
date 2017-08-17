@@ -11,7 +11,7 @@ public interface Efast_orderMapper {
 
     Efast_order selectByPrimaryKey(Integer id);
     
-    Efast_order selectBySellRecordCode(String sellRecordCode);
+    int selectAcountBySellRecordCode(String sellRecordCode);
 
     int updateByPrimaryKeySelective(Efast_order record);
 

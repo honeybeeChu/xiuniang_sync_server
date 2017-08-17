@@ -24,7 +24,7 @@ public class PropertyPlaceholder extends PropertyPlaceholderConfigurer {
     }
 
     //static method for accessing context properties
-    public static Object getProperty(String name) {
+    public static String getProperty(String name) {
         return propertyMap.get(name);
     }
 }

@@ -1,19 +1,14 @@
 package com.sync.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sync.efast.interfaces.EfastOrderService;
-import com.sync.mybatis.mapper.Efast_orderMapper;
 import com.sync.mybatis.mapper.MembershipMapper;
 import com.sync.mybatis.mapper.Offline_vip_orderMapper;
 import com.sync.mybatis.mapper.Points_ruleMapper;
-import com.sync.mybatis.model.Efast_order;
 import com.sync.mybatis.model.Membership;
 import com.sync.mybatis.model.Offline_vip_order;
 import com.sync.mybatis.model.Points_rule;
@@ -57,20 +52,25 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 			// 循环处理订单数据
 			for (Offline_vip_order offlineorder : offlineOrdersList) {
 				//如果此订单在数据库中不存在，那么保存订单数据，入库
-				Offline_vip_order offline_order = offline_vip_orderMapper.selectByVmbillId(offlineorder.getVmbillid());
-				if(null == offline_order){
-					offline_vip_orderMapper.insertSelective(offline_order);
+				int hascount = offline_vip_orderMapper.selectCountByVmbillId(offlineorder.getVmbillid());
+				if(0 == hascount){
+					offline_vip_orderMapper.insertSelective(offlineorder);
 					// 通过手机号获取会员信息
-					Membership membership = membershipMapper.selectByMobile(offline_order.getTelephone());
-					if(null != membership){
-						// 更新会员的消费额和最近消费额，等级，最新消费时间
-						if(updateMembershipInfoByOfflineOrder(offline_order, membership)){
-							//给有赞平台注入积分
-							if(importPointsToYouzan(offline_order, membership)){
-								main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
+					List<Membership> membershipList = membershipMapper.selectByMobile(offlineorder.getTelephone());
+					
+					if(null != membershipList && membershipList.size() > 0){
+						for(Membership membership : membershipList){
+							if(null != membership){
+								// 更新会员的消费额和最近消费额，等级，最新消费时间
+								if(updateMembershipInfoByOfflineOrder(offlineorder, membership)){
+									//给有赞平台注入积分
+									if(importPointsToYouzan(offlineorder, membership)){
+										main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
+									}
+								}else{
+									error.error("更新会员信息失败");
+								}
 							}
-						}else{
-							error.error("更新会员信息失败");
 						}
 					}
 				}
@@ -120,7 +120,7 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 		int totalNum = membership.getTotalNum() + 1;
 		
 		for(Points_rule rule:ruleList){
-			int condition = rule.getCondition();
+			int condition = rule.getConditions();
 			//0：consumption消费金额满足即可
 			if(0 == condition){
 				if(totalConsumption >= rule.getConsumption()){
@@ -169,21 +169,24 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 			
 			int paymoney = Integer.parseInt(offline_vip_order.getGetMoney());
 			// 当前用户等级下的消费等级数额和积分比例
-			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).getRate();
+			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).get(0).getRate();
 			int addPoints = (int) (paymoney * rate);
 			
-			StringBuffer reasonBuf = new StringBuffer();
-			reasonBuf.append("vmBillId： ").append(offline_vip_order.getVmbillid()).append(" ")
-					.append(offline_vip_order.getVipCard()).append("(").append(offline_vip_order.getGkmc())
-					.append(") consumed at ").append(offline_vip_order.getVshop()).append(" spend ")
-					.append(offline_vip_order.getGetMoney()).append("yuan");
-			
-			boolean importPointsSuccess = youzanPointsService.importPointsByMobile(addPoints, membership.getPhone(), reasonBuf.toString());
-			if(importPointsSuccess)
-				main.info(membership.getOpenid() + " 有赞注入积分为 "+ addPoints);
-			else
-				main.error(membership.getOpenid() + " 有赞注入积分失败，应该注入 "+ addPoints);
-			return importPointsSuccess;
+			if(addPoints > 0){
+				StringBuffer reasonBuf = new StringBuffer();
+				reasonBuf.append("vmBillId： ").append(offline_vip_order.getVmbillid()).append(" ")
+						.append(offline_vip_order.getVipCard()).append("(").append(offline_vip_order.getGkmc())
+						.append(") consumed at ").append(offline_vip_order.getVshop()).append(" spend ")
+						.append(offline_vip_order.getGetMoney()).append("yuan");
+				
+				boolean importPointsSuccess = youzanPointsService.importPointsByMobile(addPoints, membership.getPhone(), reasonBuf.toString());
+				if(importPointsSuccess)
+					main.info(membership.getOpenid() + " 有赞注入积分为 "+ addPoints);
+				else
+					main.error(membership.getOpenid() + " 有赞注入积分失败，应该注入 "+ addPoints);
+				return importPointsSuccess;
+			}
+			return true;
 		}
 		catch (Exception e) {
 			error.error(e.toString());

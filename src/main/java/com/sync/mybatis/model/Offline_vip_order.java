@@ -1,6 +1,9 @@
 package com.sync.mybatis.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import net.sf.json.JSONObject;
 
 /**
  * @author chuliang 线下会员订单拉取
@@ -27,6 +30,30 @@ public class Offline_vip_order {
 	private String vempcode;
 	// xx编码？
 	private String vspcode;
+	
+	JSONObject jsonObject = null;
+	
+	public Offline_vip_order(){}
+	
+	public Offline_vip_order(JSONObject orderObj){
+		this.jsonObject = orderObj;
+	}
+	
+	public Offline_vip_order create_offlineOrder()  throws Exception{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Offline_vip_order order = new Offline_vip_order();
+		order.setGetMoney(this.jsonObject.getString("getMoney"));
+		order.setGkmc(this.jsonObject.getString("gkmc"));
+		order.setSex(this.jsonObject.getString("sex") == "女" ? 0:1);
+		order.setTelephone(this.jsonObject.getString("telephone"));
+		order.setTradeDate(format.parse(this.jsonObject.getString("tradeDate")));
+		order.setVempcode(this.jsonObject.getString("vempcode"));
+		order.setVipCard(this.jsonObject.getString("vipCard"));
+		order.setVmbillid(this.jsonObject.getString("vmbillid"));
+		order.setVshop(this.jsonObject.getString("vshop"));
+		order.setVspcode(this.jsonObject.getString("vspcode"));
+		return order;
+	}
 
 	public Integer getId() {
 		return id;

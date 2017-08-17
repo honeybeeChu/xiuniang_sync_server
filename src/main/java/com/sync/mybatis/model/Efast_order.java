@@ -1,7 +1,7 @@
 package com.sync.mybatis.model;
 
 import java.text.SimpleDateFormat;
-import java.sql.Date;
+import java.util.Date;
 
 import net.sf.json.JSONObject;
 
@@ -97,7 +97,7 @@ public class Efast_order {
 		
 		String payTime = this.jsonObject.get("pay_time").toString();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		efastOrder.setPayTime(new Date(format.parse(payTime).getTime()));
+		efastOrder.setPayTime(format.parse(payTime));
 		
 //		efastOrder.setOpenid(this.jsonObject.get("openid").toString());
 		

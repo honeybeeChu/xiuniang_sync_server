@@ -46,14 +46,16 @@ public class Membership {
     private String userCardStatus;
 
     private Boolean hasActive;
-    // 一共消费的总额
+
     private Integer totalConsumption;
-    // 最近消费的总额（从去年的一月一日起到现在的消费额
+
     private Integer recentConsumption;
-	//消费总笔数
-    private Integer totalNum;
-	//最后一次加积分的时间
+
     private Date updatePointsDate;
+
+    private Integer totalNum;
+
+    private Date createdAt;
 
     public Integer getId() {
         return id;
@@ -247,6 +249,14 @@ public class Membership {
         this.recentConsumption = recentConsumption;
     }
 
+    public Date getUpdatePointsDate() {
+        return updatePointsDate;
+    }
+
+    public void setUpdatePointsDate(Date updatePointsDate) {
+        this.updatePointsDate = updatePointsDate;
+    }
+
     public Integer getTotalNum() {
         return totalNum;
     }
@@ -255,11 +265,11 @@ public class Membership {
         this.totalNum = totalNum;
     }
 
-    public Date getUpdatePointsDate() {
-        return updatePointsDate;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUpdatePointsDate(Date updatePointsDate) {
-        this.updatePointsDate = updatePointsDate;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

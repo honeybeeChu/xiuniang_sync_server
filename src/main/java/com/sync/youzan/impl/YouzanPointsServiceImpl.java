@@ -36,7 +36,6 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 			
 			String youzanPointIncreaceHttpUrl = getIncreasePointsConditionParamsStr(point_increase_url,points,mobile,reason,"youzan.crm.customer.points.increase");
 			boolean result = false;
-			System.out.println(youzanPointIncreaceHttpUrl);
 			String resultStr = YouzanHttpUtil.httpGet(youzanPointIncreaceHttpUrl);
 			
 			JSONObject jsonobj =  JSONObject.fromObject(resultStr);
@@ -146,8 +145,6 @@ public class YouzanPointsServiceImpl implements YouzanPointsService{
 		.append("v3.0")
 		.append(secret);
 		
-		System.out.println("--- "+ sign.toString());
-		System.out.println(MD5.sign(sign.toString()));
 		return MD5.sign(sign.toString());
 	}
 

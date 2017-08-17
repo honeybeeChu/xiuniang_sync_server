@@ -25,7 +25,6 @@ public class YouzanHttpUtil {
 			InputStreamReader isr = new InputStreamReader(inputStream, "UTF8");
 			BufferedReader br = new BufferedReader(isr);
 			while ((line = br.readLine()) != null) {
-				System.out.println(line);
 				result.append(line);
 //				JSONObject jsonobj =  JSONObject.fromObject(line);
 //				if(null != jsonobj.get("response")){

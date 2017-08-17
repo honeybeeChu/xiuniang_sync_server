@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sync.model.YouzanMsgPushEntity;
+import com.sync.mybatis.mapper.MembershipMapper;
 import com.sync.mybatis.mapper.Points_recordMapper;
+import com.sync.mybatis.model.Membership;
 import com.sync.mybatis.model.Points_record;
 import com.sync.util.log.LogFactory;
 import com.sync.util.md5.MD5;
@@ -30,6 +34,9 @@ public class YouzanPushController {
 	
 	@Autowired
 	private Points_recordMapper points_recordMapper;
+	
+	@Autowired
+	private MembershipMapper membershipMapper;
 	
 	private final int mode = 1; // 服务商
 
@@ -93,16 +100,27 @@ public class YouzanPushController {
 			 *
 			 */
 			if ("POINTS".equals(entity.getType())) {
+				//增加积分的表更记录到表points_records
 				Points_record record = new Points_record();
 				record.setAmount(Integer.parseInt(json_msg.get("amount").toString()));
 				record.setTotal(Integer.parseInt(json_msg.get("total").toString()));
 				record.setMobile(json_msg.get("mobile").toString());
-				record.setFansId(Integer.parseInt(json_msg.get("fans_id").toString()));
+				record.setFansId(json_msg.get("fans_id").toString());
 				record.setDescription(json_msg.get("description").toString());
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				record.setCreatedTime(format.parse(json_msg.get("created_time").toString()));
-				
 				points_recordMapper.insertSelective(record);
+				
+				//如果手机号不为空，且是会员，那么就更新它的积分
+				String customer_mobile = json_msg.get("mobile").toString().trim();
+				if(null != customer_mobile && customer_mobile != ""){
+					List<Membership> membershipList = membershipMapper.selectByMobile(customer_mobile);
+					for(Membership membership :membershipList){
+						membership.setBonus(Integer.parseInt(json_msg.get("total").toString()));
+						membership.setUpdatePointsDate(new Date());
+						membershipMapper.updateByPrimaryKey(membership);
+					}
+				}
 			}
 			
 			/**

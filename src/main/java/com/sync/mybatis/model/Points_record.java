@@ -1,28 +1,24 @@
 package com.sync.mybatis.model;
 
 import java.util.Date;
-/**
- * 会员积分变更记录
- * @author chuliang
- *
- */
+
 public class Points_record {
     private Integer id;
 
-    private Integer fansId;
+    private String fansId;
 
     private String openid;
 
     private String kdtName;
 
     private String mobile;
-    //积分变动值
+
     private Integer amount;
-    //积分变动后总值
+
     private Integer total;
-    //积分变动描述
+
     private String description;
-    //积分变动时间
+
     private Date createdTime;
 
     private String clientHash;
@@ -35,12 +31,12 @@ public class Points_record {
         this.id = id;
     }
 
-    public Integer getFansId() {
+    public String getFansId() {
         return fansId;
     }
 
-    public void setFansId(Integer fansId) {
-        this.fansId = fansId;
+    public void setFansId(String fansId) {
+        this.fansId = fansId == null ? null : fansId.trim();
     }
 
     public String getOpenid() {

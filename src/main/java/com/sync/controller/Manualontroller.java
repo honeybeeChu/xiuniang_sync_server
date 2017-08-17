@@ -54,20 +54,24 @@ public class Manualontroller {
 		// 循环处理订单数据
 		for (Efast_order efastOrder : efastOrderList) {
 			// 如果此订单在数据库中不存在，那么保存订单数据，入库
-			Efast_order efast_order = efast_orderMapper.selectBySellRecordCode(efastOrder.getSellRecordCode());
-			if (null != efast_order) {
-				efast_orderMapper.insertSelective(efast_order);
+			int count = efast_orderMapper.selectAcountBySellRecordCode(efastOrder.getSellRecordCode());
+			if (0 == count) {
+				efast_orderMapper.insertSelective(efastOrder);
 				// 通过手机号获取会员信息
-				Membership membership = membershipMapper.selectByMobile(efast_order.getReceiverMobile());
-				if (null != membership) {
-					// 更新会员的消费额和最近消费额，等级，最新消费时间
-					if (updateMembershipInfoByEfastOrder(efastOrder, membership)) {
-						// 给有赞平台注入积分
-						if (importPointsToYouzan(efastOrder, membership)) {
-							main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
+				List<Membership> membershipList = membershipMapper.selectByMobile(efastOrder.getReceiverMobile());
+				if(null != membershipList && membershipList.size() >0){
+					for(Membership membership : membershipList){
+						if (null != membership) {
+							// 更新会员的消费额和最近消费额，等级，最新消费时间
+							if (updateMembershipInfoByEfastOrder(efastOrder, membership)) {
+								// 给有赞平台注入积分
+								if (importPointsToYouzan(efastOrder, membership)) {
+									main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
+								}
+							} else {
+								error.error("更新会员信息失败");
+							}
 						}
-					} else {
-						error.error("更新会员信息失败");
 					}
 				}
 			}
@@ -113,7 +117,7 @@ public class Manualontroller {
 		int totalNum = membership.getTotalNum() + 1;
 		
 		for(Points_rule rule:ruleList){
-			int condition = rule.getCondition();
+			int condition = rule.getConditions();
 			//0：consumption消费金额满足即可
 			if(0 == condition){
 				if(totalConsumption >= rule.getConsumption()){
@@ -160,7 +164,7 @@ public class Manualontroller {
 	private boolean importPointsToYouzan(Efast_order efastOrder, Membership membership){
 		try{
 			// 当前用户等级下的消费等级数额和积分比例
-			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).getRate();
+			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).get(0).getRate();
 			int addPoints = (int) (efastOrder.getPayableMoney() * rate);
 			
 			StringBuffer reasonBuf = new StringBuffer();

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.sync.service.interfaces.SyncEfastOrderServer;
 import com.sync.service.interfaces.SyncOfflineVipOrderService;
 import com.sync.util.log.LogFactory;
+import com.sync.util.spring.PropertyPlaceholder;
 
 @Service
 public class SyncOrderTask {
@@ -16,6 +17,7 @@ public class SyncOrderTask {
 	private SyncEfastOrderServer syncEfastOrderServer;
 	@Autowired
 	private SyncOfflineVipOrderService syncOfflineVipOrderService;
+	
 
 	public void syncSpecialUserMethod() {
 		try {
@@ -25,14 +27,5 @@ public class SyncOrderTask {
 			error.error(e.getMessage());
 		}
 	}
-
-//	public SyncEfastOrderServer getSyncEfastOrderServer() {
-//		return syncEfastOrderServer;
-//	}
-//
-//	public void setSyncEfastOrderServer(SyncEfastOrderServer syncEfastOrderServer) {
-//		this.syncEfastOrderServer = syncEfastOrderServer;
-//	}
-
 	
 }
