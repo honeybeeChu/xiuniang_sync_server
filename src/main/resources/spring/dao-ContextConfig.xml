@@ -12,10 +12,10 @@
 			<value>jdbc:mysql://localhost:3306/xiuniang?useUnicode=true&amp;characterEncoding=UTF-8</value>
 		</property>
 		<property name="user">
-			<value>linkage</value>
+			<value>chuliang</value>
 		</property>
 		<property name="password">
-			<value>!QAZ2wsx</value>
+			<value>chu907684290</value>
 		</property>
 		<property name="acquireIncrement">
 			<value>3</value>

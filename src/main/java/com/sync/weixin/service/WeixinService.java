@@ -16,8 +16,10 @@ import com.sync.weixin.handler.MenuHandler;
 import com.sync.weixin.handler.MsgHandler;
 import com.sync.weixin.handler.NullHandler;
 import com.sync.weixin.handler.StoreCheckNotifyHandler;
+import com.sync.weixin.handler.SubmitMembercardUserInfoHandler;
 import com.sync.weixin.handler.SubscribeHandler;
 import com.sync.weixin.handler.UnsubscribeHandler;
+import com.sync.weixin.handler.UserGetCardHandler;
 
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
@@ -34,8 +36,6 @@ import me.chanjar.weixin.mp.constant.WxMpEventConstants;
 @Service
 public class WeixinService extends WxMpServiceImpl {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	// private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	protected LogHandler logHandler;
@@ -57,7 +57,14 @@ public class WeixinService extends WxMpServiceImpl {
 
 	@Autowired
 	private MsgHandler msgHandler;
-
+	
+	@Autowired
+	private UserGetCardHandler userGetCardHandler;
+	
+	
+	@Autowired
+	private SubmitMembercardUserInfoHandler submitMembercardUserInfoHandler;
+	
 	@Autowired
 	private UnsubscribeHandler unsubscribeHandler;
 
@@ -115,7 +122,15 @@ public class WeixinService extends WxMpServiceImpl {
 		// 上报地理位置事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_LOCATION)
 				.handler(this.getLocationHandler()).end();
-
+		
+		// 领取会员卡事件
+		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event("user_get_card")
+						.handler(this.geUser_get_cardHandler()).end();
+		
+		// 激活会员卡事件
+		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event("submit_membercard_user_info")
+						.handler(this.getSubmitMembercardUserInfoHandler()).end();		
+				
 		// 接收地理位置消息
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_LOCATION).handler(this.getLocationHandler()).end();
 
@@ -123,6 +138,8 @@ public class WeixinService extends WxMpServiceImpl {
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_SCAN)
 				.handler(this.getScanHandler()).end();
 
+		
+		
 		// 默认
 		newRouter.rule().async(false).handler(this.getMsgHandler()).end();
 
@@ -169,6 +186,17 @@ public class WeixinService extends WxMpServiceImpl {
 	protected MsgHandler getMsgHandler() {
 		return this.msgHandler;
 	}
+	
+	protected UserGetCardHandler geUser_get_cardHandler() {
+		return this.userGetCardHandler;
+	}
+	
+	
+	protected SubmitMembercardUserInfoHandler getSubmitMembercardUserInfoHandler() {
+		return this.submitMembercardUserInfoHandler;
+	}
+	
+	
 
 	protected AbstractHandler getScanHandler() {
 		return null;
