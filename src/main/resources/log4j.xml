@@ -27,6 +27,15 @@
 			<param name="ConversionPattern" value="[%d{ISO8601}][%p][%c] - %m%n" />
 		</layout>
 	</appender>
+	
+	<appender name="Weixin" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="File" value="/home/linkage/work/synclog/log/weixin.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}][%p][%c] - %m%n" />
+		</layout>
+	</appender>
+	
 	<appender name="Sql" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Append" value="true" />
 		<param name="File" value="/home/linkage/work/synclog/log/sql.log" />
@@ -57,6 +66,11 @@
 	<logger name="main">
 		<level value="info" />
 		<appender-ref ref="Main" />
+	</logger>
+	
+	<logger name="weixin">
+		<level value="info" />
+		<appender-ref ref="Weixin" />
 	</logger>
 
 	<logger name="sql">
