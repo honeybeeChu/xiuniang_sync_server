@@ -15,6 +15,8 @@ public interface MembershipMapper {
     
 	List<Membership> selectByMobile(String mobile);
 	
+	List<Membership> selectByOpenId(String openId);
+	
 	List<Membership> selectAllMemberships();
 
     int updateByPrimaryKeySelective(Membership record);

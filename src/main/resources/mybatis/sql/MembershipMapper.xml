@@ -50,6 +50,14 @@
 		from memberships
 		where phone = #{0}
   </select>
+  
+  <select id="selectByOpenId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from memberships
+		where openid = #{0}
+  </select>
+  
   <select id="selectAllMemberships" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
