@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sync.util.log.LogFactory;
+import com.sync.util.log.LogObj;
 import com.sync.weixin.service.WeixinService;
 
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -30,7 +31,7 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 @RestController
 @RequestMapping("/xiuniang/api")
 public class WechatController {
-	private static Logger logger = LogFactory.getLogger("main");
+	private static Logger logger = LogFactory.getLogger("weixin");
 
 	@Autowired
 	private WeixinService wxService;
@@ -42,9 +43,7 @@ public class WechatController {
 			@RequestParam(name = "nonce", required = false) String nonce,
 			@RequestParam(name = "echostr", required = false) String echostr) {
 
-		logger.info(
-				"\n接收到来自微信服务器的认证消息是 ："+
-				signature+ timestamp+ nonce+ echostr);
+		logger.info("\n接收到来自微信服务器的认证消息是 ：" + signature + timestamp + nonce + echostr);
 
 		if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
 			logger.error("请求参数中的signature, timestamp, nonce, echostr有空值错误");
@@ -65,7 +64,7 @@ public class WechatController {
 
 	@PostMapping(produces = "application/xml; charset=UTF-8")
 	public void post(HttpServletRequest request, HttpServletResponse response) {
-		try{
+		try {
 			// 获取url中参数
 			String signature = request.getParameter("signature");
 			String echostr = request.getParameter("echostr");
@@ -75,13 +74,18 @@ public class WechatController {
 			String msg_signature = request.getParameter("msg_signature");
 			String requestBody = getRequestPostMsg(request);
 
-			logger.info(
-					"\n接收微信请求：[signature=[{}], encType=[{}], msgSignature=[{}],"
-							+ " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] "+
-					signature+ encrypt_type+ msg_signature+ timestamp+ nonce+ requestBody);
+			LogObj logObj = new LogObj();
+			logObj.putSysKey(LogObj.MODULE, "y").putSysKey(LogObj.STEP, "request");
+			logObj.putData("signature", signature).putData("encrypt_type", encrypt_type)
+					.putData("msg_signature", msg_signature)
+					.putData("timestamp", timestamp)
+					.putData("nonce", nonce)
+					.putData("requestBody",requestBody);
 
+			logger.info(logObj);
 
 			if (!this.getWxService().checkSignature(timestamp, nonce, signature)) {
+				logger.error("非法请求，可能属于伪造的请求！");
 				throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
 			}
 
@@ -96,10 +100,11 @@ public class WechatController {
 
 				out = outMessage.toXml();
 			} else if ("aes".equals(encrypt_type)) {
+				logger.info("encrypt_type..");
 				// aes加密的消息
 				WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody,
 						this.getWxService().getWxMpConfigStorage(), timestamp, nonce, msg_signature);
-				logger.debug("\n消息解密后内容为：\n{} "+ inMessage.toString());
+				logger.info("\n消息解密后内容为：\n{} " + inMessage.toString());
 				WxMpXmlOutMessage outMessage = this.getWxService().route(inMessage);
 				if (outMessage == null) {
 					logger.error("outMessage == null");
@@ -108,16 +113,15 @@ public class WechatController {
 				out = outMessage.toEncryptedXml(this.getWxService().getWxMpConfigStorage());
 			}
 
-			logger.debug("\n组装回复信息：{} "+ out);
+			logger.debug("\n组装回复信息：{} " + out);
 			response.getWriter().write(out);
 			return;
-		}catch(Exception e){
-			logger.error("there is exception occured,{}"+ e.toString());
+		} catch (Exception e) {
+			logger.error("there is exception occured,{}" + e.toString());
 			return;
 		}
 	}
-	
-	
+
 	public String getRequestPostMsg(HttpServletRequest request) throws IOException {
 		// 处理接收消息
 		InputStream in = request.getInputStream();
