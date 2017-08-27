@@ -15,6 +15,8 @@ public interface MembershipMapper {
     
 	List<Membership> selectByMobile(String mobile);
 	
+	List<Membership> selectByName(String name);
+	
 	List<Membership> selectByOpenId(String openId);
 	
 	List<Membership> selectAllMemberships();
