@@ -1,4 +1,7 @@
 $(function() {
+	$("#member_ship_set").click();
+	$("#member_ship_01").addClass("on");
+	member_ship_01
 	$(".page_go").click(function(){
 		var page_index = $("#page_index_input").val();
 		var total_page_num = $("#page_index_input").attr("page-total");
