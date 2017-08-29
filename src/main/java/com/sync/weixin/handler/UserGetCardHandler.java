@@ -26,11 +26,10 @@ public class UserGetCardHandler extends AbstractHandler {
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
             Map<String, Object> context, WxMpService wxMpService,
             WxSessionManager sessionManager) {
-        if (wxMessage.getMsgType().equals("user_get_card")) {
-            //接收处理用户发送的地理位置消息
-        	logger.info("user_get_card handler in ....");
-        }
+    	//接收处理用户发送的地理位置消息
+    	logger.info("user_get_card handler in ........");
         return null;
     }
+    
 
 }

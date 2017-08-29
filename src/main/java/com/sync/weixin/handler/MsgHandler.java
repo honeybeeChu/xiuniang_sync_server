@@ -43,7 +43,9 @@ public class MsgHandler extends AbstractHandler {
 
         //TODO 组装回复消息
         String content = "回复信息内容";
-        return new TextBuilder().build(content, wxMessage, weixinService);
+//        return new TextBuilder().build(content, wxMessage, weixinService);
+        //暂时不做任何回复
+        return null;
 
     }
 
