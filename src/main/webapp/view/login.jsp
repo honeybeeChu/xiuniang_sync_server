@@ -38,7 +38,7 @@
 							name="username" id="username" style="color: #333;"
 							onfocus="if(value=='账号'){this.style.color='#000';value=''}"
 							onblur="if(value==''){this.style.color='#333';value='账号'}">
-					</div></br>
+					</div>
 					<div class="row">
 						<input type="password" autocomplete="off" size="25" value=""
 							accesskey="p" tabindex="2" class="required password"

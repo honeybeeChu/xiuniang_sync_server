@@ -13,7 +13,7 @@ public interface MembershipMapper {
 
     Membership selectByPrimaryKey(Integer id);
     
-	List<Membership> selectByMobile(String mobile);
+    Membership selectByMobile(String mobile);
 	
 	List<Membership> selectByName(String name);
 	

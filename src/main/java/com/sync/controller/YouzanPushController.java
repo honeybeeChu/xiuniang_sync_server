@@ -114,8 +114,8 @@ public class YouzanPushController {
 				//如果手机号不为空，且是会员，那么就更新它的积分
 				String customer_mobile = json_msg.get("mobile").toString().trim();
 				if(null != customer_mobile && customer_mobile != ""){
-					List<Membership> membershipList = membershipMapper.selectByMobile(customer_mobile);
-					for(Membership membership :membershipList){
+					Membership membership = membershipMapper.selectByMobile(customer_mobile);
+					if(null != membership) {
 						membership.setBonus(Integer.parseInt(json_msg.get("total").toString()));
 						membership.setUpdatePointsDate(new Date());
 						membershipMapper.updateByPrimaryKey(membership);

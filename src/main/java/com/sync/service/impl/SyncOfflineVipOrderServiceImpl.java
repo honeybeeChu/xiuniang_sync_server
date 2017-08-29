@@ -56,21 +56,17 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 				if(0 == hascount){
 					offline_vip_orderMapper.insertSelective(offlineorder);
 					// 通过手机号获取会员信息
-					List<Membership> membershipList = membershipMapper.selectByMobile(offlineorder.getTelephone());
-					
-					if(null != membershipList && membershipList.size() > 0){
-						for(Membership membership : membershipList){
-							if(null != membership){
-								// 更新会员的消费额和最近消费额，等级，最新消费时间
-								if(updateMembershipInfoByOfflineOrder(offlineorder, membership)){
-									//给有赞平台注入积分
-									if(importPointsToYouzan(offlineorder, membership)){
-										main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
-									}
-								}else{
-									error.error("更新会员信息失败");
-								}
+					Membership membership = membershipMapper.selectByMobile(offlineorder.getTelephone());
+					if(null != membership){
+						main.info(membership.getPhone() + " 有新的线下订单产生，消费额度是: "+offlineorder.getGetMoney());
+						// 更新会员的消费额和最近消费额，等级，最新消费时间
+						if(updateMembershipInfoByOfflineOrder(offlineorder, membership)){
+							//给有赞平台注入积分
+							if(importPointsToYouzan(offlineorder, membership)){
+								main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
 							}
+						}else{
+							error.error("更新会员信息失败");
 						}
 					}
 				}

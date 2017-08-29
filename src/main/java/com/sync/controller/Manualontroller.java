@@ -58,20 +58,16 @@ public class Manualontroller {
 			if (0 == count) {
 				efast_orderMapper.insertSelective(efastOrder);
 				// 通过手机号获取会员信息
-				List<Membership> membershipList = membershipMapper.selectByMobile(efastOrder.getReceiverMobile());
-				if(null != membershipList && membershipList.size() >0){
-					for(Membership membership : membershipList){
-						if (null != membership) {
-							// 更新会员的消费额和最近消费额，等级，最新消费时间
-							if (updateMembershipInfoByEfastOrder(efastOrder, membership)) {
-								// 给有赞平台注入积分
-								if (importPointsToYouzan(efastOrder, membership)) {
-									main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
-								}
-							} else {
-								error.error("更新会员信息失败");
-							}
+				Membership membership = membershipMapper.selectByMobile(efastOrder.getReceiverMobile());
+				if (null != membership) {
+					// 更新会员的消费额和最近消费额，等级，最新消费时间
+					if (updateMembershipInfoByEfastOrder(efastOrder, membership)) {
+						// 给有赞平台注入积分
+						if (importPointsToYouzan(efastOrder, membership)) {
+							main.info(membership.getOpenid() + " 的 youzan 积分注入成功。");
 						}
+					} else {
+						error.error("更新会员信息失败");
 					}
 				}
 			}

@@ -48,7 +48,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from memberships
-		where phone = #{0}
+		where phone = #{0} limit 1
   </select>
   
   <select id="selectByName" resultMap="BaseResultMap">
