@@ -62,6 +62,8 @@
 							<th>手机号码</th>
 							<!--<th>邮箱</th>-->
 							<th>住址</th>
+							<th>推销总数</th>
+							<th>推销总额</th>
 							<th>会员卡二维码</th>
 						</tr>
 					</thead>
@@ -77,6 +79,8 @@
 							<td>无</td>
 							<!--<td>无</td>-->
 							<td>无</td>
+							<td>${dianyuaninfo.sumMemberCount}</td>
+							<td>${dianyuaninfo.totalConsumption}</td>
 							<!--<td>无</td>-->
 							<td><a href="${ctxPath}/dianyuan/getQrcode.do?dydm=${dianyuaninfo.dydm}">查看</a></td>
 						</tr>

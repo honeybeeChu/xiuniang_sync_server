@@ -65,6 +65,13 @@
 		where openid = #{0}
   </select>
   
+  <select id="selectByDianyuanId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from memberships
+		where dianyuan_id = #{0}
+  </select>
+  
   <select id="selectAllMemberships" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

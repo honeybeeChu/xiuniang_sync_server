@@ -67,6 +67,13 @@
 	    where DYDM = #{0} 
 	</select>
 	
+	<select id="getDianyuanByDianyuanid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from dianyuans 
+	    where id = #{0} 
+	</select>
+	
 	<select id="getDianYuanByName" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

@@ -1,5 +1,6 @@
 package com.sync.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sync.mybatis.mapper.DianyuanMapper;
+import com.sync.mybatis.mapper.MembershipMapper;
 import com.sync.mybatis.model.Dianyuan;
+import com.sync.mybatis.model.DianyuanEx;
+import com.sync.mybatis.model.Membership;
 import com.sync.util.YouzanHttpUtil;
 import com.sync.util.log.LogFactory;
 import com.sync.util.spring.PropertyPlaceholder;
@@ -37,6 +41,8 @@ public class DianyuanController {
 	private DianyuanMapper dianyuanMapper;
 	@Autowired
 	private WeixinService weixinService;
+	@Autowired
+	private MembershipMapper membershipMapper;
 	
 	@RequestMapping(value = "/info",method=RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String login(HttpServletRequest request,HttpServletResponse response,Model model,
@@ -50,14 +56,35 @@ public class DianyuanController {
 			if(null == dymc || "".equals(dymc.trim())){
 				dianyuanList = dianyuanMapper.getAllDianyuan();
 			}else{
-				String dianyuan_name = new String(dymc.getBytes("iso8859-1"),"UTF-8");
-				dianyuanList = dianyuanMapper.getDianYuanByName(dianyuan_name);
-				model.addAttribute("searchDYMC", dianyuan_name);
+				dianyuanList = dianyuanMapper.getDianYuanByName(dymc);
+				model.addAttribute("searchDYMC", dymc);
 			}
-			 
+			
+			List<DianyuanEx> dianyuanExList = new ArrayList<DianyuanEx>();
+			if (dianyuanList != null && dianyuanList.size() > 0) {
+				for (Dianyuan dianyuan : dianyuanList) {
+					DianyuanEx dianyuanEx = new DianyuanEx();
+					BeanUtils.copyProperties(dianyuan, dianyuanEx);
+					List<Membership> memberShipList = membershipMapper.selectByDianyuanId(dianyuan.getId());
+					if (memberShipList != null && memberShipList.size() > 0) {
+						dianyuanEx.setSumMemberCount(memberShipList.size());
+						Long totalConsumption = 0L;
+						for (Membership membership : memberShipList) {
+							totalConsumption = totalConsumption + (membership.getTotalConsumption() == null ? 0L
+									: membership.getTotalConsumption());
+						}
+						dianyuanEx.setTotalConsumption(totalConsumption);
+					} else {
+						dianyuanEx.setSumMemberCount(0);
+						dianyuanEx.setTotalConsumption(0L);
+					}
+					dianyuanExList.add(dianyuanEx);
+				}
+			}
+
 			PageInfo<Dianyuan> page = new PageInfo<Dianyuan>(dianyuanList);
 			model.addAttribute("page", page);
-			model.addAttribute("dianyuanList", dianyuanList);
+			model.addAttribute("dianyuanList", dianyuanExList);
 			
 			return "dianyuan/dianyuan_info";
 		}catch(Exception e){

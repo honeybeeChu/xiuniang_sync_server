@@ -54,6 +54,7 @@
 							<th>积分</th>
 							<th>总消费额</th>
 							<th>手机</th>
+							<th>推荐人</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,6 +65,7 @@
 							<td>${membership.bonus}</td>
 							<td>${membership.totalConsumption}</td>
 							<td>${membership.phone}</td>
+							<td>${membership.dymc}</td>
 						</tr>
 						</c:forEach>
 					</tbody>

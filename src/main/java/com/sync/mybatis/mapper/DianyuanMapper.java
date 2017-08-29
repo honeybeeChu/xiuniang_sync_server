@@ -22,6 +22,8 @@ public interface DianyuanMapper {
 
 	List<Dianyuan> getDianyuanByDYDM(String DYDM);
 	
+	List<Dianyuan> getDianyuanByDianyuanid(Integer dianyuanid);
+	
 	List<Dianyuan> getDianYuanByName(String dymc);
 	
 	List<Map<String, Object>> getCountByKHDM();
