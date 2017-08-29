@@ -19,6 +19,8 @@ public interface MembershipMapper {
 	
 	List<Membership> selectByOpenId(String openId);
 	
+	List<Membership> selectByDianyuanId(Integer dianyuanId);
+	
 	List<Membership> selectAllMemberships();
 
     int updateByPrimaryKeySelective(Membership record);
