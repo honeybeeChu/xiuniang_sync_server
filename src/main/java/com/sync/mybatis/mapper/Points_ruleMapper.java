@@ -13,7 +13,7 @@ public interface Points_ruleMapper {
 
 	    Points_rule selectByPrimaryKey(Integer id);
 	    
-	    List<Points_rule> selectByLevel(int level);
+	    Points_rule selectByLevel(int level);
 	    
 	    List<Points_rule> selectAllRules();
 	    

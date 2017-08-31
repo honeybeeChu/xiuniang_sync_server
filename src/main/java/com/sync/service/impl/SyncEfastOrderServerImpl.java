@@ -41,18 +41,19 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 	private YouzanPointsService youzanPointsService;
 	
 	// 同步订单数据
-	public void syncEfastOrders() {
+	@Override
+	public void syncEfastOrders(Date current_date) {
 		try{
 			// 获取订单数据
 			List<Efast_order> efastOrderList = new ArrayList<Efast_order>();
-			efastOrderService.getEfastOrdersFromLastTimeByPage(1,new Date(), efastOrderList);
+			efastOrderService.getEfastOrdersFromLastTimeByPage(1,current_date, efastOrderList);
 			
 //			Efast_order testorder = new Efast_order();
 //			testorder.setSellRecordCode("1");
 //			testorder.setReceiverMobile("15150500169");
 //			testorder.setPayableMoney(100);
 //			efastOrderList.add(testorder);
-			
+			main.info(" get efast_orders size :" + efastOrderList.size());
 			// 循环处理订单数据
 			for (Efast_order efastOrder : efastOrderList) {
 				//如果此订单在数据库中不存在，那么保存订单数据，入库
@@ -77,7 +78,7 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 			}
 		}catch(Exception e){
 			error.error(e.toString());
-			error.error("订单数据同步失败");
+			error.error("efast订单数据同步失败");
 		}
 	}
 
@@ -163,7 +164,7 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 	private boolean importPointsToYouzan(Efast_order efastOrder, Membership membership) throws Exception {
 		try{
 			// 当前用户等级下的消费等级数额和积分比例
-			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).get(0).getRate();
+			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).getRate();
 			int addPoints = (int) (efastOrder.getPayableMoney() * rate);
 			
 			if(addPoints > 0){
@@ -195,5 +196,7 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 		int addPoints = (int) (1 * rate);
 		System.out.println(addPoints);
 	}
+
+
 	
 }

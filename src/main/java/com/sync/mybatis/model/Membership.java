@@ -51,17 +51,25 @@ public class Membership {
 
     private Integer recentConsumption;
 
-    private Date updatePointsDate;
-
     private Integer totalNum;
 
     private Date createdAt;
+    
+    private Points_rule points_rule;
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public Points_rule getPoints_rule() {
+		return points_rule;
+	}
+
+	public void setPoints_rule(Points_rule points_rule) {
+		this.points_rule = points_rule;
+	}
+
+	public void setId(Integer id) {
         this.id = id;
     }
 
@@ -247,14 +255,6 @@ public class Membership {
 
     public void setRecentConsumption(Integer recentConsumption) {
         this.recentConsumption = recentConsumption;
-    }
-
-    public Date getUpdatePointsDate() {
-        return updatePointsDate;
-    }
-
-    public void setUpdatePointsDate(Date updatePointsDate) {
-        this.updatePointsDate = updatePointsDate;
     }
 
     public Integer getTotalNum() {

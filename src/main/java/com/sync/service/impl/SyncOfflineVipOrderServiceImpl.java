@@ -1,5 +1,7 @@
 package com.sync.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -42,12 +44,14 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 			// 获取订单数据
 			List<Offline_vip_order> offlineOrdersList = offlineVipOrderService.getOfflineVipOrderFromLastTime();
 			
-//			EfastOrder testorder = new EfastOrder();
-//			testorder.setSell_record_code("0000001");
-//			testorder.setReceiver_mobile("15150500169");
-//			testorder.setPayable_money(100);
-//			efastOrderList.add(testorder);
 			
+//			List<Offline_vip_order> offlineOrdersList = new ArrayList<Offline_vip_order>();
+//			Offline_vip_order testorder = new Offline_vip_order();
+//			testorder.setVmbillid("1111111");
+//			testorder.setGetMoney("100");
+//			testorder.setTelephone("15150500169");
+//			testorder.setVipCard("1234567");
+//			offlineOrdersList.add(testorder);
 			
 			// 循环处理订单数据
 			for (Offline_vip_order offlineorder : offlineOrdersList) {
@@ -73,7 +77,7 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 			}
 		}catch(Exception e){
 			error.error(e.toString());
-			error.error("订单数据同步失败");
+			error.error("offline订单数据同步失败");
 		}
 		
 	}
@@ -90,10 +94,12 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 		//应该升级到的等级
 		int to_level = toWhichLevel(offline_vip_order, membership);
 		
+		int payed_money = (int)Double.parseDouble(offline_vip_order.getGetMoney());
+		
 		membership.setTotalNum(membership.getTotalNum() + 1);
 		membership.setLevel(to_level);
-		membership.setTotalConsumption(Integer.parseInt(offline_vip_order.getGetMoney()) + membership.getTotalConsumption());
-		membership.setRecentConsumption(Integer.parseInt(offline_vip_order.getGetMoney()) + membership.getRecentConsumption());
+		membership.setTotalConsumption( payed_money  + membership.getTotalConsumption());
+		membership.setRecentConsumption(payed_money + membership.getRecentConsumption());
 		
 		int updatecount = membershipMapper.updateByPrimaryKeySelective(membership);
 		
@@ -111,7 +117,7 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 		List<Points_rule> ruleList = points_ruleMapper.selectAllRules();
 		
 		//算上本次目前的总消费额
-		int totalConsumption = membership.getTotalConsumption() + Integer.parseInt(offline_vip_order.getGetMoney());
+		int totalConsumption = membership.getTotalConsumption() + (int)Double.parseDouble(offline_vip_order.getGetMoney());
 		//算上本次目前的总消费笔数
 		int totalNum = membership.getTotalNum() + 1;
 		
@@ -145,7 +151,7 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 			}
 			//4：单笔消费满足即可
 			else if(4 == condition){
-				if(Integer.parseInt(offline_vip_order.getGetMoney()) >= rule.getConsumption()){
+				if((int)Double.parseDouble(offline_vip_order.getGetMoney())  >= rule.getConsumption()){
 					return rule.getLevel();
 				}
 			}
@@ -163,9 +169,9 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 	private boolean importPointsToYouzan(Offline_vip_order offline_vip_order, Membership membership) throws Exception {
 		try{
 			
-			int paymoney = Integer.parseInt(offline_vip_order.getGetMoney());
+			int paymoney = (int)Double.parseDouble(offline_vip_order.getGetMoney());
 			// 当前用户等级下的消费等级数额和积分比例
-			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).get(0).getRate();
+			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).getRate();
 			int addPoints = (int) (paymoney * rate);
 			
 			if(addPoints > 0){
@@ -188,6 +194,11 @@ public class SyncOfflineVipOrderServiceImpl implements SyncOfflineVipOrderServic
 			error.error(e.toString());
 			return false;
 		}
+	}
+	
+	
+	public static void main(String args[]) {
+		System.out.println((int)Double.parseDouble("1280"));
 	}
 	
 	

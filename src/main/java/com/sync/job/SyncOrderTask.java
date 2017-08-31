@@ -1,13 +1,15 @@
 package com.sync.job;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sync.service.interfaces.SyncEfastOrderServer;
 import com.sync.service.interfaces.SyncOfflineVipOrderService;
+import com.sync.util.Constant;
 import com.sync.util.log.LogFactory;
-import com.sync.util.spring.PropertyPlaceholder;
 
 @Service
 public class SyncOrderTask {
@@ -21,8 +23,11 @@ public class SyncOrderTask {
 
 	public void syncSpecialUserMethod() {
 		try {
-			syncEfastOrderServer.syncEfastOrders();
+			Date current_time = new Date();
+//			syncEfastOrderServer.syncEfastOrders(current_time);
 			syncOfflineVipOrderService.syncOfflineVipOrders();
+			
+			Constant.lastSyncTime = current_time;
 		} catch (Exception e) {
 			error.error(e.getMessage());
 		}

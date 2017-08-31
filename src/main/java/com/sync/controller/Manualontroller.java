@@ -160,7 +160,7 @@ public class Manualontroller {
 	private boolean importPointsToYouzan(Efast_order efastOrder, Membership membership){
 		try{
 			// 当前用户等级下的消费等级数额和积分比例
-			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).get(0).getRate();
+			float rate = points_ruleMapper.selectByLevel(membership.getLevel()).getRate();
 			int addPoints = (int) (efastOrder.getPayableMoney() * rate);
 			
 			StringBuffer reasonBuf = new StringBuffer();

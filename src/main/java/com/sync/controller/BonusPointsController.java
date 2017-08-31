@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -21,23 +20,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.swetake.util.Qrcode;
 import com.sync.mybatis.mapper.MembershipMapper;
+import com.sync.mybatis.mapper.Points_ruleMapper;
 import com.sync.mybatis.model.Membership;
+import com.sync.util.spring.PropertyPlaceholder;
+import com.sync.weixin.service.WeixinService;
+
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 
 @Controller
 @RequestMapping(value = "/bonus_points")
 public class BonusPointsController {
+	
 	@Autowired
 	private MembershipMapper membershipMapper;
-
+	@Autowired
+	private Points_ruleMapper points_ruleMapper;
+	
+	@Autowired
+	private WeixinService wxService;
+	
+	@RequestMapping(value = "/auth_url", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	public String auth_url(HttpServletRequest request, HttpServletResponse response) {
+		String redirect_url = PropertyPlaceholder.getProperty("application_url").toString()+"bonus_points/init";
+		return "redirect:"+wxService.oauth2buildAuthorizationUrl(redirect_url,WxConsts.OAUTH2_SCOPE_BASE, null);
+	}
+	
 	@RequestMapping(value = "/init", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-	public String login(HttpServletRequest request, HttpServletResponse response, Model model, String openId) {
+	public String login(HttpServletRequest request, HttpServletResponse response,Model model) {
 		try {
+			wxService.oauth2buildAuthorizationUrl(null,WxConsts.OAUTH2_SCOPE_BASE, null);
+			
+			WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(request.getParameter("code").toString());
+			String openId = wxMpOAuth2AccessToken.getOpenId();
+			
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html;charset=UTF-8");
-			openId = "2";
-			List<Membership> membershipList = membershipMapper.selectByOpenId(openId);
-			if (membershipList != null && membershipList.size() > 0) {
-				model.addAttribute("membershipList", membershipList.get(0));
+			Membership membership = membershipMapper.selectByOpenId(openId);
+			if (membership != null) {
+				model.addAttribute("membershipList", membership);
 			} else {
 				model.addAttribute("membershipList", new Membership());
 			}
@@ -49,7 +70,7 @@ public class BonusPointsController {
 
 	@RequestMapping(value = "/toLookImage", method = RequestMethod.GET)
 	public void lookImage(HttpServletRequest request, HttpServletResponse response, Model model,
-			@RequestParam() String cardId) {
+			@RequestParam() String code) {
 		int width = 140;
 		int height = 140;
 		Qrcode qrcode = new Qrcode();
@@ -62,7 +83,7 @@ public class BonusPointsController {
 		gs.clearRect(0, 0, width, height);
 		gs.setColor(Color.BLACK);
 		try {
-			byte[] contentBytes = cardId.getBytes("utf-8");
+			byte[] contentBytes = code.getBytes("utf-8");
 			int pixoff = 2;
 			if (contentBytes.length > 0 && contentBytes.length < 120) {
 				boolean[][] codeOut = qrcode.calQrcode(contentBytes);

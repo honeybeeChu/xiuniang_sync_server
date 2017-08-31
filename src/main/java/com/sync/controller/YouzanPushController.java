@@ -5,7 +5,6 @@ import java.net.URLDecoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +116,6 @@ public class YouzanPushController {
 					Membership membership = membershipMapper.selectByMobile(customer_mobile);
 					if(null != membership) {
 						membership.setBonus(Integer.parseInt(json_msg.get("total").toString()));
-						membership.setUpdatePointsDate(new Date());
 						membershipMapper.updateByPrimaryKey(membership);
 					}
 				}

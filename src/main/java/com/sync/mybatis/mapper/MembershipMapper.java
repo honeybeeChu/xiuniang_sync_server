@@ -17,7 +17,7 @@ public interface MembershipMapper {
 	
 	List<Membership> selectByName(String name);
 	
-	List<Membership> selectByOpenId(String openId);
+	Membership selectByOpenId(String openId);
 	
 	List<Membership> selectByDianyuanId(Integer dianyuanId);
 	

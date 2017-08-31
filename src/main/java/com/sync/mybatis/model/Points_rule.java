@@ -19,8 +19,6 @@ public class Points_rule {
 
     private Date createdAt;
 
-    private Date updatedAt;
-
     public Integer getId() {
         return id;
     }
@@ -85,11 +83,4 @@ public class Points_rule {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
