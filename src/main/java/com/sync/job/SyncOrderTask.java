@@ -24,7 +24,7 @@ public class SyncOrderTask {
 	public void syncSpecialUserMethod() {
 		try {
 			Date current_time = new Date();
-//			syncEfastOrderServer.syncEfastOrders(current_time);
+			syncEfastOrderServer.syncEfastOrders(current_time);
 			syncOfflineVipOrderService.syncOfflineVipOrders();
 			
 			Constant.lastSyncTime = current_time;
