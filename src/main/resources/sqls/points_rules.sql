@@ -29,7 +29,6 @@ CREATE TABLE `points_rules` (
   '升级到此level的条件，0：consumption消费金额满足即可，1： :trand_num交易笔数满足即可，2：金额和笔数有一个满足即可，3：金额和笔数同事满足即可,4：单笔消费金额',
   `rate` float DEFAULT NULL COMMENT '此等级下的会员，消费金额和积分的增加比例，如，1.2  表示1元给1.2个积分',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 

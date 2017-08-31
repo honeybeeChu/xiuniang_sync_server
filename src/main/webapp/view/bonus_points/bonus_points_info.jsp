@@ -20,18 +20,18 @@
 		<tbody>
 		  <tr>
 			<td style="font-weight:bold;">卡号：</td>
-			<td>${membershipList.cardId}</td>
+			<td>${membershipList.code}</td>
 		</tr>
 		<tr>
-			<td style="font-weight:bold;">姓名：</td>
-			<td>${membershipList.name}</td>
+			<td style="font-weight:bold;">等级：</td>
+			<td>${membershipList.points_rule.name}</td>
 		</tr>
 		<tr>
-			<td style="font-weight:bold;">手机：</td>
-			<td>${membershipList.phone}</td>
+			<td style="font-weight:bold;">积分：</td>
+			<td>${membershipList.bonus}</td>
 		</tr>
 		<tr style="text-align:center">
-			<td colspan=2><img src="${ctxPath}/bonus_points/toLookImage.do?cardId=${membershipList.cardId}"></td>
+			<td colspan=2><img src="${ctxPath}/bonus_points/toLookImage.do?code=${membershipList.code}"></td>
 		</tr>
 		</tbody>
 	  </table>

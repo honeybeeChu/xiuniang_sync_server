@@ -10,11 +10,9 @@
 		<result column="conditions" property="conditions" jdbcType="INTEGER" />
 		<result column="rate" property="rate" jdbcType="REAL" />
 		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
-		<result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, level, consumption, name, trade_num, conditions, rate, created_at,
-		updated_at
+		id, level, consumption, name, trade_num, conditions, rate, created_at
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -40,7 +38,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from points_rules
-		where level = #{0}
+		where level = #{0} limit 1
 	</select>
 
 
@@ -51,13 +49,12 @@
 	<insert id="insert" parameterType="com.sync.mybatis.model.Points_rule">
 		insert into "points_rules" (id, level, consumption,
 		name, trade_num, conditions,
-		rate, created_at, updated_at
+		rate, created_at
 		)
 		values (#{id,jdbcType=INTEGER}, #{level,jdbcType=INTEGER},
 		#{consumption,jdbcType=INTEGER},
 		#{name,jdbcType=VARCHAR}, #{tradeNum,jdbcType=INTEGER}, #{conditions,jdbcType=INTEGER},
-		#{rate,jdbcType=REAL}, #{createdAt,jdbcType=TIMESTAMP},
-		#{updatedAt,jdbcType=TIMESTAMP}
+		#{rate,jdbcType=REAL}, #{createdAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.sync.mybatis.model.Points_rule">
@@ -87,9 +84,6 @@
 			<if test="createdAt != null">
 				created_at,
 			</if>
-			<if test="updatedAt != null">
-				updated_at,
-			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -115,9 +109,6 @@
 			</if>
 			<if test="createdAt != null">
 				#{createdAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -145,9 +136,6 @@
 			<if test="createdAt != null">
 				created_at = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="updatedAt != null">
-				updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -159,8 +147,7 @@
 		trade_num = #{tradeNum,jdbcType=INTEGER},
 		conditions = #{conditions,jdbcType=INTEGER},
 		rate = #{rate,jdbcType=REAL},
-		created_at = #{createdAt,jdbcType=TIMESTAMP},
-		updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+		created_at = #{createdAt,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 </mapper>
