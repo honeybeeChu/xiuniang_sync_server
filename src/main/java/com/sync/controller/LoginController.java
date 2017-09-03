@@ -1,6 +1,7 @@
 package com.sync.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ public class LoginController {
 	public String login(HttpServletRequest request,String username,String password) {
 		
 		if("admin".equals(username) && "admin".equals(password)){
+			HttpSession session = request.getSession();
+			session.setAttribute("user", username);
 			return "redirect:/dianyuan/info.do";
 		}else{
 			return "login";

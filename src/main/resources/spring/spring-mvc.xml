@@ -111,4 +111,21 @@
 	<!-- <util:properties id="propertiesConfig" location="classpath:/config.properties" /> -->
 	<!-- <import resource="dao-ContextConfig.xml" /> -->
 
+    <mvc:interceptors>
+		<!-- session超时 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.sync.common.SessionTimeoutInterceptor">
+				<property name="allowUrls">
+					<list>
+						<value>/login</value>
+						<value>/static/cs</value>
+						<value>/static/font</value>
+						<value>/static/images</value>
+						<value>/static/js</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>
