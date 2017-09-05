@@ -39,7 +39,12 @@
 		from points_rules
 		where level = #{0} limit 1
 	</select>
-  
+    <select id="selectPointsRuleByLevel" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from points_rules
+		where level = #{0}
+	</select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from points_rules
@@ -155,6 +160,14 @@
       conditions = #{conditions,jdbcType=INTEGER},
       rate = #{rate,jdbcType=REAL},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
+      discount = #{discount,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyEx" parameterType="com.sync.mybatis.model.Points_rule" >
+    update points_rules
+    set level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=REAL},
       discount = #{discount,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>

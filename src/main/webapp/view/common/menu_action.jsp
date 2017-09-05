@@ -62,6 +62,16 @@
 			</ul>
 		</div>
 		
+		<div class="vtitle" data-type="point_rules" id="point_rules_set">
+			<a href="#"><i class="iconfont icon_menu icon-fensi"></i>规则管理</a> <em
+				class=" iconfont icon_menu icon-unfold"></em>
+		</div>
+        <div class="vcon" data-type="point_rules" style="display: none;">
+			<ul class="menu_body clearfix">
+				<a id="point_rules_01" href="${ctxPath}/point_rules/init">规则查询</a>
+			</ul>
+		</div>
+		
 		<div class="vtitle" data-type="systemset" id="system_set">
 			<a href="#"><i class="iconfont icon_menu icon-fensi"></i>系统设置</a> <em
 				class=" iconfont icon_menu icon-unfold"></em>

@@ -17,8 +17,12 @@ public interface Points_ruleMapper {
 
     int updateByPrimaryKey(Points_rule record);
     
+    int updateByPrimaryKeyEx(Points_rule record);
+    
     Points_rule selectByLevel(int level);
     
+    List<Points_rule> selectPointsRuleByLevel(Integer level);
+
     List<Points_rule> selectAllRules();
     
     int getPointsRuleCount();
