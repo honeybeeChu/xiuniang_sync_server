@@ -1,5 +1,7 @@
 package com.sync.mybatis.mapper;
 
+import java.util.List;
+
 import com.sync.mybatis.model.Points_record;
 
 public interface Points_recordMapper {
@@ -14,4 +16,8 @@ public interface Points_recordMapper {
     int updateByPrimaryKeySelective(Points_record record);
 
     int updateByPrimaryKey(Points_record record);
+    
+    List<Points_record> selectAllPointsRecord();
+    
+    List<Points_record> selectByMobile(String mobile);
 }

@@ -30,7 +30,7 @@
 									<button type="submit" id="search_by_dymc_btn"
 									 class="button  button-primary">查询</button>
 									 <input 
-									type="reset" class="button ml10"
+									type="button" id="resetBtn" class="button ml10"
 									 value="重置" />
 							</form>
 						</div>
@@ -106,7 +106,7 @@
 
 		</div>
 	</div>
-	
+	<script type="text/javascript" src="${staticPath}/js/common.js"></script>
 	<script type="text/javascript" src="${staticPath}/js/dianyuan/dianyuan_info.js"></script>
 </body>
 </html>
