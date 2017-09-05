@@ -74,15 +74,15 @@ public class WechatController {
 			String msg_signature = request.getParameter("msg_signature");
 			String requestBody = getRequestPostMsg(request);
 
-			LogObj logObj = new LogObj();
-			logObj.putSysKey(LogObj.MODULE, "y").putSysKey(LogObj.STEP, "request");
-			logObj.putData("signature", signature).putData("encrypt_type", encrypt_type)
-					.putData("msg_signature", msg_signature)
-					.putData("timestamp", timestamp)
-					.putData("nonce", nonce)
-					.putData("requestBody",requestBody);
-
-			logger.info(logObj);
+//			LogObj logObj = new LogObj();
+//			logObj.putSysKey(LogObj.MODULE, "y").putSysKey(LogObj.STEP, "request");
+//			logObj.putData("signature", signature).putData("encrypt_type", encrypt_type)
+//					.putData("msg_signature", msg_signature)
+//					.putData("timestamp", timestamp)
+//					.putData("nonce", nonce)
+//					.putData("requestBody",requestBody);
+//
+//			logger.info(logObj);
 
 			if (!this.getWxService().checkSignature(timestamp, nonce, signature)) {
 				logger.error("非法请求，可能属于伪造的请求！");
@@ -100,11 +100,10 @@ public class WechatController {
 
 				out = outMessage.toXml();
 			} else if ("aes".equals(encrypt_type)) {
-				logger.info("encrypt_type..");
 				// aes加密的消息
 				WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody,
 						this.getWxService().getWxMpConfigStorage(), timestamp, nonce, msg_signature);
-				logger.info("\n消息解密后内容为：\n{} " + inMessage.toString());
+//				logger.info("\n消息解密后内容为：\n{} " + inMessage.toString());
 				WxMpXmlOutMessage outMessage = this.getWxService().route(inMessage);
 				if (outMessage == null) {
 					logger.error("outMessage == null");
@@ -113,7 +112,7 @@ public class WechatController {
 				out = outMessage.toEncryptedXml(this.getWxService().getWxMpConfigStorage());
 			}
 
-			logger.debug("\n组装回复信息：{} " + out);
+//			logger.debug("\n组装回复信息：{} " + out);
 			response.getWriter().write(out);
 			return;
 		} catch (Exception e) {

@@ -19,6 +19,8 @@ public class Points_rule {
 
     private Date createdAt;
 
+    private Float discount;
+
     public Integer getId() {
         return id;
     }
@@ -83,4 +85,11 @@ public class Points_rule {
         this.createdAt = createdAt;
     }
 
+    public Float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
 }

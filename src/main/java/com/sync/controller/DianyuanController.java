@@ -176,8 +176,6 @@ public class DianyuanController {
 		action_infoObj.put("card", cardObj);
 		paramsObj.put("action_info", action_infoObj);
 		
-		
-		System.out.println(paramsObj.toString());
 		return paramsObj.toString();
 		
 		
