@@ -17,6 +17,19 @@
     id, fans_id, openid, kdt_name, mobile, amount, total, description, created_time, 
     client_hash
   </sql>
+  <select id="selectAllPointsRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from points_records
+    order by created_time desc
+  </select>
+  <select id="selectByMobile" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from points_records
+    where mobile = #{0}
+    order by created_time desc
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
