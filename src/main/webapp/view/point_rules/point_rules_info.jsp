@@ -15,8 +15,8 @@
 	<div class="J_mainframe main">
 		<div id="J_ajax_container" class="main-content">
 			<div class="crumb_box">
-				<span class="c333">规则管理</span><span class="pl10 pr10 ">·</span><a
-					href="#" class="c999">规则信息查看</a>
+				<span class="c333">等级管理</span><span class="pl10 pr10 ">·</span><a
+					href="#" class="c999">等级信息查看</a>
 			</div>
 			<div class="well2 mt10">
 				<div class="form-horizontal onlineTools">
@@ -42,7 +42,7 @@
 					<!--<div class="fl"><h4>角色列表</h4></div>-->
 					<!--<button href="#" class="button button-info fr"><i class="icon-white icon-plus"></i>新增角色</button>-->
 					<div class="fl">
-						共查询到 <span class="text-danger">${page.total} </span> 条规则信息
+						共查询到 <span class="text-danger">${page.total} </span> 条等级信息
 					</div>
 				</div>
 				<table

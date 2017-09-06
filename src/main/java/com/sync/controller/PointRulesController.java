@@ -75,20 +75,18 @@ public class PointRulesController {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html;charset=UTF-8");
 			String id = request.getParameter("id");
-			String level = request.getParameter("level");
 			String name = request.getParameter("name");
 			String rate = request.getParameter("rate");
 			String discount = request.getParameter("discount");
 			
 			Points_rule rule = new Points_rule();
 			rule.setId(Integer.parseInt(id));
-			rule.setLevel(Integer.parseInt(level));
 			rule.setName(name);
 			rule.setRate(Float.valueOf(rate));
 			rule.setDiscount(Float.parseFloat(discount));
 			
 			pointsRuleMapper.updateByPrimaryKeyEx(rule);
-			return "redirect:/point_rules/init.do";
+			return "point_rules/success";
 		} catch (Exception e) {
 			return "redirect:/point_rules/init.do";
 		}

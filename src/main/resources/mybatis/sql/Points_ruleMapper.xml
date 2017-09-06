@@ -165,8 +165,7 @@
   </update>
   <update id="updateByPrimaryKeyEx" parameterType="com.sync.mybatis.model.Points_rule" >
     update points_rules
-    set level = #{level,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       rate = #{rate,jdbcType=REAL},
       discount = #{discount,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}

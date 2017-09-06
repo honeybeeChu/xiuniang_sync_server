@@ -21,3 +21,27 @@ $(function() {
     	window.location.href=project.ctxPath + "/point_rules/init";
     });
 });
+
+function checksubmit()
+{
+	var name = $("#name").val();
+	var rate = $("#rate").val();
+	var discount = $("#discount").val();
+	if($.trim(name) == '') {
+		alert("等级名称输入不合法！")
+		return false;
+	}
+	
+	if (rate < 0) {
+		alert("折扣比率输入不合法！")
+		return false;
+	}
+	
+	if (discount < 0 || discount > 1) {
+		alert("打折率输入不合法！")
+		return false;
+	}
+	
+	return true;
+}
+

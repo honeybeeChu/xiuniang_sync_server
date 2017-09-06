@@ -15,29 +15,25 @@
 	<div class="J_mainframe main">
 		<div id="J_ajax_container" class="main-content">
 			<div class="crumb_box">
-				<span class="c333">规则管理</span><span class="pl10 pr10 ">·</span><a
-					href="#" class="c999">规则信息编辑</a>
+				<span class="c333">等级管理</span><span class="pl10 pr10 ">·</span><a
+					href="#" class="c999">等级信息编辑</a>
 			</div>
 			<div class="well2">
-				<form action="edit.do" method="post">
+				<form action="edit.do" method="post" onsubmit="return checksubmit()">
 					<input type="hidden" value="${pointsRule.id}" id="id" name="id"/>
-					<table style="width:500px;" class="table table-bordered">
+					<table style="width:800px;" class="table table-bordered">
 						<tbody>
-							<tr>
-	                            <td class="tbl_label">等级:</td>
-	                            <td><input type="text" name="level" id="level" value="${pointsRule.level}"></td>
-	                        </tr>
 	                        <tr>
-	                            <td class="tbl_label">规则名称:</td>
-	                            <td><input type="text" name="name" id="name" value="${pointsRule.name}"></td>
+	                            <td class="tbl_label">等级名称:</td>
+	                            <td><input type="text" maxlength="20" name="name" id="name" value="${pointsRule.name}"><span style="color:red;font-size:10px;">※等级名称，如预备会员，金卡会员</span></td>
 	                        </tr>
 	                        <tr>
 	                            <td class="tbl_label">消费金额和积分的增加比例:</td>
-	                            <td><input type="text" name="rate" id="rate" value="${pointsRule.rate}"></td>
+	                            <td><input type="text" maxlength="5" name="rate" id="rate" value="${pointsRule.rate}"><span style="color:red;">※此等级下的会员，消费金额和积分的增加比例，如1.2  表示1元给1.2个积分</span></td>
 	                        </tr>
 	                        <tr>
 	                            <td class="tbl_label">折扣率:</td>
-	                            <td><input type="text" name="discount" id="rate2" value="${pointsRule.discount}"></td>
+	                            <td><input type="text" maxlength="5" name="discount" id="discount" value="${pointsRule.discount}"><span style="color:red;">※此等级下的会员，线下消费时享受的折扣率，0~1</span></td>
 	                        </tr>
 						</tbody>
 					</table>
@@ -56,6 +52,6 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="${staticPath}/js/common.js"></script>
-	<script type="text/javascript" src="${staticPath}/js/point_rules/point_rules_info.js"></script>
+	<script type="text/javascript" src="${staticPath}/js/point_rules/point_rules_info.js?k=2"></script>
 </body>
 </html>
