@@ -13,13 +13,15 @@ public class Points_rule {
 
     private Integer tradeNum;
 
+    private Integer onceConsumption;
+
     private Integer conditions;
 
     private Float rate;
 
-    private Date createdAt;
-
     private Float discount;
+
+    private Date createdAt;
 
     public Integer getId() {
         return id;
@@ -61,6 +63,14 @@ public class Points_rule {
         this.tradeNum = tradeNum;
     }
 
+    public Integer getOnceConsumption() {
+        return onceConsumption;
+    }
+
+    public void setOnceConsumption(Integer onceConsumption) {
+        this.onceConsumption = onceConsumption;
+    }
+
     public Integer getConditions() {
         return conditions;
     }
@@ -77,19 +87,19 @@ public class Points_rule {
         this.rate = rate;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Float getDiscount() {
         return discount;
     }
 
     public void setDiscount(Float discount) {
         this.discount = discount;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.sync.mybatis.model.Points_rule;
 
 public interface Points_ruleMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
     int insert(Points_rule record);
 
@@ -26,6 +26,4 @@ public interface Points_ruleMapper {
     List<Points_rule> selectAllRules();
     
     int getPointsRuleCount();
-
-
 }

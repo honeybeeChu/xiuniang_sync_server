@@ -7,13 +7,15 @@
     <result column="consumption" property="consumption" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="trade_num" property="tradeNum" jdbcType="INTEGER" />
+    <result column="once_consumption" property="onceConsumption" jdbcType="INTEGER" />
     <result column="conditions" property="conditions" jdbcType="INTEGER" />
     <result column="rate" property="rate" jdbcType="REAL" />
-    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="discount" property="discount" jdbcType="REAL" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, level, consumption, name, trade_num, conditions, rate, created_at, discount
+    id, level, consumption, name, trade_num, once_consumption, conditions, rate, discount, 
+    created_at
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -22,7 +24,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-  	<select id="getPointsRuleCount" resultType="java.lang.Integer">
+   <select id="getPointsRuleCount" resultType="java.lang.Integer">
 		select
 		count(1)
 		from points_rules
@@ -45,20 +47,21 @@
 		from points_rules
 		where level = #{0}
 	</select>
-  
+	
+	
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from points_rules
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.sync.mybatis.model.Points_rule" >
     insert into points_rules (id, level, consumption, 
-      name, trade_num, conditions, 
-      rate, created_at, discount
-      )
+      name, trade_num, once_consumption, 
+      conditions, rate, discount, 
+      created_at)
     values (#{id,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{consumption,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{tradeNum,jdbcType=INTEGER}, #{conditions,jdbcType=INTEGER}, 
-      #{rate,jdbcType=REAL}, #{createdAt,jdbcType=TIMESTAMP}, #{discount,jdbcType=REAL}
-      )
+      #{name,jdbcType=VARCHAR}, #{tradeNum,jdbcType=INTEGER}, #{onceConsumption,jdbcType=INTEGER}, 
+      #{conditions,jdbcType=INTEGER}, #{rate,jdbcType=REAL}, #{discount,jdbcType=REAL}, 
+      #{createdAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sync.mybatis.model.Points_rule" >
     insert into points_rules
@@ -78,17 +81,20 @@
       <if test="tradeNum != null" >
         trade_num,
       </if>
+      <if test="onceConsumption != null" >
+        once_consumption,
+      </if>
       <if test="conditions != null" >
         conditions,
       </if>
       <if test="rate != null" >
         rate,
       </if>
-      <if test="createdAt != null" >
-        created_at,
-      </if>
       <if test="discount != null" >
         discount,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -107,17 +113,20 @@
       <if test="tradeNum != null" >
         #{tradeNum,jdbcType=INTEGER},
       </if>
+      <if test="onceConsumption != null" >
+        #{onceConsumption,jdbcType=INTEGER},
+      </if>
       <if test="conditions != null" >
         #{conditions,jdbcType=INTEGER},
       </if>
       <if test="rate != null" >
         #{rate,jdbcType=REAL},
       </if>
-      <if test="createdAt != null" >
-        #{createdAt,jdbcType=TIMESTAMP},
-      </if>
       <if test="discount != null" >
         #{discount,jdbcType=REAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -136,17 +145,20 @@
       <if test="tradeNum != null" >
         trade_num = #{tradeNum,jdbcType=INTEGER},
       </if>
+      <if test="onceConsumption != null" >
+        once_consumption = #{onceConsumption,jdbcType=INTEGER},
+      </if>
       <if test="conditions != null" >
         conditions = #{conditions,jdbcType=INTEGER},
       </if>
       <if test="rate != null" >
         rate = #{rate,jdbcType=REAL},
       </if>
-      <if test="createdAt != null" >
-        created_at = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
       <if test="discount != null" >
         discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -157,17 +169,11 @@
       consumption = #{consumption,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       trade_num = #{tradeNum,jdbcType=INTEGER},
+      once_consumption = #{onceConsumption,jdbcType=INTEGER},
       conditions = #{conditions,jdbcType=INTEGER},
       rate = #{rate,jdbcType=REAL},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      discount = #{discount,jdbcType=REAL}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyEx" parameterType="com.sync.mybatis.model.Points_rule" >
-    update points_rules
-    set name = #{name,jdbcType=VARCHAR},
-      rate = #{rate,jdbcType=REAL},
-      discount = #{discount,jdbcType=REAL}
+      discount = #{discount,jdbcType=REAL},
+      created_at = #{createdAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
