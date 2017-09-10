@@ -33,7 +33,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from points_rules
-		order by level desc
+		order by level asc
 	</select>
 	<select id="selectByLevel" resultMap="BaseResultMap">
 		select
@@ -46,9 +46,8 @@
 		<include refid="Base_Column_List" />
 		from points_rules
 		where level = #{0}
+		order by level asc
 	</select>
-	
-	
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from points_rules
     where id = #{id,jdbcType=INTEGER}
@@ -174,6 +173,16 @@
       rate = #{rate,jdbcType=REAL},
       discount = #{discount,jdbcType=REAL},
       created_at = #{createdAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyEx" parameterType="com.sync.mybatis.model.Points_rule" >
+    update points_rules
+    set name = #{name,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=REAL},
+      discount = #{discount,jdbcType=REAL},
+      once_consumption = #{onceConsumption,jdbcType=INTEGER},
+      conditions = #{conditions,jdbcType=INTEGER},
+      trade_num = #{tradeNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

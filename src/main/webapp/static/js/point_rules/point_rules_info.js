@@ -32,16 +32,26 @@ function checksubmit()
 		return false;
 	}
 	
-	if (rate < 0) {
+	if (onceConsumption < 0 || onceConsumption > 99999999 || !isNaN(onceConsumption)) {
+		alert("单次消费金额输入不合法！")
+		return false;
+	}
+	
+	if (tradeNum < 0 || tradeNum > 99999 || isNaN(tradeNumsss)) {
+		alert("消费笔数输入不合法！")
+		return false;
+	}
+
+	if (rate < 0 || isNaN(rate)) {
 		alert("折扣比率输入不合法！")
 		return false;
 	}
 	
-	if (discount < 0 || discount > 1) {
+	if (discount < 0 || discount > 1 || !isNaN(discount)) {
 		alert("打折率输入不合法！")
 		return false;
 	}
 	
+	
 	return true;
 }
-

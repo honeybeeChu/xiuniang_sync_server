@@ -78,12 +78,18 @@ public class PointRulesController {
 			String name = request.getParameter("name");
 			String rate = request.getParameter("rate");
 			String discount = request.getParameter("discount");
+			String onceConsumption = request.getParameter("onceConsumption");
+			String tradeNum = request.getParameter("tradeNum");
+			String conditions = request.getParameter("conditions");
 			
 			Points_rule rule = new Points_rule();
 			rule.setId(Integer.parseInt(id));
 			rule.setName(name);
 			rule.setRate(Float.valueOf(rate));
 			rule.setDiscount(Float.parseFloat(discount));
+			rule.setOnceConsumption(Integer.parseInt(onceConsumption));
+			rule.setTradeNum(Integer.parseInt(tradeNum));
+			rule.setConditions(Integer.parseInt(conditions));
 			
 			pointsRuleMapper.updateByPrimaryKeyEx(rule);
 			return "point_rules/success";
