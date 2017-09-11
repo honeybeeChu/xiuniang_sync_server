@@ -65,7 +65,25 @@
 							<td>${status.index + 1}</td>
 							<td>${rule.level}</td>
 							<td>${rule.name}</td>
-							<td>${rule.conditions}</td>
+							<td>
+								<c:choose>
+									<c:when test="${rule.conditions == '0'}">
+										消费累计金额满足即可
+									</c:when>
+									<c:when test="${rule.conditions == '1'}">
+										消费笔数满足即可
+									</c:when>
+									<c:when test="${rule.conditions == '2'}">
+										消费累计金额和消费笔数有一个满足即可
+									</c:when>
+									<c:when test="${rule.conditions == '3'}">
+										消费累计金额和消费笔数同事满足即可
+									</c:when>
+									<c:when test="${rule.conditions == '4'}">
+										单笔消费金额满足即可
+									</c:when>
+								</c:choose>
+							</td>
 							<td>${rule.rate}</td>
 							<td>${rule.discount}</td>
 							<td><button id="search_by_dymc_btn" class="button button-primary edit">编辑</button></td>

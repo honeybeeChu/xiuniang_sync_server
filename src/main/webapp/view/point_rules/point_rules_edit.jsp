@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>绣娘管理平台－登录</title>
-<link href="${staticPath}/css/dianyuan/dianyuan_info.css" rel="stylesheet" media="screen">
+<link href="${staticPath}/css/dianyuan/dianyuan_info.css?k=1" rel="stylesheet" media="screen">
 </head>
 <body>
 	<%@include file="../common/head.jsp"%>
@@ -27,15 +27,15 @@
 	                            <td class="tbl_label">等级名称:</td>
 	                            <td><input type="text" maxlength="20" style="width:220px;" name="name" id="name" value="${pointsRule.name}"><span style="color:red;font-size:10px;">※等级名称，如预备会员，金卡会员</span></td>
 	                        </tr>
-	                        <tr>
+	                        <tr id="tr_1">
 	                            <td class="tbl_label">消费累计金额:</td>
-	                            <td><input type="text" maxlength="20" style="width:220px;" name="consumption" id="consumption" value="${pointsRule.consumption}"></td>
+	                            <td><input type="text" maxlength="9" style="width:220px;" name="consumption" id="consumption" value="${pointsRule.consumption}"></td>
 	                        </tr>
-	                        <tr>
+	                        <tr id="tr_2">
 	                            <td class="tbl_label">单次消费金额:</td>
-	                            <td><input type="text" maxlength="10" style="width:220px;" name="onceConsumption" id="onceConsumption" value="${pointsRule.onceConsumption}"></td>
+	                            <td><input type="text" maxlength="9" style="width:220px;" name="onceConsumption" id="onceConsumption" value="${pointsRule.onceConsumption}"></td>
 	                        </tr>
-	                        <tr>
+	                        <tr id="tr_3">
 	                            <td class="tbl_label">消费笔数:</td>
 	                            <td><input type="text" maxlength="5" style="width:220px;" name="tradeNum" id="tradeNum" value="${pointsRule.tradeNum}"></td>
 	                        </tr>
@@ -45,42 +45,42 @@
 		                            <select name="conditions" id="conditions" style="width:230px;">
 		                            	<c:choose>
 											<c:when test="${pointsRule.conditions == '0'}">
-												<option value="0" selected>consumption消费金额满足即可</option>
+												<option value="0" selected>消费累计金额满足即可</option>
 											</c:when>
 											<c:otherwise>
-												<option value="0">consumption消费金额满足即可</option>
+												<option value="0">消费累计金额满足即可</option>
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
 											<c:when test="${pointsRule.conditions == '1'}">
-												<option value="1" selected>trand_num交易笔数满足即可</option>
+												<option value="1" selected>消费笔数满足即可</option>
 											</c:when>
 											<c:otherwise>
-												<option value="1">trand_num交易笔数满足即可</option>
+												<option value="1">消费笔数满足即可</option>
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
 											<c:when test="${pointsRule.conditions == '2'}">
-												<option value="2" selected>金额和笔数有一个满足即可</option>
+												<option value="2" selected>消费累计金额和消费笔数有一个满足即可</option>
 											</c:when>
 											<c:otherwise>
-												<option value="2">金额和笔数有一个满足即可</option>
+												<option value="2">消费累计金额和消费笔数有一个满足即可</option>
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
 											<c:when test="${pointsRule.conditions == '3'}">
-												<option value="3" selected>金额和笔数同事满足即可</option>
+												<option value="3" selected>消费累计金额和消费笔数同事满足即可</option>
 											</c:when>
 											<c:otherwise>
-												<option value="3">金额和笔数同事满足即可</option>
+												<option value="3">消费累计金额和消费笔数同事满足即可</option>
 											</c:otherwise>
 										</c:choose>
 										<c:choose>
 											<c:when test="${pointsRule.conditions == '4'}">
-												<option value="4" selected>单笔消费金额</option>
+												<option value="4" selected>单笔消费金额满足即可</option>
 											</c:when>
 											<c:otherwise>
-												<option value="4">单笔消费金额</option>
+												<option value="4">单笔消费金额满足即可</option>
 											</c:otherwise>
 										</c:choose>
 									</select>
@@ -111,6 +111,6 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="${staticPath}/js/common.js"></script>
-	<script type="text/javascript" src="${staticPath}/js/point_rules/point_rules_info.js?k=6"></script>
+	<script type="text/javascript" src="${staticPath}/js/point_rules/point_rules_info.js?k=11211"></script>
 </body>
 </html>

@@ -181,6 +181,7 @@
       rate = #{rate,jdbcType=REAL},
       discount = #{discount,jdbcType=REAL},
       once_consumption = #{onceConsumption,jdbcType=INTEGER},
+      consumption = #{consumption,jdbcType=INTEGER},
       conditions = #{conditions,jdbcType=INTEGER},
       trade_num = #{tradeNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

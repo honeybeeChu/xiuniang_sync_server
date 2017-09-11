@@ -79,6 +79,7 @@ public class PointRulesController {
 			String rate = request.getParameter("rate");
 			String discount = request.getParameter("discount");
 			String onceConsumption = request.getParameter("onceConsumption");
+			String consumption = request.getParameter("consumption");
 			String tradeNum = request.getParameter("tradeNum");
 			String conditions = request.getParameter("conditions");
 			
@@ -90,7 +91,7 @@ public class PointRulesController {
 			rule.setOnceConsumption(Integer.parseInt(onceConsumption));
 			rule.setTradeNum(Integer.parseInt(tradeNum));
 			rule.setConditions(Integer.parseInt(conditions));
-			
+			rule.setConsumption(Integer.parseInt(consumption));
 			pointsRuleMapper.updateByPrimaryKeyEx(rule);
 			return "point_rules/success";
 		} catch (Exception e) {
