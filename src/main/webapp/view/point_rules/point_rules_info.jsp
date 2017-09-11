@@ -51,11 +51,9 @@
 						<tr>
 							<th>序号</th>
 							<th>等级</th>
-							<th>消费的累计金额</th>
 							<th>等级名称</th>
-							<th>消费的笔数</th>
 							<th>升级到此level的条件</th>
-							<th>折扣比率</th>
+							<th>积分兑换比例</th>
 							<th>打折率</th>
 							<th>编辑</th>
 					</tr>
@@ -66,9 +64,7 @@
 							<td style="display:none;" class="id">${rule.id}</td>
 							<td>${status.index + 1}</td>
 							<td>${rule.level}</td>
-							<td>${rule.consumption}</td>
 							<td>${rule.name}</td>
-							<td>${rule.tradeNum}</td>
 							<td>${rule.conditions}</td>
 							<td>${rule.rate}</td>
 							<td>${rule.discount}</td>
