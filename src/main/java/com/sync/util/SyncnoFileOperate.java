@@ -69,6 +69,7 @@ public class SyncnoFileOperate {
 			error.error("there is exception when setLastSyncOrderTime");
 			error.error(e.toString());
 		}
+		
 	}
 
 	public static void main(String args[]) {

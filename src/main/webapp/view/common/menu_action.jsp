@@ -13,7 +13,7 @@
 				<li id="ipgw"><a id="dianyuan_02"
 					href="${ctxPath}/dianyuan/discovery">店员观察</a></li>
 				<li id="ipgw"><a id="dianyuan_03"
-					href="${ctxPath}/dianyuan/info">店员业务</a></li>
+					href="${ctxPath}/dianyuan/performance">店员业务</a></li>
 			</ul>
 		</div>
 		

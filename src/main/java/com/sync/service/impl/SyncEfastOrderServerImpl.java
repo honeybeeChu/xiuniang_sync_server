@@ -194,7 +194,6 @@ public class SyncEfastOrderServerImpl implements SyncEfastOrderServer {
 	public static void main(String args[]){
 		float rate = (float) 0.5;
 		int addPoints = (int) (1 * rate);
-		System.out.println(addPoints);
 	}
 
 
