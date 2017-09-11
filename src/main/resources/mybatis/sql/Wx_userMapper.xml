@@ -29,6 +29,15 @@
     from wx_users
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+   <select id="findByOpenId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from wx_users
+    where openid = #{0} limit 1
+  </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from wx_users
     where id = #{id,jdbcType=INTEGER}

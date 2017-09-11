@@ -88,6 +88,7 @@ public class DianyuanController {
 			
 			return "dianyuan/dianyuan_info";
 		}catch(Exception e){
+			main.error("dianyuanController info exception occured "+ e.toString());
 			return "dianyuan/dianyuan_info";
 		}
 	}
@@ -99,7 +100,7 @@ public class DianyuanController {
 			JSONObject obj = JSONObject.fromObject(resultStr);
 			return "redirect:"+obj.getString("show_qrcode_url");
 		}catch(Exception e){
-			e.printStackTrace();
+			main.error("/getQrcode exception occured "+ e.toString());
 		}
 		return "dianyuan/dianyuan_info";
 	}
@@ -129,7 +130,7 @@ public class DianyuanController {
 			}
 			return "success";
 		}catch(Exception e){
-			System.out.println(e.toString());
+			main.error("DianyuanController sync_dianyuans exception occured,"+e.toString());
 			return "false";
 		}
 		
@@ -141,10 +142,12 @@ public class DianyuanController {
 	public String discovery(HttpServletRequest request,Model model) {
 		
 		List<Map<String, Object>> khdm_map = dianyuanMapper.getCountByKHDM();
-		System.out.println(khdm_map.size());
+		//TODO
+		// 店铺员工数量占比
 		
+		//店铺员工性别占比
 		for(Map<String, Object> item :khdm_map ){
-			System.out.println(item.get("count"));
+			
 		}
 		
 		
@@ -152,6 +155,26 @@ public class DianyuanController {
 		model.addAttribute("dianyuanList", "dianyuanList");
 		return "dianyuan/dianyuan_discovery";
 	}
+	
+	
+	
+	//店员业绩
+	@RequestMapping(value = "/performance")
+	public String performance(HttpServletRequest request,Model model) {
+		
+		List<Map<String, Object>> khdm_map = dianyuanMapper.getCountByKHDM();
+		//TODO
+		// 店铺员工数量占比
+		
+		//店铺员工性别占比
+		for(Map<String, Object> item :khdm_map ){
+			
+		}
+		
+		model.addAttribute("dianyuanList", "dianyuanList");
+		return "dianyuan/dianyuan_performance";
+	}
+	
 	
 	
 	

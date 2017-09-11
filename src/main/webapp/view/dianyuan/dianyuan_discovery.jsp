@@ -23,7 +23,6 @@
 			</div>
 			<div class="well mt5">
 			
-			
 			  <div class=" fl" style=" width: 50%;">
 			    <div id='chart1' class="chart " style="height: 450px;"></div>
 			  </div>

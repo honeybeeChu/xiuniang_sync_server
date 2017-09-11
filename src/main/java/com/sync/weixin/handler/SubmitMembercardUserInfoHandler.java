@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sync.mybatis.mapper.MembershipMapper;
+import com.sync.mybatis.mapper.Points_ruleMapper;
 import com.sync.mybatis.model.Membership;
+import com.sync.mybatis.model.Points_rule;
 import com.sync.util.log.LogFactory;
 import com.sync.util.spring.PropertyPlaceholder;
 import com.sync.weixin.constant.WechatConstant;
@@ -32,6 +34,9 @@ public class SubmitMembercardUserInfoHandler extends AbstractHandler {
 
 	@Autowired
 	private MembershipMapper membershipMapper;
+	
+	@Autowired
+	private Points_ruleMapper points_ruleMapper;
 	
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
@@ -90,7 +95,10 @@ public class SubmitMembercardUserInfoHandler extends AbstractHandler {
 					efast_member.put("birthday", membership.getBirthday());
 					efast_member.put("shopid", "");
 					efast_member.put("address", membership.getLocation());
-					efast_member.put("rate", "9");
+					
+					//根据会员等级设置线下折扣率
+					Points_rule rule = points_ruleMapper.selectByLevel(membership.getLevel());
+					efast_member.put("rate", rule.getDiscount());
 					
 					wxMpService.post(PropertyPlaceholder.getProperty("SYNCVIPINFO_INFO_URL").toString(), 
 							efast_member.toJSONString());
