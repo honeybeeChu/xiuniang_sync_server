@@ -38,7 +38,7 @@
 		<mysql.version>5.1.39</mysql.version>
 
 		<!-- jdk -->
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
 	</properties>
 
@@ -288,9 +288,7 @@
 			<version>1.0</version>
 		</dependency>
 		
-		
 	</dependencies>
-
 	<build>
 		<plugins>
 			<!-- define the project compile level -->
@@ -304,7 +302,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>ROOT</finalName>
+		<finalName>xiuniang</finalName>
 	</build>
 
 
