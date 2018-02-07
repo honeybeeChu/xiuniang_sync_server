@@ -302,7 +302,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>xiuniang</finalName>
+		<finalName>ROOT</finalName>
 	</build>
 
 
