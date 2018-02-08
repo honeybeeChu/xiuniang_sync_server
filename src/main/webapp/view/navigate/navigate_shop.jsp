@@ -21,7 +21,7 @@
 }
 </style>
 <script type="text/javascript"
-	src="http://webapi.amap.com/maps?v=1.3&key=8fd27fadc7a12297f415896aed9fe4bf&plugin=AMap.Driving"></script>
+	src="http://webapi.amap.com/maps?v=1.4.4&key=8dff034d77689b8f862d870f0e586da0&plugin=AMap.Driving"></script>
 <script type="text/javascript"
 	src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
 </head>
