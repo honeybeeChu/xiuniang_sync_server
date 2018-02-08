@@ -35,7 +35,7 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping(value = "/dianyuan")
 public class DianyuanController {
-	private static Logger main = LogFactory.getLogger("main");
+	private static final Logger main = LogFactory.getLogger("main");
 	
 	@Autowired
 	private DianyuanMapper dianyuanMapper;

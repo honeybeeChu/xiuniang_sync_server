@@ -717,3 +717,15 @@ i{font-style: normal;}
 .chart_middle{ width:50%;  margin-top: 10px; }
 .chart_one{ border: 1px solid #ddd; border-radius: 4px; padding-bottom: 10px; }
 .col-md-4{ width: 33.3%; float: left;}
+
+
+/* NEW--2018-02-05*/
+.border-left-blue{ border-left: 3px solid #4982e0; line-height: 20px;padding-left: 5px; margin-bottom: 10px;}
+.new_tab{width: 280px; margin: 0 auto;}
+.date_box {  position: relative; width: 200px;  }
+.date_box input{ height: 30px; line-height: 30px; width:200px;}
+.date_box i {  position: absolute;  bottom: 10px;  right: 10px;  top: auto;  cursor: pointer;  }
+.rmf_tab{ width: 100%;}
+.rmf_tab thead tr{background: #f5f5f5;}
+.rmf_tab th, .rmf_tab td{ border: 1px solid #ddd; text-align: center; padding: 15px;}
+.rmf_tab .rmf_tab_td{ background: #ffebe4;}
