@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sync.util.log.LogFactory;
-import com.sync.util.log.LogObj;
 import com.sync.weixin.service.WeixinService;
 
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -34,7 +33,7 @@ public class WechatController {
 	private static Logger logger = LogFactory.getLogger("weixin");
 
 	@Autowired
-	private WeixinService wxService;
+	private WeixinService weixinService;
 
 	@GetMapping(produces = "text/plain;charset=utf-8")
 	public void authGet(HttpServletResponse response,
@@ -49,7 +48,7 @@ public class WechatController {
 			logger.error("请求参数中的signature, timestamp, nonce, echostr有空值错误");
 		}
 
-		if (this.getWxService().checkSignature(timestamp, nonce, signature)) {
+		if (weixinService.checkSignature(timestamp, nonce, signature)) {
 			logger.info("sdk checkSignature 方法返回成功，返回的echostr:" + echostr);
 			try {
 				response.getWriter().write(String.copyValueOf(echostr.toCharArray()));
@@ -84,7 +83,7 @@ public class WechatController {
 //
 //			logger.info(logObj);
 
-			if (!this.getWxService().checkSignature(timestamp, nonce, signature)) {
+			if (!weixinService.checkSignature(timestamp, nonce, signature)) {
 				logger.error("非法请求，可能属于伪造的请求！");
 				throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
 			}
@@ -93,7 +92,7 @@ public class WechatController {
 			if (encrypt_type == null) {
 				// 明文传输的消息
 				WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(requestBody);
-				WxMpXmlOutMessage outMessage = this.getWxService().route(inMessage);
+				WxMpXmlOutMessage outMessage = weixinService.route(inMessage);
 				if (outMessage == null) {
 					return;
 				}
@@ -102,14 +101,14 @@ public class WechatController {
 			} else if ("aes".equals(encrypt_type)) {
 				// aes加密的消息
 				WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody,
-						this.getWxService().getWxMpConfigStorage(), timestamp, nonce, msg_signature);
+						weixinService.getWxMpConfigStorage(), timestamp, nonce, msg_signature);
 //				logger.info("\n消息解密后内容为：\n{} " + inMessage.toString());
-				WxMpXmlOutMessage outMessage = this.getWxService().route(inMessage);
+				WxMpXmlOutMessage outMessage = weixinService.route(inMessage);
 				if (outMessage == null) {
-					logger.error("outMessage == null");
+					logger.error("outMessage is null!");
 					return;
 				}
-				out = outMessage.toEncryptedXml(this.getWxService().getWxMpConfigStorage());
+				out = outMessage.toEncryptedXml(weixinService.getWxMpConfigStorage());
 			}
 
 //			logger.debug("\n组装回复信息：{} " + out);
@@ -131,10 +130,6 @@ public class WechatController {
 			xmlMsg.append(new String(b, 0, n, "UTF-8"));
 		}
 		return xmlMsg.toString();
-	}
-
-	private WeixinService getWxService() {
-		return this.wxService;
 	}
 
 }

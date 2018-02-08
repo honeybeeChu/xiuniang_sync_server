@@ -28,7 +28,11 @@
 				<li id="yxchart"><a href="#javascript:;">运行日志报表</a></li>
 			</ul>
 		</div>
-		
+		<div class="vcon" data-type="tongji" style="display: none;">
+			<ul class="menu_body clearfix">
+				<li id="rmf"><a href="${ctxPath}/statistics/rmf">RMF分析</a></li>
+			</ul>
+		</div>
 		
 		
 		<div class="vtitle" data-type="fansmanager" id="wxuser_manager">
