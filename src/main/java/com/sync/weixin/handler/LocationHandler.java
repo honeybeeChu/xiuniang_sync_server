@@ -2,8 +2,10 @@ package com.sync.weixin.handler;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.sync.util.log.LogFactory;
 import com.sync.weixin.builer.TextBuilder;
 
 import me.chanjar.weixin.common.api.WxConsts;
@@ -25,8 +27,8 @@ public class LocationHandler extends AbstractHandler {
             Map<String, Object> context, WxMpService wxMpService,
             WxSessionManager sessionManager) {
         if (wxMessage.getMsgType().equals(WxConsts.XML_MSG_LOCATION)) {
-            //TODO 接收处理用户发送的地理位置消息
             try {
+            	this.logger.info("用户位置已经收到");
                 String content = "感谢反馈，您的的地理位置已收到！";
                 return new TextBuilder().build(content, wxMessage, null);
             } catch (Exception e) {
