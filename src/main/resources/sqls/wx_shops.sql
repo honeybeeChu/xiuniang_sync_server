@@ -21,7 +21,7 @@ CREATE TABLE `wx_shops` (
   `longitude` varchar(100) DEFAULT NULL COMMENT '门店所在地理位置的经度',
   `latitude` varchar(100) DEFAULT NULL COMMENT '门店所在地理位置的纬度（经纬度均为火星坐标，最好选用腾讯地图标记的坐标）',
   `open_time` varchar(100) DEFAULT NULL COMMENT ' 营业时间，24 小时制表示，用“-”连接，如  8:00-20:00', 	
-  `introduction` varchar(100) DEFAULT NULL COMMENT '商户简介，主要介绍商户信息等',
+  `introduction` varchar(500) DEFAULT NULL COMMENT '商户简介，主要介绍商户信息等',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信门店';
 CREATE INDEX wx_shops_index ON wx_shops (account_id);
