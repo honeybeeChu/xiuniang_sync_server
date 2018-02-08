@@ -119,10 +119,11 @@
 				<property name="allowUrls">
 					<list>
 						<value>/login</value>
-						<value>/static/cs</value>
+						<value>/static/css</value>
 						<value>/static/font</value>
 						<value>/static/images</value>
 						<value>/static/js</value>
+						<value>/navigate</value>
 					</list>
 				</property>
 			</bean>
