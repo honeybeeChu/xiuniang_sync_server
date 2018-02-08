@@ -2,11 +2,10 @@ package com.sync.weixin.service;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sync.util.log.LogFactory;
 import com.sync.util.spring.PropertyPlaceholder;
 import com.sync.weixin.handler.AbstractHandler;
 import com.sync.weixin.handler.KfSessionHandler;
@@ -30,12 +29,15 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.constant.WxMpEventConstants;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author chuliang
  */
 @Service
 public class WeixinService extends WxMpServiceImpl {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	private static final Logger logger = LogFactory.getLogger("weixin");
 
 	@Autowired
 	protected LogHandler logHandler;
@@ -61,7 +63,6 @@ public class WeixinService extends WxMpServiceImpl {
 	@Autowired
 	private UserGetCardHandler userGetCardHandler;
 	
-	
 	@Autowired
 	private SubmitMembercardUserInfoHandler submitMembercardUserInfoHandler;
 	
@@ -75,6 +76,7 @@ public class WeixinService extends WxMpServiceImpl {
 
 	@PostConstruct
 	public void init() {
+		logger.info("wexinservice init .....");
 		final WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
 		config.setAppId(PropertyPlaceholder.getProperty("wx_appid"));// 设置微信公众号的appid
 		config.setSecret(PropertyPlaceholder.getProperty("wx_appsecret"));// 设置微信公众号的app corpSecret
@@ -105,7 +107,7 @@ public class WeixinService extends WxMpServiceImpl {
 
 		// 自定义菜单事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.BUTTON_CLICK)
-				.handler(this.getMenuHandler()).end();
+				.handler(menuHandler).end();
 
 		// 点击菜单连接事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.BUTTON_VIEW)
@@ -113,35 +115,33 @@ public class WeixinService extends WxMpServiceImpl {
 
 		// 关注事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_SUBSCRIBE)
-				.handler(this.getSubscribeHandler()).end();
+				.handler(subscribeHandler).end();
 
 		// 取消关注事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_UNSUBSCRIBE)
-				.handler(this.getUnsubscribeHandler()).end();
+				.handler(unsubscribeHandler).end();
 
 		// 上报地理位置事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_LOCATION)
-				.handler(this.getLocationHandler()).end();
+				.handler(locationHandler).end();
 		
 		// 领取会员卡事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event("user_get_card")
-						.handler(this.geUser_get_cardHandler()).end();
+						.handler(userGetCardHandler).end();
 		
 		// 激活会员卡事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event("submit_membercard_user_info")
-						.handler(this.getSubmitMembercardUserInfoHandler()).end();		
+						.handler(submitMembercardUserInfoHandler).end();		
 				
 		// 接收地理位置消息
-		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_LOCATION).handler(this.getLocationHandler()).end();
+		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_LOCATION).handler(locationHandler).end();
 
 		// 扫码事件
 		newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).event(WxConsts.EVT_SCAN)
 				.handler(this.getScanHandler()).end();
 
-		
-		
 		// 默认
-		newRouter.rule().async(false).handler(this.getMsgHandler()).end();
+		newRouter.rule().async(false).handler(msgHandler).end();
 
 		this.router = newRouter;
 	}
@@ -167,34 +167,34 @@ public class WeixinService extends WxMpServiceImpl {
 		return false;
 	}
 
-	protected MenuHandler getMenuHandler() {
-		return this.menuHandler;
-	}
-
-	protected SubscribeHandler getSubscribeHandler() {
-		return this.subscribeHandler;
-	}
-
-	protected UnsubscribeHandler getUnsubscribeHandler() {
-		return this.unsubscribeHandler;
-	}
-
-	protected AbstractHandler getLocationHandler() {
-		return this.locationHandler;
-	}
-
-	protected MsgHandler getMsgHandler() {
-		return this.msgHandler;
-	}
-	
-	protected UserGetCardHandler geUser_get_cardHandler() {
-		return this.userGetCardHandler;
-	}
-	
-	
-	protected SubmitMembercardUserInfoHandler getSubmitMembercardUserInfoHandler() {
-		return this.submitMembercardUserInfoHandler;
-	}
+//	protected MenuHandler getMenuHandler() {
+//		return this.menuHandler;
+//	}
+//
+//	protected SubscribeHandler getSubscribeHandler() {
+//		return this.subscribeHandler;
+//	}
+//
+//	protected UnsubscribeHandler getUnsubscribeHandler() {
+//		return this.unsubscribeHandler;
+//	}
+//
+//	protected AbstractHandler getLocationHandler() {
+//		return this.locationHandler;
+//	}
+//
+//	protected MsgHandler getMsgHandler() {
+//		return this.msgHandler;
+//	}
+//	
+//	protected UserGetCardHandler geUser_get_cardHandler() {
+//		return this.userGetCardHandler;
+//	}
+//	
+//	
+//	protected SubmitMembercardUserInfoHandler getSubmitMembercardUserInfoHandler() {
+//		return this.submitMembercardUserInfoHandler;
+//	}
 	
 	
 
