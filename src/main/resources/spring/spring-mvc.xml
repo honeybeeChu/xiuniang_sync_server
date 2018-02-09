@@ -41,11 +41,13 @@
     </bean>
     
 	<bean id="propertyConfigurer" class="com.sync.util.spring.PropertyPlaceholder">
-		<property name="location">
-			<value>classpath:config.properties</value>
+		<property name="locations">
+				<list>      
+	              <value>file:/home/linkage/work/xiuniang_sync_server/config/config.properties</value>    
+	           </list>  
 		</property>
 	</bean>
-
+	
 	<!-- 视图解释类,定义跳转的文件的前后缀 -->
 	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" 
