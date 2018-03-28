@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <script type="text/javascript"
 	src="${staticPath}/js/jquery-1.9.1.min.js"></script>
-	<link rel="stylesheet" href="${staticPath}/css/global.css" />
+	
     <link href="${staticPath}/css/dpl.css" rel="stylesheet">
     <link href="${staticPath}/css/bootstrap-datetimepicker.css" rel="stylesheet" media="screen">
     <link href="${staticPath}/css/ais.css" rel="stylesheet" media="screen">
@@ -11,6 +11,7 @@
     <link href="${staticPath}/css/icon-style.css" rel="stylesheet" media="screen">
     <link href="${staticPath}/css/kkpager.css" rel="stylesheet" media="screen">
     <link href="${staticPath}/css/iconfont/iconfont.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="${staticPath}/css/global.css" />
 	
 <div class="wrap clearfix">
 	<div class="header">

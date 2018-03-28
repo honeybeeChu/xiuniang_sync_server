@@ -35,6 +35,7 @@
 							style="text-indent: 2em; background: url(http://m.uniqlo.cn/html5/images/SDetail_path.png) no-repeat #FAFAFA 25% center; background-size: 30px auto;"
 							href="http://xiuniang.yaxin-nanjing.com/navigate/shopnavigate.do?fromLongitude=${fromLongitude}&fromLatitude=${fromLatitude}&toLongitude=${toLongitude}&toLatitude=${toLatitude}&shopid=${wx_shop.id}">线路导航</a>
 					</div>
+					
 
 					<div>
 						<div>

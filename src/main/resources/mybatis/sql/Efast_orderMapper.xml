@@ -29,6 +29,11 @@
     <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
   </resultMap>
+
+	<resultMap id="countMap" type="java.lang.Integer">
+		<result property="count_num" column="count_num" jdbcType="INTEGER" />
+	</resultMap>
+	
   <sql id="Base_Column_List" >
     id, sell_record_code, order_status, shipping_status, pay_status, sale_channel_code, 
     shop_code, buyer_name, receiver_name, receiver_country, receiver_province, receiver_city, 
@@ -36,6 +41,7 @@
     receiver_mobile, receiver_phone, receiver_email, payable_money, order_money, discount_fee, 
     pay_code, pay_time, openid
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -58,6 +64,48 @@
 		and receiver_mobile = #{1}
 	</select>
 	
+	<select id="selectCustomerIndex" parameterType="com.sync.mybatis.vo.EfastOrderConditionVO" resultType="com.sync.mybatis.model.dto.CustomerIndexDTO">
+	 	SELECT
+			buyer_name as nickname , receiver_name as buyer_name ,receiver_mobile as phone ,count(1) as counter,SUM(payable_money) as amounter,AVG(payable_money) as avger,max(pay_time) as laster_timer
+		FROM
+			efast_orders
+		WHERE 1=1
+		GROUP BY
+			buyer_name
+		HAVING 1=1
+		<trim suffixOverrides="and" >
+			<if test="buyerName != null" >
+				and buyer_name = #{buyerName} 
+			</if>
+			<if test="trade_date_from != null" >
+			    and laster_timer &gt;= #{trade_date_from}
+            </if>
+            <if test="trade_date_to != null" >
+              and laster_timer &lt;= #{trade_date_to}
+			</if>
+			<if test="trade_amount_from != null" >
+			     and amounter &gt;= #{trade_amount_from}
+			</if>
+			<if test="trade_amount_to != null" >
+			   and amounter &lt;= #{trade_amount_to}
+			</if>
+			<if test="trade_number_from != null" >
+			    and counter &gt;= #{trade_number_from}
+			</if>
+			<if test="trade_number_to != null" >
+			   and counter &lt;= #{trade_number_to}
+			</if>
+		</trim>
+	</select>
+  
+  	<select id="selectByBuyerName" resultType="com.sync.mybatis.model.Efast_order">
+	  SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			efast_orders
+			WHERE  buyer_name = #{buyerName}
+	</select>
+  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from efast_orders

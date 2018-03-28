@@ -18,6 +18,23 @@
 		</div>
 		
 		
+		<div class="vtitle" data-type="customer_manager">
+			<a href="#"><i class="iconfont icon_menu icon-tongjitubiao"></i>客户管理</a><em
+				class=" iconfont icon_menu icon-unfold"></em>
+		</div>
+		<div class="vcon" data-type="customer_manager" style="display: none;">
+			<ul class="menu_body clearfix">
+				<li id="customer_list"><a href="${ctxPath}/customer/index">客户列表</a></li>
+			</ul>
+		</div>
+		<div class="vcon" data-type="customer_manager" style="display: none;">
+			<ul class="menu_body clearfix">
+				<li id="customer_analyse"><a href="${ctxPath}/customer/analyse">客户分析</a></li>
+			</ul>
+		</div>
+		
+		
+		
 		
 		<div class="vtitle" data-type="tongji">
 			<a href="#"><i class="iconfont icon_menu icon-tongjitubiao"></i>统计报表</a><em

@@ -1,6 +1,10 @@
 package com.sync.mybatis.mapper;
 
+import java.util.List;
+
 import com.sync.mybatis.model.Efast_order;
+import com.sync.mybatis.model.dto.CustomerIndexDTO;
+import com.sync.mybatis.vo.EfastOrderConditionVO;
 
 public interface Efast_orderMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,4 +22,10 @@ public interface Efast_orderMapper {
     int updateByPrimaryKey(Efast_order record);
     
     int getTotalConsumptionByYear(int year,String mobile);
+    
+    List getCountByUserAndTime(String startDate,String endDate);
+    
+    List<Efast_order> selectByBuyerName(String buyer_name);
+    
+    List<CustomerIndexDTO> selectCustomerIndex(EfastOrderConditionVO condition);
 }

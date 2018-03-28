@@ -1,0 +1,109 @@
+@CHARSET "UTF-8";
+/*翻页*/
+ .pagination {
+    text-align: right;
+    padding: 0 16px;
+}
+.page_nav_area {
+    letter-spacing: 4px;
+	display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+}
+.page_prev, .page_next {
+    position: relative;
+    font-size: 0;
+    letter-spacing: -5px;
+    background-color: #fff;   
+    background-image: linear-gradient(to bottom,#fff 0,#fff 100%);
+    border-color: #e6e7ec;
+    color: #222;
+    height: 30px;
+    line-height: 30px;
+    width: auto;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+.pagination .btn {
+	width:auto;
+	min-width:0px;
+    display: inline-block;
+    overflow: visible;
+    padding: 0 16px;
+	vertical-align: middle;
+    text-align: center;
+    text-decoration: none;	
+    cursor: pointer;
+	border-radius: 3px;
+	background:#fff;
+	border: 1px solid #e7e7eb;
+	color:#222;
+}
+.pagination .btn:hover{background:#e7e7eb;}
+.page_prev .arrow, .page_next .arrow {
+	position: absolute;
+	top: 16px;
+	left:16px;
+	margin-top: -6px;
+	margin-left: -3px;
+}
+.page_next .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: dashed;
+    border-color: transparent;
+    border-right-width: 0;
+    border-left-color: #919191;
+    border-left-style: solid;
+}
+.page_prev .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: dashed;
+    border-color: transparent;
+    border-left-width: 0;
+    border-right-color: #919191;
+    border-right-style: solid;
+}
+.page_num {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    letter-spacing: normal;
+	padding:0 10px;
+}
+.goto_area {
+    margin-left: 8px;
+	display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+}
+.goto_area input[type="text"] {
+    vertical-align: middle;
+    width: 75px;
+    height: 30px;
+    line-height: 22px;
+    padding: 4px 0;
+    border: 1px solid #e7e7eb;
+	text-align: center;
+    font-size: 14px;
+    margin-right: 4px;
+	border-radius:3px;
+}
+.page_go {
+	background-image: linear-gradient(to bottom,#fff 0,#fff 100%);
+    border-color: #e6e7ec;
+    color: #222;
+    height: 30px;
+    line-height: 30px;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.display_none {
+	display:none;
+}
