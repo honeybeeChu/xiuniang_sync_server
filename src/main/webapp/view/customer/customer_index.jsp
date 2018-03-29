@@ -20,6 +20,10 @@
 			<div class="crumb_box">
 				<span class="c333">客户管理</span><span class="pl10 pr10 ">·</span><a
 					href="#" class="c999">客户列表</a>
+					<c:if test="${errorMsg != null}">
+						<span style="padding-left:100px;color:red;">${errorMsg}</span>
+					</c:if>
+					
 			</div>
 			<div class=" ml10 mt20  clearfix">
 				<div class=" mt10 clearfix">
@@ -29,14 +33,14 @@
 					</div>
 				</div>
 			</div>
-			<form action="${ctxPath}/customer/index">
+			<form id="condition_form" action="${ctxPath}/customer/index">
 			<div class="well2 clearfix " style="margin-top: 5px;">
 				<div class="form-horizontal onlineTools">
 					<div class="row row-fluid">
 						<div class="span8">
 							<label class="control-label">客户昵称</label>
 							<div class="controls">
-								<input size="16" name="nickname" type="text" class=" input-medium" value="${nickname}" 
+								<input size="16" name="buyerName" type="text" class=" input-medium" value="${conditionvo.buyerName}" 
 									placeholder="不限">
 							</div>
 						</div>
@@ -54,26 +58,26 @@
 						<div class="span8">
 							<label class="control-label">交易金额</label>
 							<div class="controls">
-								<input size="16" type="text" placeholder="0" name="trade_amount_from" value="${trade_amount_from}"
-									class=" input-small"> - <input size="16" name="trade_amount_to" value="${trade_amount_to}" type="text"
+								<input size="16" type="text" placeholder="0" name="trade_amount_from" value="${conditionvo.trade_amount_from}"
+									class=" input-small"> - <input size="16" name="trade_amount_to" value="${conditionvo.trade_amount_to}" type="text"
 									class=" input-small" placeholder="不限">
 							</div>
 						</div>
 						<div class="span8">
 							<label class="control-label">交易笔数</label>
 							<div class="controls">
-								<input size="16" type="text" name="trade_number_from" class=" input-small" value="${trade_number_from}" 
-									placeholder="1"> - <input name="trade_number_to" size="16" type="text" value="${trade_number_to}"
+								<input size="16" type="text" name="trade_number_from" class=" input-small" value="${conditionvo.trade_number_from}" 
+									placeholder="1"> - <input name="trade_number_to" size="16" type="text" value="${conditionvo.trade_number_to}"
 									class=" input-small" placeholder="不限">
 							</div>
 						</div>
 						<div class="span8">
 							<label class="control-label">上次交易时间</label>
 							<div class="controls">
-								<input size="16" type="text" name="trade_date_from" value="${trade_date_from}"
+								<input style="width:120px;height: 22px;" size="16" type="date" name="trade_date_from" value="${conditionvo.trade_date_from}"
 									class="input-small" placeholder="不限"> - 
 									<input
-									size="16" type="text" name="trade_date_to" class="input-small" value="${trade_date_to}"
+									size="16" style="width:120px;height: 22px;" type="date" name="trade_date_to" class="input-small" value="${conditionvo.trade_date_to}"
 									placeholder="不限">
 							</div>
 						</div>
@@ -103,13 +107,11 @@
 								<button type="submit" id="search_btn" class="button button-primary">搜索</button>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
-			
+				<input id="current_pageNum" type="text" name="pageIndex"  value=${page.pageNum} style="display:none;" >
 			</form>
-
 
 			<div class="well2 clearfix " style="margin-top: 5px;">
 				<table class=" user_tab" cellpadding="0" cellspacing="0">
@@ -150,12 +152,15 @@
 				<!--分页-->
 				<div class="js_pagebar" style="text-align: right;">
 					<div class="pagination">
-						<span class="page_nav_area"> <a href="${ctxPath}/customer/index.do?pageIndex=${page.pageNum > 1 ? page.pageNum -1 : 1}"
-							class="btn page_prev"><i class="arrow"></i></a> <span
-							class="page_num"> <label>${page.pageNum}</label> <span class="num_gap">/</span>
-								<label>${page.pages}</label>
-						</span> <a href="${ctxPath}/customer/index.do?pageIndex=${page.pageNum + 1 < page.pages ? page.pageNum +1 :page.pages}" class="btn page_next"><i
-								class="arrow"></i></a>
+						<span class="page_nav_area"> 
+						<a id="but_prevent" href="javascript:void(0);"
+							class="btn page_prev">
+							<i class="arrow"></i></a> <span
+							class="page_num"> 
+							<label>${page.pageNum}</label> <span class="num_gap">/</span><label>${page.pages}</label>
+						</span> 
+						<a id="but_next" href="javascript:void(0);" class="btn page_next">
+						<i class="arrow"></i></a>
 						</span> <span class="goto_area"> <input id="page_index_input" page-total=${page.pages} type="text" value=${page.pageNum}> <a
 							href="javascript:void(0);" class="btn page_go">跳转</a>
 						</span>

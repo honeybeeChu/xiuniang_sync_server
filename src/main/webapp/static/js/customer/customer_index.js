@@ -1,13 +1,25 @@
 $(function() {
 	$(".page_go").click(function(){
 		var page_index = $("#page_index_input").val();
-		var total_page_num = $("#page_index_input").attr("page-total");
-		if(page_index <= parseInt(total_page_num)){
-			window.location.href=project.ctxPath + "/customer/index.do?pageIndex=" + page_index;
-		}else{
-			window.location.href=project.ctxPath + "/customer/index.do?pageIndex=" + total_page_num;
-		}
+		$("#current_pageNum").val(page_index);
+		$("#condition_form").submit();
+		
 	});
+	
+	$("#but_next").click(function(){
+		var pagenum = $("#current_pageNum").val();
+		$("#current_pageNum").val( parseInt(pagenum) + 1);
+		
+		$("#condition_form").submit();
+	});
+	
+	$("#but_prevent").click(function(){
+		var pagenum = $("#current_pageNum").val();
+		$("#current_pageNum").val( parseInt(pagenum) - 1);
+		
+		$("#condition_form").submit();
+	});
+	
 });
     
   

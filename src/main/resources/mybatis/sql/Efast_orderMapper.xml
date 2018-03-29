@@ -69,33 +69,34 @@
 			buyer_name as nickname , receiver_name as buyer_name ,receiver_mobile as phone ,count(1) as counter,SUM(payable_money) as amounter,AVG(payable_money) as avger,max(pay_time) as laster_timer
 		FROM
 			efast_orders
-		WHERE 1=1
+		WHERE 1 = 1
 		GROUP BY
 			buyer_name
 		HAVING 1=1
 		<trim suffixOverrides="and" >
-			<if test="buyerName != null" >
-				and buyer_name = #{buyerName} 
+			<if test="buyerName != null and buyerName != ''" >
+				and nickname = #{buyerName} 
 			</if>
-			<if test="trade_date_from != null" >
+			<if test="trade_date_from != null and trade_date_from != ''" >
 			    and laster_timer &gt;= #{trade_date_from}
             </if>
-            <if test="trade_date_to != null" >
+            <if test="trade_date_to != null and trade_date_to != ''" >
               and laster_timer &lt;= #{trade_date_to}
 			</if>
-			<if test="trade_amount_from != null" >
+			<if test="trade_amount_from != null and trade_amount_from != ''" >
 			     and amounter &gt;= #{trade_amount_from}
 			</if>
-			<if test="trade_amount_to != null" >
+			<if test="trade_amount_to != null and trade_amount_to != ''" >
 			   and amounter &lt;= #{trade_amount_to}
 			</if>
-			<if test="trade_number_from != null" >
+			<if test="trade_number_from != null and trade_number_from != ''" >
 			    and counter &gt;= #{trade_number_from}
 			</if>
-			<if test="trade_number_to != null" >
+			<if test="trade_number_to != null and trade_number_to != ''" >
 			   and counter &lt;= #{trade_number_to}
 			</if>
 		</trim>
+		order by laster_timer desc
 	</select>
   
   	<select id="selectByBuyerName" resultType="com.sync.mybatis.model.Efast_order">
