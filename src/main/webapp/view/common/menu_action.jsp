@@ -18,7 +18,7 @@
 		</div>
 		
 		
-		<div class="vtitle" data-type="customer_manager">
+		<div class="vtitle" data-type="customer_manager"  id="customer_manager">
 			<a href="#"><i class="iconfont icon_menu icon-tongjitubiao"></i>客户管理</a><em
 				class=" iconfont icon_menu icon-unfold"></em>
 		</div>
@@ -32,8 +32,6 @@
 				<li id="customer_analyse"><a href="${ctxPath}/customer/analyse">客户分析</a></li>
 			</ul>
 		</div>
-		
-		
 		
 		
 		<div class="vtitle" data-type="tongji">

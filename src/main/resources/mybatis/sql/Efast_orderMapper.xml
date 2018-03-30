@@ -9,6 +9,8 @@
     <result column="pay_status" property="payStatus" jdbcType="VARCHAR" />
     <result column="sale_channel_code" property="saleChannelCode" jdbcType="VARCHAR" />
     <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="store_code" property="storeCode" jdbcType="VARCHAR" />
+    <result column="customer_code" property="customerCode" jdbcType="VARCHAR" />
     <result column="buyer_name" property="buyerName" jdbcType="VARCHAR" />
     <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
     <result column="receiver_country" property="receiverCountry" jdbcType="VARCHAR" />
@@ -26,30 +28,37 @@
     <result column="order_money" property="orderMoney" jdbcType="INTEGER" />
     <result column="discount_fee" property="discountFee" jdbcType="INTEGER" />
     <result column="pay_code" property="payCode" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="sub_deal_code" property="subDealCode" jdbcType="VARCHAR" />
+    <result column="deal_code" property="dealCode" jdbcType="VARCHAR" />
     <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_price" property="goodsPrice" jdbcType="VARCHAR" />
+    <result column="goods_num" property="goodsNum" jdbcType="VARCHAR" />
+    <result column="express_code" property="expressCode" jdbcType="VARCHAR" />
+    <result column="buyer_remark" property="buyerRemark" jdbcType="VARCHAR" />
+    <result column="express_money" property="expressMoney" jdbcType="VARCHAR" />
+    <result column="express_no" property="expressNo" jdbcType="VARCHAR" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
   </resultMap>
-
-	<resultMap id="countMap" type="java.lang.Integer">
-		<result property="count_num" column="count_num" jdbcType="INTEGER" />
-	</resultMap>
-	
   <sql id="Base_Column_List" >
     id, sell_record_code, order_status, shipping_status, pay_status, sale_channel_code, 
-    shop_code, buyer_name, receiver_name, receiver_country, receiver_province, receiver_city, 
-    receiver_district, receiver_street, receiver_address, receiver_addr, receiver_zip_code, 
-    receiver_mobile, receiver_phone, receiver_email, payable_money, order_money, discount_fee, 
-    pay_code, pay_time, openid
+    shop_code, store_code, customer_code, buyer_name, receiver_name, receiver_country, 
+    receiver_province, receiver_city, receiver_district, receiver_street, receiver_address, 
+    receiver_addr, receiver_zip_code, receiver_mobile, receiver_phone, receiver_email, 
+    payable_money, order_money, discount_fee, pay_code, pay_type, sub_deal_code, deal_code, 
+    pay_time, goods_code, goods_name, goods_price, goods_num, express_code, buyer_remark, 
+    express_money, express_no, openid
   </sql>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from efast_orders
     where id = #{id,jdbcType=INTEGER}
   </select>
-
-	<select id="selectAcountBySellRecordCode" resultType="java.lang.Integer">
+  
+  <select id="selectAcountBySellRecordCode" resultType="java.lang.Integer">
 		select
 		count(1)
 		from efast_orders
@@ -66,7 +75,9 @@
 	
 	<select id="selectCustomerIndex" parameterType="com.sync.mybatis.vo.EfastOrderConditionVO" resultType="com.sync.mybatis.model.dto.CustomerIndexDTO">
 	 	SELECT
-			buyer_name as nickname , receiver_name as buyer_name ,receiver_mobile as phone ,count(1) as counter,SUM(payable_money) as amounter,AVG(payable_money) as avger,max(pay_time) as laster_timer
+			buyer_name as nickname , receiver_name as buyer_name ,receiver_mobile as phone ,count(1) as counter
+			,SUM(payable_money) as amounter,AVG(payable_money) as avger
+			,max(pay_time) as laster_timer,sale_channel_code,pay_code,receiver_address,receiver_province
 		FROM
 			efast_orders
 		WHERE 1 = 1
@@ -106,8 +117,7 @@
 			efast_orders
 			WHERE  buyer_name = #{buyerName}
 	</select>
-  
-  
+	
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from efast_orders
     where id = #{id,jdbcType=INTEGER}
@@ -115,22 +125,32 @@
   <insert id="insert" parameterType="com.sync.mybatis.model.Efast_order" >
     insert into efast_orders (id, sell_record_code, order_status, 
       shipping_status, pay_status, sale_channel_code, 
-      shop_code, buyer_name, receiver_name, 
-      receiver_country, receiver_province, receiver_city, 
-      receiver_district, receiver_street, receiver_address, 
-      receiver_addr, receiver_zip_code, receiver_mobile, 
-      receiver_phone, receiver_email, payable_money, 
-      order_money, discount_fee, pay_code, 
-      pay_time, openid)
+      shop_code, store_code, customer_code, 
+      buyer_name, receiver_name, receiver_country, 
+      receiver_province, receiver_city, receiver_district, 
+      receiver_street, receiver_address, receiver_addr, 
+      receiver_zip_code, receiver_mobile, receiver_phone, 
+      receiver_email, payable_money, order_money, 
+      discount_fee, pay_code, pay_type, 
+      sub_deal_code, deal_code, pay_time, 
+      goods_code, goods_name, goods_price, 
+      goods_num, express_code, buyer_remark, 
+      express_money, express_no, openid
+      )
     values (#{id,jdbcType=INTEGER}, #{sellRecordCode,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, 
       #{shippingStatus,jdbcType=INTEGER}, #{payStatus,jdbcType=VARCHAR}, #{saleChannelCode,jdbcType=VARCHAR}, 
-      #{shopCode,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
-      #{receiverCountry,jdbcType=VARCHAR}, #{receiverProvince,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, 
-      #{receiverDistrict,jdbcType=VARCHAR}, #{receiverStreet,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, 
-      #{receiverAddr,jdbcType=VARCHAR}, #{receiverZipCode,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, 
-      #{receiverPhone,jdbcType=VARCHAR}, #{receiverEmail,jdbcType=VARCHAR}, #{payableMoney,jdbcType=INTEGER}, 
-      #{orderMoney,jdbcType=INTEGER}, #{discountFee,jdbcType=INTEGER}, #{payCode,jdbcType=VARCHAR}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{openid,jdbcType=VARCHAR})
+      #{shopCode,jdbcType=VARCHAR}, #{storeCode,jdbcType=VARCHAR}, #{customerCode,jdbcType=VARCHAR}, 
+      #{buyerName,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{receiverCountry,jdbcType=VARCHAR}, 
+      #{receiverProvince,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR}, 
+      #{receiverStreet,jdbcType=VARCHAR}, #{receiverAddress,jdbcType=VARCHAR}, #{receiverAddr,jdbcType=VARCHAR}, 
+      #{receiverZipCode,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, 
+      #{receiverEmail,jdbcType=VARCHAR}, #{payableMoney,jdbcType=INTEGER}, #{orderMoney,jdbcType=INTEGER}, 
+      #{discountFee,jdbcType=INTEGER}, #{payCode,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
+      #{subDealCode,jdbcType=VARCHAR}, #{dealCode,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=VARCHAR}, 
+      #{goodsNum,jdbcType=VARCHAR}, #{expressCode,jdbcType=VARCHAR}, #{buyerRemark,jdbcType=VARCHAR}, 
+      #{expressMoney,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sync.mybatis.model.Efast_order" >
     insert into efast_orders
@@ -155,6 +175,12 @@
       </if>
       <if test="shopCode != null" >
         shop_code,
+      </if>
+      <if test="storeCode != null" >
+        store_code,
+      </if>
+      <if test="customerCode != null" >
+        customer_code,
       </if>
       <if test="buyerName != null" >
         buyer_name,
@@ -207,8 +233,41 @@
       <if test="payCode != null" >
         pay_code,
       </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="subDealCode != null" >
+        sub_deal_code,
+      </if>
+      <if test="dealCode != null" >
+        deal_code,
+      </if>
       <if test="payTime != null" >
         pay_time,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsNum != null" >
+        goods_num,
+      </if>
+      <if test="expressCode != null" >
+        express_code,
+      </if>
+      <if test="buyerRemark != null" >
+        buyer_remark,
+      </if>
+      <if test="expressMoney != null" >
+        express_money,
+      </if>
+      <if test="expressNo != null" >
+        express_no,
       </if>
       <if test="openid != null" >
         openid,
@@ -235,6 +294,12 @@
       </if>
       <if test="shopCode != null" >
         #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCode != null" >
+        #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        #{customerCode,jdbcType=VARCHAR},
       </if>
       <if test="buyerName != null" >
         #{buyerName,jdbcType=VARCHAR},
@@ -287,8 +352,41 @@
       <if test="payCode != null" >
         #{payCode,jdbcType=VARCHAR},
       </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="subDealCode != null" >
+        #{subDealCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dealCode != null" >
+        #{dealCode,jdbcType=VARCHAR},
+      </if>
       <if test="payTime != null" >
         #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNum != null" >
+        #{goodsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null" >
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerRemark != null" >
+        #{buyerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="expressMoney != null" >
+        #{expressMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
       </if>
       <if test="openid != null" >
         #{openid,jdbcType=VARCHAR},
@@ -315,6 +413,12 @@
       </if>
       <if test="shopCode != null" >
         shop_code = #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCode != null" >
+        store_code = #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCode != null" >
+        customer_code = #{customerCode,jdbcType=VARCHAR},
       </if>
       <if test="buyerName != null" >
         buyer_name = #{buyerName,jdbcType=VARCHAR},
@@ -367,8 +471,41 @@
       <if test="payCode != null" >
         pay_code = #{payCode,jdbcType=VARCHAR},
       </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="subDealCode != null" >
+        sub_deal_code = #{subDealCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dealCode != null" >
+        deal_code = #{dealCode,jdbcType=VARCHAR},
+      </if>
       <if test="payTime != null" >
         pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNum != null" >
+        goods_num = #{goodsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null" >
+        express_code = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerRemark != null" >
+        buyer_remark = #{buyerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="expressMoney != null" >
+        express_money = #{expressMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        express_no = #{expressNo,jdbcType=VARCHAR},
       </if>
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
@@ -384,6 +521,8 @@
       pay_status = #{payStatus,jdbcType=VARCHAR},
       sale_channel_code = #{saleChannelCode,jdbcType=VARCHAR},
       shop_code = #{shopCode,jdbcType=VARCHAR},
+      store_code = #{storeCode,jdbcType=VARCHAR},
+      customer_code = #{customerCode,jdbcType=VARCHAR},
       buyer_name = #{buyerName,jdbcType=VARCHAR},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_country = #{receiverCountry,jdbcType=VARCHAR},
@@ -401,7 +540,18 @@
       order_money = #{orderMoney,jdbcType=INTEGER},
       discount_fee = #{discountFee,jdbcType=INTEGER},
       pay_code = #{payCode,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      sub_deal_code = #{subDealCode,jdbcType=VARCHAR},
+      deal_code = #{dealCode,jdbcType=VARCHAR},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=VARCHAR},
+      goods_num = #{goodsNum,jdbcType=VARCHAR},
+      express_code = #{expressCode,jdbcType=VARCHAR},
+      buyer_remark = #{buyerRemark,jdbcType=VARCHAR},
+      express_money = #{expressMoney,jdbcType=VARCHAR},
+      express_no = #{expressNo,jdbcType=VARCHAR},
       openid = #{openid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -1,4 +1,8 @@
 $(function() {
+	$("#customer_manager").trigger("click");
+	$("#customer_list >a").addClass("on");
+	
+	
 	$(".page_go").click(function(){
 		var page_index = $("#page_index_input").val();
 		$("#current_pageNum").val(page_index);

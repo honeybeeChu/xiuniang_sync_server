@@ -6,7 +6,7 @@ import java.util.Date;
 import net.sf.json.JSONObject;
 
 public class Efast_order {
-    private Integer id;
+	private Integer id;
 
     private String sellRecordCode;
 
@@ -19,6 +19,10 @@ public class Efast_order {
     private String saleChannelCode;
 
     private String shopCode;
+
+    private String storeCode;
+
+    private String customerCode;
 
     private String buyerName;
 
@@ -54,7 +58,29 @@ public class Efast_order {
 
     private String payCode;
 
+    private String payType;
+
+    private String subDealCode;
+
+    private String dealCode;
+
     private Date payTime;
+
+    private String goodsCode;
+
+    private String goodsName;
+
+    private String goodsPrice;
+
+    private String goodsNum;
+
+    private String expressCode;
+
+    private String buyerRemark;
+
+    private String expressMoney;
+
+    private String expressNo;
 
     private String openid;
     
@@ -75,6 +101,8 @@ public class Efast_order {
 		efastOrder.setPayStatus(this.jsonObject.get("pay_status").toString());
 		efastOrder.setSaleChannelCode(this.jsonObject.get("sale_channel_code").toString());
 		efastOrder.setShopCode(this.jsonObject.get("shop_code").toString());
+		efastOrder.setStoreCode(this.jsonObject.get("store_code").toString());
+		efastOrder.setCustomerCode(this.jsonObject.get("customer_code").toString());
 		efastOrder.setBuyerName(this.jsonObject.get("buyer_name").toString());
 		efastOrder.setReceiverName(this.jsonObject.get("receiver_name").toString());
 		efastOrder.setReceiverCountry(this.jsonObject.get("receiver_country").toString());
@@ -95,9 +123,24 @@ public class Efast_order {
 		efastOrder.setDiscountFee((int)Float.parseFloat(this.jsonObject.get("discount_fee").toString()));
 		efastOrder.setPayCode(this.jsonObject.get("pay_code").toString());
 		
+		efastOrder.setPayType(this.jsonObject.get("pay_type").toString());
+		efastOrder.setSubDealCode(this.jsonObject.get("sub_deal_code").toString());
+		efastOrder.setDealCode(this.jsonObject.get("deal_code").toString());
+		
 		String payTime = this.jsonObject.get("pay_time").toString();
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		efastOrder.setPayTime(format.parse(payTime));
+		
+		efastOrder.setGoodsCode(this.jsonObject.get("goods_code").toString());
+		efastOrder.setGoodsName(this.jsonObject.get("goods_name").toString());
+		efastOrder.setGoodsPrice(this.jsonObject.get("goods_price").toString());
+		efastOrder.setGoodsNum(this.jsonObject.get("goods_num").toString());
+
+		efastOrder.setExpressCode(this.jsonObject.get("express_code").toString());
+		efastOrder.setBuyerRemark(this.jsonObject.get("buyer_remark").toString());
+		efastOrder.setExpressMoney(this.jsonObject.get("express_money").toString());
+		efastOrder.setExpressNo(this.jsonObject.get("express_no").toString());
 		
 //		efastOrder.setOpenid(this.jsonObject.get("openid").toString());
 		
@@ -311,4 +354,109 @@ public class Efast_order {
     public void setOpenid(String openid) {
         this.openid = openid == null ? null : openid.trim();
     }
+
+	public String getStoreCode() {
+		return storeCode;
+	}
+
+	public void setStoreCode(String storeCode) {
+		this.storeCode = storeCode;
+	}
+
+	public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+
+	public String getSubDealCode() {
+		return subDealCode;
+	}
+
+	public void setSubDealCode(String subDealCode) {
+		this.subDealCode = subDealCode;
+	}
+
+	public String getDealCode() {
+		return dealCode;
+	}
+
+	public void setDealCode(String dealCode) {
+		this.dealCode = dealCode;
+	}
+
+	public String getGoodsCode() {
+		return goodsCode;
+	}
+
+	public void setGoodsCode(String goodsCode) {
+		this.goodsCode = goodsCode;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getGoodsPrice() {
+		return goodsPrice;
+	}
+
+	public void setGoodsPrice(String goodsPrice) {
+		this.goodsPrice = goodsPrice;
+	}
+
+	public String getGoodsNum() {
+		return goodsNum;
+	}
+
+	public void setGoodsNum(String goodsNum) {
+		this.goodsNum = goodsNum;
+	}
+
+	public String getExpressCode() {
+		return expressCode;
+	}
+
+	public void setExpressCode(String expressCode) {
+		this.expressCode = expressCode;
+	}
+
+	public String getBuyerRemark() {
+		return buyerRemark;
+	}
+
+	public void setBuyerRemark(String buyerRemark) {
+		this.buyerRemark = buyerRemark;
+	}
+
+	public String getExpressMoney() {
+		return expressMoney;
+	}
+
+	public void setExpressMoney(String expressMoney) {
+		this.expressMoney = expressMoney;
+	}
+
+	public String getExpressNo() {
+		return expressNo;
+	}
+
+	public void setExpressNo(String expressNo) {
+		this.expressNo = expressNo;
+	}
+    
 }

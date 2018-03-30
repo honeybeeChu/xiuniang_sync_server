@@ -117,7 +117,6 @@
 				<table class=" user_tab" cellpadding="0" cellspacing="0">
 					<thead>
 						<tr>
-							<th style="text-align: left;" width="40"><input type="checkbox"></th>
 							<th style="text-align: left;" width="100">客户姓名</th>
 							<th style="text-align: left;">会员级别</th>
 							<th style="text-align: left;">交易总额（元）</th>
@@ -130,14 +129,13 @@
 					
 					<c:forEach var="customerInfo" items="${customerInfoList}">
 						<tr>
-								<td rowspan="2"><input type="checkbox"></td>
 								<td rowspan="2"><i class="iconfont icon-wangwang "></i>${customerInfo.buyer_name}</td>
 								<td>普通会员</td>
 								<td>${customerInfo.amounter}</td>
 								<td>${customerInfo.counter}</td>
 								<td>${customerInfo.avger}</td>
 								<td>${customerInfo.laster_timer}</td>
-								<td><a class="J_user_edit pr10" href="#">详情</a><a
+								<td><a class="J_user_edit pr10" href="${ctxPath}/customer/detail.do?nickname=${customerInfo.nickname}">详情</a><a
 									class="J_delete pr10" href="#">交易记录</a></td>
 							</tr>
 							<tr>
