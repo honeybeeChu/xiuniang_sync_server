@@ -11,7 +11,6 @@
 	rel="stylesheet" media="screen">
 <link href="${staticPath}/css/pagechange.css" rel="stylesheet" media="screen">
 </head>
-
 <body>
 	<%@include file="../common/head.jsp"%>
 	<%@include file="../common/menu_action.jsp"%>
