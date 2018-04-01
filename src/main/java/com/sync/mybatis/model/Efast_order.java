@@ -95,52 +95,114 @@ public class Efast_order {
     
 	public Efast_order createEfastOrder() throws Exception{
 		Efast_order efastOrder = new Efast_order();
-		efastOrder.setSellRecordCode(this.jsonObject.get("sell_record_code").toString());
-		efastOrder.setOrderStatus(this.jsonObject.get("order_status").toString());
-		efastOrder.setShippingStatus(Integer.parseInt(this.jsonObject.get("shipping_status").toString()));
-		efastOrder.setPayStatus(this.jsonObject.get("pay_status").toString());
-		efastOrder.setSaleChannelCode(this.jsonObject.get("sale_channel_code").toString());
-		efastOrder.setShopCode(this.jsonObject.get("shop_code").toString());
-		efastOrder.setStoreCode(this.jsonObject.get("store_code").toString());
-		efastOrder.setCustomerCode(this.jsonObject.get("customer_code").toString());
-		efastOrder.setBuyerName(this.jsonObject.get("buyer_name").toString());
+		
+		if(null != this.jsonObject.get("sell_record_code"))
+			efastOrder.setSellRecordCode(this.jsonObject.get("sell_record_code").toString());
+		
+		if(null != this.jsonObject.get("order_status"))
+			efastOrder.setOrderStatus(this.jsonObject.get("order_status").toString());
+		
+		if(null != this.jsonObject.get("shipping_status"))
+			efastOrder.setShippingStatus(Integer.parseInt(this.jsonObject.get("shipping_status").toString()));
+		
+		if(null != this.jsonObject.get("pay_status"))
+			efastOrder.setPayStatus(this.jsonObject.get("pay_status").toString());
+		
+		if(null != this.jsonObject.get("sale_channel_code"))
+			efastOrder.setSaleChannelCode(this.jsonObject.get("sale_channel_code").toString());
+		
+		if(null != this.jsonObject.get("shop_code"))
+			efastOrder.setShopCode(this.jsonObject.get("shop_code").toString());
+		
+		if(null != this.jsonObject.get("store_code"))
+			efastOrder.setStoreCode(this.jsonObject.get("store_code").toString());
+		
+		if(null != this.jsonObject.get("customer_code"))
+			efastOrder.setCustomerCode(this.jsonObject.get("customer_code").toString());
+		
+		if(null != this.jsonObject.get("buyer_name"))
+			efastOrder.setBuyerName(this.jsonObject.get("buyer_name").toString());
+		
+		if(null != this.jsonObject.get("receiver_name"))
 		efastOrder.setReceiverName(this.jsonObject.get("receiver_name").toString());
-		efastOrder.setReceiverCountry(this.jsonObject.get("receiver_country").toString());
-		efastOrder.setReceiverProvince(this.jsonObject.get("receiver_province").toString());
-		efastOrder.setReceiverCity(this.jsonObject.get("receiver_city").toString());
-		efastOrder.setReceiverDistrict(this.jsonObject.get("receiver_district").toString());
+		
+		if(null != this.jsonObject.get("receiver_country"))
+			efastOrder.setReceiverCountry(this.jsonObject.get("receiver_country").toString());
+		
+		if(null != this.jsonObject.get("receiver_province"))
+			efastOrder.setReceiverProvince(this.jsonObject.get("receiver_province").toString());
+		
+		if(null != this.jsonObject.get("receiver_city"))
+			efastOrder.setReceiverCity(this.jsonObject.get("receiver_city").toString());
+		
+		if(null != this.jsonObject.get("receiver_district"))
+			efastOrder.setReceiverDistrict(this.jsonObject.get("receiver_district").toString());
+		
+		if(null != this.jsonObject.get("receiver_email"))
 		efastOrder.setReceiverStreet(this.jsonObject.get("receiver_street").toString());
-		efastOrder.setReceiverAddress(this.jsonObject.get("receiver_address").toString());
-		efastOrder.setReceiverAddr(this.jsonObject.get("receiver_addr").toString());
-		efastOrder.setReceiverZipCode(this.jsonObject.get("receiver_zip_code").toString());
-		efastOrder.setReceiverMobile(this.jsonObject.get("receiver_mobile").toString());
-		efastOrder.setReceiverPhone(this.jsonObject.get("receiver_phone").toString());
-		efastOrder.setReceiverEmail(this.jsonObject.get("receiver_email").toString());
-		efastOrder.setPayableMoney((int)Float.parseFloat(this.jsonObject.get("payable_money").toString()));
+		
+		if(null != this.jsonObject.get("receiver_address"))
+			efastOrder.setReceiverAddress(this.jsonObject.get("receiver_address").toString());
+		
+		if(null != this.jsonObject.get("receiver_addr"))
+			efastOrder.setReceiverAddr(this.jsonObject.get("receiver_addr").toString());
+		
+		if(null != this.jsonObject.get("receiver_zip_code"))
+			efastOrder.setReceiverZipCode(this.jsonObject.get("receiver_zip_code").toString());
+		
+		if(null != this.jsonObject.get("receiver_mobile"))
+			efastOrder.setReceiverMobile(this.jsonObject.get("receiver_mobile").toString());
+		
+		if(null != this.jsonObject.get("receiver_phone"))
+			efastOrder.setReceiverPhone(this.jsonObject.get("receiver_phone").toString());
+		
+		if(null != this.jsonObject.get("receiver_email"))
+			efastOrder.setReceiverEmail(this.jsonObject.get("receiver_email").toString());
+		
+		if(null != this.jsonObject.get("payable_money"))
+			efastOrder.setPayableMoney((int)Float.parseFloat(this.jsonObject.get("payable_money").toString()));
 		
 		efastOrder.setOrderMoney((int)Float.parseFloat(this.jsonObject.get("order_money")==null?"0":this.jsonObject.get("order_money").toString()));
 		
-		efastOrder.setDiscountFee((int)Float.parseFloat(this.jsonObject.get("discount_fee").toString()));
-		efastOrder.setPayCode(this.jsonObject.get("pay_code").toString());
+		if(null != this.jsonObject.get("discount_fee"))
+			efastOrder.setDiscountFee((int)Float.parseFloat(this.jsonObject.get("discount_fee").toString()));
+		if(null != this.jsonObject.get("pay_code"))
+			efastOrder.setPayCode(this.jsonObject.get("pay_code").toString());
 		
 		efastOrder.setPayType(this.jsonObject.get("pay_type").toString());
-		efastOrder.setSubDealCode(this.jsonObject.get("sub_deal_code").toString());
-		efastOrder.setDealCode(this.jsonObject.get("deal_code").toString());
+		if(null != this.jsonObject.get("sub_deal_code"))
+			efastOrder.setSubDealCode(this.jsonObject.get("sub_deal_code").toString());
+		
+		if(null != this.jsonObject.get("deal_code"))
+			efastOrder.setDealCode(this.jsonObject.get("deal_code").toString());
 		
 		String payTime = this.jsonObject.get("pay_time").toString();
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		efastOrder.setPayTime(format.parse(payTime));
 		
-		efastOrder.setGoodsCode(this.jsonObject.get("goods_code").toString());
-		efastOrder.setGoodsName(this.jsonObject.get("goods_name").toString());
-		efastOrder.setGoodsPrice(this.jsonObject.get("goods_price").toString());
-		efastOrder.setGoodsNum(this.jsonObject.get("goods_num").toString());
+		if(null != this.jsonObject.get("goods_code"))
+			efastOrder.setGoodsCode(this.jsonObject.get("goods_code").toString());
+		
+		if(null != this.jsonObject.get("goods_name"))
+			efastOrder.setGoodsName(this.jsonObject.get("goods_name").toString());
+		
+		if(null != this.jsonObject.get("goods_price"))
+			efastOrder.setGoodsPrice(this.jsonObject.get("goods_price").toString());
+		
+		if(null != this.jsonObject.get("goods_num"))
+			efastOrder.setGoodsNum(this.jsonObject.get("goods_num").toString());
 
-		efastOrder.setExpressCode(this.jsonObject.get("express_code").toString());
-		efastOrder.setBuyerRemark(this.jsonObject.get("buyer_remark").toString());
-		efastOrder.setExpressMoney(this.jsonObject.get("express_money").toString());
-		efastOrder.setExpressNo(this.jsonObject.get("express_no").toString());
+		if(null != this.jsonObject.get("express_code"))
+			efastOrder.setExpressCode(this.jsonObject.get("express_code").toString());
+		
+		if(null != this.jsonObject.get("buyer_remark"))
+			efastOrder.setBuyerRemark(this.jsonObject.get("buyer_remark").toString());
+		
+		if(null != this.jsonObject.get("express_money"))
+			efastOrder.setExpressMoney(this.jsonObject.get("express_money").toString());
+		if(null != this.jsonObject.get("express_no"))
+			efastOrder.setExpressNo(this.jsonObject.get("express_no").toString());
 		
 //		efastOrder.setOpenid(this.jsonObject.get("openid").toString());
 		
@@ -339,8 +401,9 @@ public class Efast_order {
         this.payCode = payCode == null ? null : payCode.trim();
     }
 
-    public Date getPayTime() {
-        return payTime;
+    public String getPayTime() {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    	return sdf.format(payTime);
     }
 
     public void setPayTime(Date payTime) {

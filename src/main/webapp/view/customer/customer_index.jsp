@@ -28,8 +28,9 @@
 			<div class=" ml10 mt20  clearfix">
 				<div class=" mt10 clearfix">
 					<div class="tag_box fl ">
-						<a href="#" class=" tags  border-left tag_on">成交客户</a><a href="#"
-							class=" tags  ">未成交客户</a> <a href="#" class=" tags border-right ">询单客户</a>
+						<a href="#" class=" tags  border-left tag_on">线上客户</a>
+						<a href="${ctxPath}/customer/offline_index.do"
+							class=" tags  ">线下客户</a> 
 					</div>
 				</div>
 			</div>
@@ -136,7 +137,7 @@
 								<td>${customerInfo.avger}</td>
 								<td>${customerInfo.laster_timer}</td>
 								<td><a class="J_user_edit pr10" href="${ctxPath}/customer/detail.do?nickname=${customerInfo.nickname}">详情</a><a
-									class="J_delete pr10" href="#">交易记录</a></td>
+									class="J_delete pr10" href="${ctxPath}/customer/customer_orderList?nickname=${customerInfo.nickname}">交易记录</a></td>
 							</tr>
 							<tr>
 								<td colspan="6" style="text-align: left;">

@@ -110,7 +110,7 @@
 		order by laster_timer desc
 	</select>
   
-  	<select id="selectByBuyerName" resultType="com.sync.mybatis.model.Efast_order">
+  	<select id="selectByBuyerName" resultMap="BaseResultMap">
 	  SELECT
 			<include refid="Base_Column_List" />
 		FROM

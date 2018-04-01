@@ -9,8 +9,6 @@
 <link href="${staticPath}/css/dpl.css" rel="stylesheet">
 <link href="${staticPath}/css/bootstrap-datetimepicker.css"
 	rel="stylesheet" media="screen">
-<link href="${staticPath}/css/pagechange.css" rel="stylesheet"
-	media="screen">
 
 </head>
 <body>
@@ -90,4 +88,12 @@
 	margin-left: -56px;
 }
 </style>
+<script type="text/javascript">
+	$(function() {
+		$("#customer_manager").trigger("click");
+		$("#customer_list >a").addClass("on");
+		
+	});
+</script>
+
 </html>
