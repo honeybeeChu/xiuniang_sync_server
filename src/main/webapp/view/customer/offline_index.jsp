@@ -10,7 +10,6 @@
 <link href="${staticPath}/css/bootstrap-datetimepicker.css"
 	rel="stylesheet" media="screen">
 <link href="${staticPath}/css/pagechange.css" rel="stylesheet" media="screen">
-
 </head>
 <body>
 	<%@include file="../common/head.jsp"%>
@@ -28,9 +27,9 @@
 			<div class=" ml10 mt20  clearfix">
 				<div class=" mt10 clearfix">
 					<div class="tag_box fl ">
-						<a href="#" class=" tags  border-left tag_on">线上客户</a>
-						<a href="${ctxPath}/customer/offline_index.do"
-							class=" tags  ">线下客户</a> 
+						<a href="${ctxPath}/customer/index.do" class=" tags  border-left ">线上客户</a>
+						<a href="#"
+							class=" tags  tag_on">线下客户</a> 
 					</div>
 				</div>
 			</div>
@@ -39,19 +38,18 @@
 				<div class="form-horizontal onlineTools">
 					<div class="row row-fluid">
 						<div class="span8">
-							<label class="control-label">客户昵称</label>
+							<label class="control-label">客户姓名</label>
 							<div class="controls">
 								<input size="16" name="buyerName" type="text" class=" input-medium" value="${conditionvo.buyerName}" 
 									placeholder="不限">
 							</div>
 						</div>
+						
 						<div class="span8">
-							<label class="control-label">会员级别</label>
+							<label class="control-label">手机号码</label>
 							<div class="controls">
-								<select class="input-medium" name="is_membership" value="${is_membership}">
-									<option value="is_is" ${is_membership=='is_is'?'selected':''}>会员</option>
-									<option  value="is_not" ${is_membership=='is_not'?'selected':''}>非会员</option>
-								</select>
+							<input size="16" name="buyerName" type="text" class=" input-medium" value="${conditionvo.buyerName}" 
+									placeholder="手机号码">
 							</div>
 						</div>
 					</div>
@@ -83,24 +81,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="row row-fluid">
-						<div class="span8">
-							<label class="control-label">省份</label>
-							<div class="controls">
-								<select class="input-medium" name="province" value="${province}">
-									<option>全部</option>
-								</select>
-							</div>
-						</div>
-						<div class="span8">
-							<label class="control-label">城市</label>
-							<div class="controls">
-								<select class="input-medium" name="city" value="${city}">
-									<option>不限</option>
-								</select>
-							</div>
-						</div>
-					</div>
 
 					<div class="row row-fluid">
 						<div class="span20">
@@ -111,7 +91,6 @@
 					</div>
 				</div>
 			</div>
-				<input id="current_pageNum" type="text" name="pageIndex"  value=${page.pageNum} style="display:none;" >
 			</form>
 
 			<div class="well2 clearfix " style="margin-top: 5px;">

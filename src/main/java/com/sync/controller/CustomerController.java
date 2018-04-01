@@ -1,7 +1,6 @@
 package com.sync.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 import com.sync.mybatis.mapper.DianyuanMapper;
 import com.sync.mybatis.mapper.Efast_orderMapper;
 import com.sync.mybatis.mapper.MembershipMapper;
+import com.sync.mybatis.model.Efast_order;
 import com.sync.mybatis.model.dto.CustomerIndexDTO;
 import com.sync.mybatis.vo.EfastOrderConditionVO;
 
@@ -77,5 +77,26 @@ public class CustomerController {
 	}
 	
 	
+	@RequestMapping(value = "/customer_orderList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	public String orderList(HttpServletRequest request, HttpServletResponse response, Model model,String nickname) {
+		 List<Efast_order> orderlist = efast_orderMapper.selectByBuyerName(nickname);
+		 if(null != orderlist) {
+			 model.addAttribute("orderlist", orderlist);
+		 }
+		 
+		 return "customer/customer_order_list";
+		 
+	}
+	
+	@RequestMapping(value = "/offline_index", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+	public String offline_index(HttpServletRequest request, HttpServletResponse response, Model model,String phone) {
+		 List<Efast_order> orderlist = efast_orderMapper.selectByBuyerName(phone);
+		 if(null != orderlist) {
+			 model.addAttribute("orderlist", orderlist);
+		 }
+		 
+		 return "customer/offline_index";
+		 
+	}
 	
 }
